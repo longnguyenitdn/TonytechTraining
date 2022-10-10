@@ -2,75 +2,12 @@
 <html lang="en">
 
 <head>
+   <link rel="stylesheet" href="bai_tap1.css" />
    <script src="https://kit.fontawesome.com/c62452d484.js" crossorigin="anonymous"></script>
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Document</title>
-
-   <style>
-      header:hover{
-         color: black;
-      }
-      header>div.width70{
-         min-width: 80%;
-      }
-      header {
-      
-         font-family: "Inter", sans-serif !important;
-         letter-spacing: normal;
-         display: flex;
-         justify-content: space-between;
-         color: rgba(71, 69, 67, 0.5);
-         height: 30px;
-      }
-
-      #left {
-         margin-left: 30px;
-         display: flex;
-         justify-content: center;
-         align-items: center;
-
-      }
-
-      #right {
-         margin-right: 30px;
-         display: flex;
-         justify-content: space-around;
-         align-items: center;
-
-      }
-
-      #right>div {
-         margin-right: 15px;
-         justify-content: center;
-         text-align: center;
-         align-items: center;
-
-      }
-
-      #icon {
-         display: flex;
-         align-items: center;
-         width: 30px;
-         height: 30px;
-         border: 1px solid rgba(71, 69, 67, 0.5);
-         border-radius: 50%;
-      }
-
-      #icon2 {
-         display: flex;
-         align-items: center;
-         width: 100px;
-         height: 30px;
-         border: 1px solid rgba(71, 69, 67, 0.5);
-         border-radius: 1.5rem;
-      }
-
-      #icon2>h5 {
-         margin: 10px;
-      }
-   </style>
 </head>
 
 <body>
@@ -88,17 +25,43 @@
          <div>
             <h5>Wiki</h5>
          </div>
-         <div id="icon"><i class="fa-brands fa-github"></i></div>
-         <div id="icon"><i class="fa-brands fa-discord"></i></div>
-         <div id="icon"><i class="fa-brands fa-twitter"></i></div>
-
-         <div id="icon2">
-            <h5>Support</h5>
+         <div id="icon">
+            <button class="border50"><i class="fa-brands fa-github"></i></button>
+            <button class="border50"><i class="fa-brands fa-discord"></i></i></button>
+            <button class="border50"><i class="fa-brands fa-twitter"></i></i></button>
+            <button id="icon2">Support</button>
          </div>
-
+         
       </div>
    </header>
    <hr>
+   <section>
+      <div id="logo">
+         <img class="logo_pink" src="https://polkadot.network/assets/img/logo-polkadot.svg?v=b75c726c83" alt="Polkadot">
+         <img class="logo_dark" src="https://polkadot.network/assets/img/logo-polkadot-light.svg?v=b75c726c83" alt="Polkadot">
+      </div>
+      <div id="menu">
+         <span>Technology</span>
+         <span>Community</span>
+         <span>About</span>
+         <span>Blog</span>
+         <span>Build</span>
+         <span>Contact</span>
+      </div>
+      
+   </section>
+   <article>
+      <div>
+         <h2>The multichain vision for Web3 starts here.</h2>
+         <p>Polkadot unites and secures a growing ecosystem of specialized blockchains called parachains. Apps and services on Polkadot can securely communicate across chains, forming the basis for a truly interoperable decentralized web.</p>
+         <div id="btn_learn">
+
+         </div>
+      </div>
+      <div>
+         
+      </div>
+   </article>
 </body>
 
 </html>

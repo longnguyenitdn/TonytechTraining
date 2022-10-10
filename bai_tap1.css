@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+body {
+   font-family: Inter !important;
+}
+
+header:hover {
+   color: black ;
+}
+header:hover button {
+   color: black ;
+   border-color: black !important;
+}
+
+header>div.width70{
+   min-width: 80%;
+}
+header {
+   font-family: "Inter", sans-serif !important;
+   letter-spacing: normal;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   color: rgba(71, 69, 67, 0.5);
+   box-sizing: border-box;
+   
+}
+
+#left {
+   height: 30px;
+   margin-left: 30px;
+}
+#left>h5{
+   margin: 10px;
+}
+
+#right {
+   height: 30px;
+   margin-right: 30px;
+   display: flex;
+   justify-content: space-around;
+   align-items: center;
+
+}
+
+#right>div {
+   margin-right: 10px;
+}
+#icon{
+   display: flex;
+   justify-content: space-around;
+}
+
+#icon >button{
+   width: 30px;
+   height: 30px;
+   border: 1px solid rgba(71, 69, 67, 0.5);
+   margin-right: 10px;
+}
+
+#icon >.border50{
+   border-radius: 50%;
+}
+
+#icon2{
+   width: 70px !important;
+   border-radius: 1.5rem !important;
+}
+
+
+
+button{
+outline: none;
+background-color: transparent;
+border-radius: 1.5rem;
+font-size: small;
+font-weight: bold;
+color: rgba(71, 69, 67, 0.5);
+border: 1px solid rgba(71, 69, 67, 0.5);
+width: 100px;
+height: 30px;
+}
+
+
+section{
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin: 0px 30px;
+   align-items: baseline;
+}
+#logo{
+   width: 200px;
+   height: 100px;
+}
+#menu{
+   display: flex;
+   justify-content: space-between;
+   font-size: 25px;
+   width: 800px;
+   margin-right: 0px;
+   
+   
+   
+}
+#menu>span{
+   margin-right: 20px;
+   font-weight:100;
+}
