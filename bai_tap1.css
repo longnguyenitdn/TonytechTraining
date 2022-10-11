@@ -1,109 +1,197 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@font-face {
+   font-family: 'Unbounded';
+   src: url(unbounded/TTF/Unbounded-Regular.ttf);
+}
 
 body {
    font-family: Inter !important;
+   margin: 0;
 }
 
 header:hover {
-   color: black ;
+   color: black !important;
 }
+
 header:hover button {
-   color: black ;
+   color: black !important;
    border-color: black !important;
 }
 
-header>div.width70{
-   min-width: 80%;
+header:hover i {
+   color: black !important;
 }
-header {
-   font-family: "Inter", sans-serif !important;
-   letter-spacing: normal;
+
+.container {
+   margin: auto;
    display: flex;
    justify-content: space-between;
    align-items: center;
+   max-width: 80%;
+   height: 100%;
+
+}
+
+
+
+
+
+header {
+   font-family: "Inter", sans-serif !important;
+   letter-spacing: normal;
    color: rgba(71, 69, 67, 0.5);
    box-sizing: border-box;
-   
+   font-size: 0.875rem;
+   font-weight: 700;
+   width: 100%;
+   border-bottom: 1px solid rgba(71, 69, 67, 0.5);
+   padding: 5px 0;
+
 }
 
-#left {
+
+
+header #left>span {
    height: 30px;
-   margin-left: 30px;
-}
-#left>h5{
-   margin: 10px;
+
 }
 
-#right {
+header .pointer {
+   cursor: pointer;
+}
+
+header #right {
    height: 30px;
-   margin-right: 30px;
+
    display: flex;
-   justify-content: space-around;
+   justify-content: space-between;
    align-items: center;
 
 }
 
-#right>div {
+header #right>div {
    margin-right: 10px;
 }
-#icon{
+
+header #icon {
    display: flex;
    justify-content: space-around;
+   margin-right: 0 !important;
 }
 
-#icon >button{
+header #icon>button {
    width: 30px;
    height: 30px;
    border: 1px solid rgba(71, 69, 67, 0.5);
    margin-right: 10px;
 }
 
-#icon >.border50{
+header #icon>.border50 {
    border-radius: 50%;
+   background-color: white !important;
 }
 
-#icon2{
-   width: 70px !important;
+header #icon>.border50>i {
+   color: rgba(71, 69, 67, 0.5);
+}
+
+
+
+
+
+header #header_btn {
+   outline: none;
+   background-color: transparent;
    border-radius: 1.5rem !important;
+   font-size: small;
+   font-weight: bold;
+   color: rgba(71, 69, 67, 0.5);
+   border: 1px solid rgba(71, 69, 67, 0.5);
+   width: 100px !important;
+   height: 30px;
+   margin-right: 0 !important;
 }
 
 
 
-button{
-outline: none;
-background-color: transparent;
-border-radius: 1.5rem;
-font-size: small;
-font-weight: bold;
-color: rgba(71, 69, 67, 0.5);
-border: 1px solid rgba(71, 69, 67, 0.5);
-width: 100px;
-height: 30px;
+section {
+   width: 100%;
+   padding: 5px 0;
+   margin: 0;
 }
 
-
-section{
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   margin: 0px 30px;
-   align-items: baseline;
-}
-#logo{
+section #logo {
    width: 200px;
-   height: 100px;
+   height: 50px;
+   display: flex;
+   align-items: center;
 }
-#menu{
+
+section #menu {
    display: flex;
    justify-content: space-between;
-   font-size: 25px;
-   width: 800px;
-   margin-right: 0px;
-   
-   
-   
+
+   max-width: 800px;
+
+   width: 60%;
+   color: #1e1e1e;
+
+
+
 }
-#menu>span{
-   margin-right: 20px;
-   font-weight:100;
+
+section #menu>span {
+   font-size: 1.25rem !important;
+   font-weight: 300 !important;
+}
+
+article {
+   width: 100%;
+   padding: 5px;
+}
+article #a_left{
+   width: 50%;
+}
+article #a_left>h1{
+   margin: 0 0 16px;
+   text-align: left;
+   color: #1e1e1e;
+    font-family: "Unbounded", sans-serif !important;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+article #a_left>p{
+text-align: left;
+font-size:1.25rem;
+font-weight: 400;
+margin-top: 0;
+margin-bottom: 1rem;
+}
+article .btn_learn{
+   color: #e6007a;
+    background-color: transparent;
+    border-color: #e6007a;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    border: solid 1px #e6007a;
+    transition: all 0.2s ease, border 1ms ease;
+    will-change: transform;
+    transform: scale(0.999);
+    border-radius: 2rem;
+    padding: 16px 20px;
+    font-weight: 700;
+    font-size: 16px;
+    margin-right: 0.75rem !important;
+    line-height: 1.5;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+article #a_right{
+   width: 50%;
 }
