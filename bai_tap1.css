@@ -250,9 +250,6 @@ header #header_btn {
    display: none;
    padding: 5px;
    color: white;
-   position: absolute;  
-   top: 50px;
-   right: 50px;
    border: 1px solid black;
    background-color: #e6007a;
    width: 60px;
@@ -490,11 +487,20 @@ section .flex-content-tobaseline {
    align-items: baseline !important;
 }
 
-section .discover-dot {
+section .discover-dot-learn {
    padding: 60px 0 100px 0;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}
+section .discover-dot{
+   padding: 60px 0 100px 0;
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
 }
 
-section .discover-dot>h3 {
+section .discover-dot-learn>h3 {
    color: #fff !important;
    font-weight: 700;
    line-height: 1.33333 !important;
@@ -503,7 +509,7 @@ section .discover-dot>h3 {
    font-family: "Unbounded", sans-serif !important;
 }
 
-section .discover-dot>button {
+section .discover-dot-learn>button {
    background-color: transparent;
    border-color: #e6007a;
    position: relative;
@@ -521,7 +527,7 @@ section .discover-dot>button {
    color: white;
 }
 
-section .discover-dot>button:hover {
+section .discover-dot-learn>button:hover {
    background-color: #e6007a;
    cursor: pointer;
 }
@@ -609,7 +615,11 @@ section .discover-dot>button:hover {
 
 .about-dot>.cover>.discover-dot>button {
    margin: 0 0 -10px 160px !important;
+   color: white;
 
+}
+.about-dot>.cover>.discover-dot>button:hover{
+   background-color: #e6007a;
 }
 
 section .wrapper>h1 {
@@ -1037,26 +1047,222 @@ section .card-body>.descript {
 
    .footer>.footer-wrapper>.left {
       display: flex;
-      width: 75%;
+    justify-content: space-around !important;
+    width: 100%;
+   }
+   .footer>.footer-wrapper>.left>.left-child{
+      width: unset;
    }
 
    .footer>.footer-wrapper>.right {
-      width: auto;
+      width: 100%;
+   }
+   .footer>.footer-wrapper>.right>.icon{
+      display: flex;
+    justify-content: space-around;
+    background-color: transparent;
+    margin: 10px;
+   }
+   .footer>.footer-wrapper>.right>p{
+      
+      margin-left: 45px !important;
+   }
+   .footer>.footer-wrapper>.right>button{
+      margin-left: 30px !important;
    }
 
    .container-body>.logo-head>.flex-content {
-      flex-direction: column;
+      flex-direction: row !important;
       align-items: flex-start;
+      width: 100%;
+      flex-wrap: wrap;
    }
-
+.logo{
+   width: 50%;
+}
    .btn {
       display: inline-block;
-      top: 20px;
-      right: 70px;
       cursor: pointer;
    }
 
-   .container-body>.logo-head>.flex-content>button:hover+div {
-      display: block;
+   .container-body>.logo-head>.flex-content>button:hover+#menu {
+      display: flex;
+      flex-direction: column;
+      padding: 20px 0;
    }
+   .about-dot>.cover>.discover-dot>h1 {
+      font-weight: 700 !important;
+      font-size: 3.5rem !important;
+      line-height: 1.33333 !important;
+      margin-bottom: 2.25rem !important;
+      font-family: "Unbounded", sans-serif !important;
+      margin: 0;
+      padding: 30px 0 0px 60px;
+      color: white !important;
+  }
+  .about-dot>.cover>.discover-dot>button {
+   margin: 0 0 0px 60px !important;
+}
+section .discover-dot {
+   padding: 15px 10px 50px;
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+}
+}
+
+
+
+
+
+
+@media only screen and (max-width: 375px) {
+   .container-body {
+      max-width: 375px;
+  }
+  .logo-head>.flex-content>.logo>img {
+   height: 50px;
+   width: auto;
+}
+.container-body>.logo-head>.flex-content>button:hover+#menu {
+   display: flex;
+   flex-direction: column;
+   padding: 20px 0;
+}
+.footer>.footer-wrapper {
+   flex-direction: column;
+   max-width: 300px;
+   margin: auto;
+   display: flex;
+   align-items: center;
+}
+.footer>.footer-polka>.polka-menu>ul {
+   display: flex;
+   list-style: none;
+   flex-wrap: wrap;
+   padding: 0;
+}
+.footer>.footer-polka {
+   display: flex;
+   max-width: 1116px;
+   margin: auto;
+   margin-top: 100px;
+   flex-direction: column;
+   align-items: flex-start;
+}
+   .open-source>.flex-content>div {
+      width: unset;
+  }
+  .open-source>.flex-content>div>h1 {
+   width: unset;
+   max-width: unset;
+}
+.about-dot>.cover>.discover-dot{
+   text-align: center !important;
+}
+.about-dot>.cover>.discover-dot>button{
+   margin: unset;
+   padding: unset;
+   padding: 10px;
+}
+.about-dot>.cover>.discover-dot>h1 {
+   margin: unset;
+   flex-direction: column;
+   padding: unset;
+   font-size: 1.75rem !important;
+   
+}
+
+.flex-content {
+   flex-direction: column;
+}
+article .a_right {
+   width: 100%;
+}
+article .a_left {
+   width: 100%;
+   margin-top: 40px;
+}
+article .a_left>h1 {
+   margin: 93 0 16px;
+   text-align: center;
+}
+article .a_left>p {
+   text-align: center;
+}
+.btn-learn {
+   font-size: 13px;
+}
+.six-col {
+   margin-top: 70px !important;
+}
+article .six-col-container>.small-col {
+   max-width: 375px;
+   margin-bottom: 2.25rem !important;
+   margin: 0 10px;
+   text-align: center;
+}
+article .six-col-container .small-col>h5 {
+   
+   text-align: center !important;
+   
+}
+article .six-col-container .small-col>p{
+   text-align: center !important;
+}
+section .flex-content-tobaseline {
+   align-items: center !important;
+}
+.open-source {
+   text-align: center !important;
+}
+.open-source>.flex-content{
+   padding: unset;
+   max-width: 100%;
+}
+.open-source>.flex-content>div>h1{
+   text-align: center !important ;
+   padding: 0 10px;
+}
+.open-source>.flex-content>img{
+   margin: 5px;
+}
+.cards{
+   flex-direction: column;
+}
+.card {
+   width: 100%;
+   margin: auto;
+   position: relative;
+}
+.powering .container>.flex-content>.container-img{
+   width: 100%;
+}
+.footer>.footer-wrapper>.left{
+   width: 100%;
+   flex-wrap: wrap;
+}
+.footer>.footer-wrapper>.left>.left-child {
+   width: 50%;
+   padding: 10px 0;
+}
+
+.flex-content{
+   flex-direction: row !important;
+   justify-content: space-between !important;
+   flex-wrap: wrap;
+   align-items: center !important;
+}
+.btn{
+   position: unset;
+}
+.footer>.footer-wrapper>.right>p {
+   margin-left: 20px !important;
+}
+.footer>.footer-wrapper>.right>button {
+   margin-left: 20px !important;
+}
+.footer>.footer-polka>.polka-menu>ul>li{
+   font-size: 0.5rem;
+}
 }
