@@ -250,7 +250,7 @@ header #header_btn {
    display: none;
    padding: 5px;
    color: white;
-   position: absolute;
+   position: absolute;  
    top: 50px;
    right: 50px;
    border: 1px solid black;
