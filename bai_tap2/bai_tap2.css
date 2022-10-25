@@ -12,16 +12,16 @@ table>tbody>tr>th>img{
    border-radius: 5px;
    object-fit: cover;
 }
-.flex_row{
+.flex-row{
    display: flex;
    justify-content: space-around;
 }
-.flex_row>button{
+.flex-row>button{
    
    border-top-right-radius: unset !important;
    border-bottom-right-radius: unset !important;
 }
-.flex_row>input{
+.flex-row>input{
    border-top-left-radius: unset !important;
    border-bottom-left-radius: unset !important;
    border-left: hidden;
@@ -41,4 +41,11 @@ body{
    border-radius: 5px;
    letter-spacing: 1px;
    word-spacing: 5px;
+}
+.check-box{
+   width: 20px;
+   vertical-align: middle;
+}
+.all-checkbox{
+   padding-left: 30px;
 }
