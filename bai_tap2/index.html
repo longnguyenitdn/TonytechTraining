@@ -13,88 +13,36 @@
 </head>
 
 <body>
-<div id="modal-wrapper" class="modal-wrapper hide">
-   <div id="modal-backdrop" class="modal-backdrop hide"></div>
-   <div id="modal" class="modal p-3 mb-2 bg-info bg-gradient text-white hide" >
-      <form action="">
-         <h3 class="title">Add New</h3>
-         <p><input class="input" type="text" placeholder="Enter Name"></p>
-         <p><input class="input" type="text" placeholder="Enter Email"></p>
-         <p><input class="input" type="number" placeholder="Enter Phone"></p>
-         <label for="avatar">Choose a profile picture:</label>
-         <p><input type="file" name="avata" accept="image/png, image/jpeg"></p>
-         <button type="submit" class="btn btn-primary">Submit</button>
-         <button class="btn btn-primary" onclick="close_modal()">Close</button>
-      </form>
+   <!--Modal-->
+   <div id="modal-wrapper" class="modal-wrapper hide">
+      <div id="modal-backdrop" class="modal-backdrop"></div>
+      <div id="modal" class="modal p-3 mb-2 bg-info bg-gradient text-white">
+         <form action="">
+            <h3 class="title">Add New</h3>
+            <p><input id="name" class="input" type="text" placeholder="Enter Name"></p>
+            <p><input id="email" class="input" type="text" placeholder="Enter Email"></p>
+            <p><input id="phone" class="input" type="number" placeholder="Enter Phone"></p>
+            <label for="avatar">Choose a profile picture:</label>
+            <p><input id="photo" type="file" name="avata" accept="image/png, image/jpeg"></p>
+            <button onclick="add()" type="submit" class="btn btn-primary">Submit</button>
+            <button class="btn btn-primary" onclick="close_modal()">Close</button>
+         </form>
+      </div>
    </div>
-</div>
+
+
    <div class="container">
       <h3 class="text-primary">CRUD APPLICATION</h3>
-      <table class="table">
-         <tbody>
-            <tr>
-               <td colspan="2">
-                  <button type="button" class="btn btn-primary" onclick="open_modal()">Add New <i class="bi bi-person-circle"></i></button>
+      <div class="flex-row-title ">
+         <button type="button" class="btn btn-primary" onclick="open_modal()">Add New <i class="bi bi-person-circle"></i></button>
+         <div class="flex-row ">
+            <button type="button" class="btn btn-outline-primary"><i class="bi bi-search"></i></button>
+            <input type="text" placeholder="Search..." class="form-control btn-outline-primary" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+         </div>
 
-               </td>
-               <td colspan="5">
-                  <div class="flex-row ">
-                     <button type="button" class="btn btn-outline-primary"><i class="bi bi-search"></i></button>
-                     <input type="text" placeholder="Search..." class="form-control btn-outline-primary" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-                  </div>
-               </td>
+      </div>
+     <p id="display"></p>
 
-            </tr>
-            <tr>
-               <th scope="col" colspan="2">
-                  <input class="form-check-input" type="checkbox">
-                  <span class="all-checkbox">All</span>
-               </th>
-               <th scope="col">Name</th>
-               <th scope="col">Email</th>
-               <th scope="col">Phone</th>
-               <th colspan="4"></th>
-
-            </tr>
-            <tr>
-               <th class="check-box">
-
-                  <input class="form-check-input" type="checkbox">
-               </th>
-               <th scope="row"><img class="img_border" src="https://cho77.com/wp-content/uploads/2022/05/lionel-messi-1024x576.jpg" alt="1"></th>
-               <td>Messi</td>
-               <td>m@gmail</td>
-               <td>00000000</td>
-               <td><i class="bi bi-pencil-square"></i></td>
-               <td><i class="bi bi-trash"></i></td>
-            </tr>
-            <tr>
-               <th class="check-box">
-
-                  <input class="form-check-input" type="checkbox">
-               </th>
-               <th scope="row"><img src="https://cafefcdn.com/203337114487263232/2022/5/18/photo-1-16528657338131844869537.jpg" alt="2"></th>
-               <td>Neyma</td>
-               <td>N@gmail</td>
-               <td>111111111</td>
-               <td><i class="bi bi-pencil-square"></i></td>
-               <td><i class="bi bi-trash"></i></td>
-            </tr>
-            <tr>
-               <th class="check-box">
-
-                  <input class="form-check-input" type="checkbox">
-               </th>
-               <th scope="row"><img src="https://media.vov.vn/sites/default/files/styles/large/public/2021-09/8._ronaldo.jpg" alt="3"></th>
-               <td>Ronaldo</td>
-               <td>R@gmail</td>
-               <td>22222222</td>
-               <td><i class="bi bi-pencil-square"></i></td>
-               <td><i class="bi bi-trash"></i></td>
-            </tr>
-         </tbody>
-      </table>
-      
    </div>
    <script language="javascript" src="bai_tap2.js"></script>
 </body>
