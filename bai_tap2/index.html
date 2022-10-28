@@ -14,18 +14,18 @@
 
 <body>
    <!--Modal-->
-   <div id="modal-wrapper" class="modal-wrapper hide">
-      <div id="modal-backdrop" class="modal-backdrop"></div>
+   <div id="modal_wrapper" class="modal-wrapper hide">
+      
       <div id="modal" class="modal p-3 mb-2 bg-info bg-gradient text-white">
-         <form action="">
+         <form id="my_form" action="#">
             <h3 class="title">Add New</h3>
             <p><input id="name" class="input" type="text" placeholder="Enter Name"></p>
             <p><input id="email" class="input" type="text" placeholder="Enter Email"></p>
             <p><input id="phone" class="input" type="number" placeholder="Enter Phone"></p>
             <label for="avatar">Choose a profile picture:</label>
             <p><input id="photo" type="file" name="avata" accept="image/png, image/jpeg"></p>
-            <button onclick="add()" type="submit" class="btn btn-primary">Submit</button>
-            <button class="btn btn-primary" onclick="close_modal()">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="button" class="btn btn-primary" onclick="close_modal()">Close</button>
          </form>
       </div>
    </div>
@@ -39,7 +39,6 @@
             <button type="button" class="btn btn-outline-primary"><i class="bi bi-search"></i></button>
             <input type="text" placeholder="Search..." class="form-control btn-outline-primary" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
          </div>
-
       </div>
      <p id="display"></p>
 
