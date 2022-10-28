@@ -24,7 +24,8 @@
             <p><input id="phone" class="input" type="number" placeholder="Enter Phone"></p>
             <label for="avatar">Choose a profile picture:</label>
             <p><input id="photo" type="file" name="avata" accept="image/png, image/jpeg"></p>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button id="submit_btn" type="submit" class="btn btn-primary">Submit</button>
+            <button id="update_btn" type="button" class="btn btn-primary hide" onclick="update()">Update</button>
             <button type="button" class="btn btn-primary" onclick="close_modal()">Close</button>
          </form>
       </div>
@@ -34,7 +35,7 @@
    <div class="container">
       <h3 class="text-primary">CRUD APPLICATION</h3>
       <div class="flex-row-title ">
-         <button type="button" class="btn btn-primary" onclick="open_modal()">Add New <i class="bi bi-person-circle"></i></button>
+         <button type="button" class="btn btn-primary" onclick="open_modal('add')">Add New <i class="bi bi-person-circle"></i></button>
          <div class="flex-row ">
             <button type="button" class="btn btn-outline-primary"><i class="bi bi-search"></i></button>
             <input type="text" placeholder="Search..." class="form-control btn-outline-primary" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
