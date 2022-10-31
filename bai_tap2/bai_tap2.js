@@ -48,6 +48,7 @@ function display(inputPersons) {
    tableString += '</tbody>';
    tableString += '</table>';
    document.getElementById("display").innerHTML = tableString;
+   console.log(inputPersons[i].photo[0]);
 }
 
 
