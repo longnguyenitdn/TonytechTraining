@@ -1,22 +1,17 @@
 let persons = [];
+let isAdd=true;
 
-function open_modal(key) {
-   let element = document.getElementById("modal_wrapper");
-   element.classList.remove("hide");
-   if (key === "edit") {
-      document.getElementById("submit_btn").style.display = "none";
-      document.getElementById("update_btn").style.display = "inline-block";
-   } else {
-      document.getElementById("submit_btn").style.display = "inline-block";
-      document.getElementById("update_btn").style.display = "none";
-   }
+function open_modal() {
+   document.getElementById("modal_wrapper").classList.remove("hide");
 }
 
 function close_modal() {
    clearForm();
-   let element = document.getElementById("modal_wrapper");
-   element.classList.add("hide");
+   document.getElementById("modal_wrapper").classList.add("hide");
+
 }
+
+
 
 
 function display(inputPersons) {
@@ -37,7 +32,7 @@ function display(inputPersons) {
          '<th class="check-box">' +
          '<input class="form-check-input" type="checkbox">' +
          '</th>' +
-         '<th scope="row"><img class="img_border" src="' + URL.createObjectURL(inputPersons[i].photo[0]) + '" alt="1"></th>' +
+         '<th scope="row"><img class="img_border" src="' + URL.createObjectURL(inputPersons[i].photo) + '" alt="1"></th>' +
          '<td>' + inputPersons[i].name + '</td>' +
          '<td>' + inputPersons[i].email + '</td>' +
          '<td>' + inputPersons[i].phone + '</td>' +
@@ -48,30 +43,72 @@ function display(inputPersons) {
    tableString += '</tbody>';
    tableString += '</table>';
    document.getElementById("display").innerHTML = tableString;
-   console.log(inputPersons[i].photo[0]);
+
 }
 
-
-function add() {
+function getValue() {
    let name = document.getElementById("name").value;
    let email = document.getElementById("email").value;
    let phone = document.getElementById("phone").value;
-   let photo = document.getElementById("photo").files;
+   let files = document.getElementById("photo").files;
    let person = {};
    person.name = name;
    person.email = email;
    person.phone = phone;
-   person.photo = photo;
+   person.photo = files[0];
+   return person;
+}
+
+function clearForm() {
+   document.getElementById("my_form").reset();
+}
+
+function remove(index) {
+   let conf = confirm("Ban chac chan muon xoa!: " + persons[index].name);
+   if (conf) {
+      persons.splice(index, 1);
+      display(persons);
+   }
+}
+
+function add(key) {
+   if(key){
+      let person = getValue();
    persons.push(person);
+   display(persons);
+   close_modal();
+   }else{
+      update();
+   }
+   
+}
+
+function update(index) {
+   let person=getValue();
+   persons[index].name = person.name;
+   persons[index].email = person.email;
+   persons[index].phone = person.phone;
+   persons[index].photo = person.photo;
    display(persons);
    close_modal();
 }
 
-
-function clearForm() {
-   let form = document.getElementById("my_form");
-   form.reset()
+function updateInput(index) {
+   open_modal();
+   document.getElementById("name").value = persons[index].name;
+   document.getElementById("email").value = persons[index].email;
+   document.getElementById("phone").value = persons[index].phone;
+   document.getElementById("photo").files= persons[index].files[0];
 }
+
+const photo = document.getElementById('photo');
+const image = document.getElementById('img-preview');
+photo.addEventListener('change', (e) => {
+   if (e.target.files.length) {
+       const src = URL.createObjectURL(e.target.files[0]);
+       image.src = src;
+   }
+});
 
 
 
@@ -80,40 +117,5 @@ document.querySelector("#my_form").addEventListener("submit", function (e) {
       e.preventDefault();    //stop form from submitting
    }
    add();
-   clearForm();
 });
-
-
-function remove(index) {
-   let conf = confirm("Ban chac chan muon xoa!:" + persons[index].name);
-   if (conf) {
-      persons.splice(index, 1);
-      display(persons);
-   }
-}
-
-
-function updateInput(index) {
-   open_modal('edit');
-   document.getElementById("name").value = persons[index].name;
-   document.getElementById("email").value = persons[index].email;
-   document.getElementById("phone").value = persons[index].phone;
-   document.getElementById("update_btn").addEventListener("click", update);
-
-   function update() {
-      let name = document.getElementById("name").value;
-      let email = document.getElementById("email").value;
-      let phone = document.getElementById("phone").value;
-      let photo = document.getElementById("photo").files;
-      persons[index].name = name;
-      persons[index].email = email;
-      persons[index].phone = phone;
-      persons[index].photo = photo;
-      display(persons);
-      close_modal();
-   }
-}
-
-
-
 

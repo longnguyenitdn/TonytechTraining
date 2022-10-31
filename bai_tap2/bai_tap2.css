@@ -35,6 +35,12 @@ table>tbody>tr>th>img{
    display: flex;
    justify-content: space-between;
 }
+.flex-colum{
+   display: flex;
+   flex-direction: column !important;
+   
+}
+
 
 
 
@@ -82,10 +88,10 @@ body{
 
 .modal{
    position: relative;
-   width: 330px;
-   height: 360px;
-   padding: 20px;
-   display: block;   
+   width: 340px;
+   height: 480px;
+   padding: 10px;
+   display: block;  
 }
 
 .modal-wrapper{
@@ -98,6 +104,23 @@ background-color: rgba(0, 0, 0, 0.8);
 display: flex;
 justify-content: center;
 align-items: center;
+}
+.photo-wrapper{
+   padding: 10px;
+   text-align: center;
+}
+.photo-wrapper > input{
+   margin-bottom: 10px;
+}
+.photo-view{
+   width: 100%;
+   max-width: 200px;
+   object-fit: cover;
+   border: 1px solid white;
+   border-radius: 3px;
+   padding: 5px;
+   margin: 10px;
+   text-align: center;
 }
 
 .hide{

@@ -15,18 +15,22 @@
 <body>
    <!--Modal-->
    <div id="modal_wrapper" class="modal-wrapper hide">
-      
+
       <div id="modal" class="modal p-3 mb-2 bg-info bg-gradient text-white">
-         <form id="my_form" action="#">
+         <form id="my_form" action="#" class="flex-colum">
             <h3 class="title">Add New</h3>
             <p><input id="name" class="input" type="text" placeholder="Enter Name"></p>
             <p><input id="email" class="input" type="text" placeholder="Enter Email"></p>
             <p><input id="phone" class="input" type="number" placeholder="Enter Phone"></p>
             <label for="avatar">Choose a profile picture:</label>
-            <p><input id="photo" type="file" name="avata" accept="image/png, image/jpeg"></p>
-            <button id="submit_btn" type="submit" class="btn btn-primary">Submit</button>
-            <button id="update_btn" type="button" class="btn btn-primary hide" onclick="update()">Update</button>
-            <button type="button" class="btn btn-primary" onclick="close_modal()">Close</button>
+            <div class="photo-wrapper">
+               <input id="photo" type="file" name="avata" accept="image/png, image/jpeg">
+               <img class="photo-view" id="img-preview" src="./img.jpg" />
+            </div>
+            <div class="btn">
+               <button id="submit_btn" type="submit" class="btn btn-primary">Submit</button>
+               <button type="button" class="btn btn-primary" onclick="close_modal()">Close</button>
+            </div>
          </form>
       </div>
    </div>
@@ -35,13 +39,13 @@
    <div class="container">
       <h3 class="text-primary">CRUD APPLICATION</h3>
       <div class="flex-row-title ">
-         <button type="button" class="btn btn-primary" onclick="open_modal('add')">Add New <i class="bi bi-person-circle"></i></button>
+         <button type="button" class="btn btn-primary" onclick="open_modal('true')">Add New <i class="bi bi-person-circle"></i></button>
          <div class="flex-row ">
             <button type="button" class="btn btn-outline-primary"><i class="bi bi-search"></i></button>
             <input type="text" placeholder="Search..." class="form-control btn-outline-primary" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
          </div>
       </div>
-     <p id="display"></p>
+      <p id="display"></p>
 
    </div>
    <script language="javascript" src="bai_tap2.js"></script>
