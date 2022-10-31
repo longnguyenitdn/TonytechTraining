@@ -134,3 +134,14 @@ align-items: center;
 .input{
    width: 300px;
 }
+.remove-conf{
+   width: 170px;
+   height: 90px;
+ 
+}
+
+.just-around{
+   justify-content: space-around;
+   width: 100%;
+   height: 100%;
+}
