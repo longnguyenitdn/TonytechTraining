@@ -37,10 +37,16 @@ function display(inputPersons) {
    }
    tableString += '</tbody>';
    tableString += '</table>';
+   
    document.getElementById("display").innerHTML = tableString;
 }
 
 
+function close_modal() {
+   clearForm();
+   indexEdit = null;
+   document.getElementById("modal_wrapper").classList.add("hide");
+}
 
 function open_modal() {
    document.getElementById("modal_wrapper").classList.remove("hide");
@@ -49,11 +55,7 @@ function open_modal() {
    }
 }
 
-function close_modal() {
-   clearForm();
-   indexEdit = null;
-   document.getElementById("modal_wrapper").classList.add("hide");
-}
+
 
 function openRemove(i){
    document.getElementById("remove_conf"+i).classList.remove("hide");
@@ -64,7 +66,6 @@ function closeRemove(i){
 }
 
 function getValue() {
-   
    let name = document.getElementById("name").value;
    let email = document.getElementById("email").value;
    let phone = document.getElementById("phone").value;
@@ -99,15 +100,20 @@ function add() {
    display(persons);
    close_modal();
 }
+
 function update(index) {
    let person = getValue();
+   console.log(person.photo);
    persons[index].name = person.name;
    persons[index].email = person.email;
    persons[index].phone = person.phone;
-   persons[index].photo = person.photo;
+   if(person.photo!=null){
+      persons[index].photo = person.photo;
+   }
    display(persons)
    close_modal();
 }
+
 
 function updateInput(index) {
    clearForm();
@@ -135,13 +141,12 @@ photo.addEventListener('change', (e) => {
 
 
 
-document.querySelector("#my_form").addEventListener("submit", function (e) {
+document.querySelector("#my_form").addEventListener("submit",  (e) => {
    if (!e.isValid) {
       e.preventDefault();    //stop form from submitting
    }
    if (isAdd) {
-      add();
-      
+      add(); 
    } else {
       update(indexEdit)
    }
