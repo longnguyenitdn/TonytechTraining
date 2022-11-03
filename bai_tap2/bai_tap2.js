@@ -1,6 +1,7 @@
 let persons = [];
 let isAdd = true;
 let indexEdit = null;
+let deleteIndex=null;
 
 
 function display(inputPersons) {
@@ -27,7 +28,6 @@ function display(inputPersons) {
          '<td>' + inputPersons[i].phone + '</td>' +
          '<td><i onclick="updateInput(' + i + ')" class="bi bi-pencil-square"></i> </td>' +
          '<td class="remove-wrap" ><i class="bi bi-trash" onclick="openRemove('+i+')"></i>' +
-         
          '</td>' +
          '</tr>';
    }
@@ -52,11 +52,12 @@ function open_modal() {
 }
 
 
-function openRemove(i) {
+function openRemove(index) {
    document.getElementById("remove_conf").classList.remove("hide");
    document.getElementById("remove_conf").style.position="absolute";
    document.getElementById("remove_conf").style.top=window.event.clientY-40+"px";
    document.getElementById("remove_conf").style.left=window.event.clientX+20+"px";
+   deleteIndex=index;
 }
 
 
@@ -85,9 +86,10 @@ function clearForm() {
 }
 
 
-function remove(index) {
-         persons.splice(index, 1);
+function remove() {
+         persons.splice(deleteIndex, 1);
          display(persons);
+         document.getElementById("remove_conf").classList.add("hide");
       } 
 
 
@@ -101,14 +103,13 @@ function add() {
    close_modal();
 }
 
-function update(index) {
+function update() {
    let person = getValue();
-   console.log(person.photo);
-   persons[index].name = person.name;
-   persons[index].email = person.email;
-   persons[index].phone = person.phone;
+   persons[indexEdit].name = person.name;
+   persons[indexEdit].email = person.email;
+   persons[indexEdit].phone = person.phone;
    if(person.photo!=null){
-      persons[index].photo = person.photo;
+      persons[indexEdit].photo = person.photo;
    }
    display(persons)
    close_modal();
