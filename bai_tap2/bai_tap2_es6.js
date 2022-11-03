@@ -28,7 +28,10 @@ const display = (inputPersons) => {
          <td>${inputPersons[i].phone}</td>
          <td><i onclick="updateInput(${i})" class="bi bi-pencil-square"></i> </td>
          <td class="remove-wrap" ><i class="bi bi-trash" onclick="openRemove(${i})"></i>
-         <div id="remove_conf"${i} class="remove-conf hide">
+         <div id="remove_conf${i}" class="remove-conf hide">
+         <p>Are you sure to delete?</p>
+         <button id="delete"  type="submit" onclick="closeRemove(${i})"> No </button>
+         <button type="button" onclick="remove(${i})" > Yes </button>
          </div>
          </td>
          </tr>`;
@@ -36,14 +39,6 @@ const display = (inputPersons) => {
    tableString += "</tbody>";
    tableString += '</table>';
    document.getElementById("display").innerHTML = tableString;
-}
- 
-const openRemove = index =>{ 
-   let removeString=`<p>Are you sure to delete?</p>
-   <button id="delete"  type="submit" onclick="closeRemove(${index})"> No </button>
-   <button type="button" onclick="remove(${index})" > Yes </button>`
-   document.getElementById("remove_conf").innerHTML = removeString;
-   document.getElementById("remove_conf").classList.remove("hide");
 }
 
 
@@ -61,8 +56,17 @@ const close_modal = () => {
    document.getElementById("modal_wrapper").classList.add("hide");
 }
 
+const openRemove = i => {
+   for (let j = 0; j < persons.length; j++) { 
+      document.getElementById("remove_conf" + j).classList.add("hide");
+   }
+   document.getElementById("remove_conf" + i).classList.remove("hide");
+}
 
-
+const remove = index => {
+   persons.splice(index, 1);
+   display(persons);
+}
 const closeRemove = i => {
    document.getElementById("remove_conf" + i).classList.add("hide");
 }
@@ -80,26 +84,30 @@ const getValue = () => {
    }
    return person;
 }
+const checkInputImg = (obj) => {
+   if (obj.photo) {
+      return true;
+   }
+   document.getElementById("error").classList.remove("hide");
+   document.getElementById("error").innerText = "Image can not be empty!"
+   return false;
+}
+const add = () =>{
+   let person = getValue();
+   let check = checkInputImg(person);
+   if (check) {
+   document.getElementById("error").classList.add("hide");
+      persons.push(person);
+      display(persons);
+      close_modal();
+   }
+
+}
 
 
 const clearForm = () => {
    document.getElementById("my_form").reset();
    isAdd = true;
-}
-
-
-const remove = index => {
-   persons.splice(index, 1);
-   display(persons);
-}
-
-
-
-const add = () => {
-   let person = getValue();
-   persons.push(person);
-   display(persons);
-   close_modal();
 }
 
 const update = index => {
@@ -152,3 +160,4 @@ document.querySelector("#my_form").addEventListener("submit", (e) => {
       update(indexEdit)
    }
 });
+

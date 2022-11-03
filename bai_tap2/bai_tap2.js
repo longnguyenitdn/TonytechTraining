@@ -27,11 +27,7 @@ function display(inputPersons) {
          '<td>' + inputPersons[i].phone + '</td>' +
          '<td><i onclick="updateInput(' + i + ')" class="bi bi-pencil-square"></i> </td>' +
          '<td class="remove-wrap" ><i class="bi bi-trash" onclick="openRemove('+i+')"></i>' +
-         '<div id="remove_conf'+i+'" class="remove-conf hide">' +
-         '<p>Are you sure to delete?</p>' +
-         '<button id="delete"  type="submit" onclick="closeRemove('+i+')"> No </button>' +
-         '<button type="button" onclick="remove(' + i + ')" > Yes </button>' +
-         '</div>' +
+         
          '</td>' +
          '</tr>';
    }
@@ -56,13 +52,17 @@ function open_modal() {
 }
 
 
-
-function openRemove(i){
-   document.getElementById("remove_conf"+i).classList.remove("hide");
+function openRemove(i) {
+   document.getElementById("remove_conf").classList.remove("hide");
+   document.getElementById("remove_conf").style.position="absolute";
+   document.getElementById("remove_conf").style.top=window.event.clientY-40+"px";
+   document.getElementById("remove_conf").style.left=window.event.clientX+20+"px";
 }
 
-function closeRemove(i){
-   document.getElementById("remove_conf"+i).classList.add("hide");
+
+
+function closeRemove(){
+   document.getElementById("remove_conf").classList.add("hide");
 }
 
 function getValue() {
@@ -113,7 +113,6 @@ function update(index) {
    display(persons)
    close_modal();
 }
-
 
 function updateInput(index) {
    clearForm();

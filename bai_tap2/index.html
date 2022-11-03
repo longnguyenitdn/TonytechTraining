@@ -29,6 +29,7 @@
             <div class="btn">
                <button id="submit_btn" type="submit" class="btn btn-primary">Submit</button>
                <button type="button" class="btn btn-primary" onclick="close_modal()">Close</button>
+               <p id="error" class="error hide"></p>
             </div>
          </form>
       </div>
@@ -45,9 +46,13 @@
          </div>
       </div>
       <p id="display"></p>
-
    </div>
-   <script language="javascript" src="bai_tap2_es6.js"></script>
+   <script language="javascript" src="bai_tap2.js"></script>
+   <div id="remove_conf" class="remove-conf hide">
+      <p>Are you sure to delete?</p> 
+      <button id="delete"  type="button" onclick="closeRemove()"> No </button> 
+      <button type="button" onclick="remove(i)" > Yes </button> 
+      </div>
 </body>
 
 </html>
