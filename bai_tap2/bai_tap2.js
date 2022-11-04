@@ -130,6 +130,8 @@ function updateInput(index) {
 }
 
 
+
+
 const photo = document.getElementById('photo');
 const image = document.getElementById('img_preview');
 photo.addEventListener('change', (e) => {
@@ -151,4 +153,6 @@ document.querySelector("#my_form").addEventListener("submit",  (e) => {
       update(indexEdit)
    }
 });
+
+
 

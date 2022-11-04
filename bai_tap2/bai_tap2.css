@@ -142,16 +142,17 @@ body {
 
 .remove-wrap {
    position: relative;
+   
 }
-
-.remove-conf {
+.remove-conf {     
    position: absolute;
    width: 180px;
    height: 80px;
    box-shadow: 0 0 10px lightgray;
    background-color: white;
    padding: 3px;
-   
+   top: 17px !important;
+   left: 30px !important;
 }
 
 .remove-conf>button {
@@ -163,6 +164,17 @@ body {
    box-shadow: 0 0;
 }
 .error{
+   color: red;
+}
+.total{
+   width: 100px;
+   height: 110px;
+   border: 1px solid red;
+   border-radius: 5px;
+   padding: 10px;
+}
+.total>p{
+   line-height: 100%;
    color: red;
 }
 

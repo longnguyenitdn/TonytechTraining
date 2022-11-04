@@ -1,10 +1,11 @@
-let persons = [];
+
 let isAdd = true;
 let indexEdit = null;
+const inputPersons = [];
 
 
 
-const display = (inputPersons) => {
+const display = () => {
    let tableString = `<table class="table">
       <tbody>
       <tr> 
@@ -27,7 +28,7 @@ const display = (inputPersons) => {
          <td>${inputPersons[i].email}</td>
          <td>${inputPersons[i].phone}</td>
          <td><i onclick="updateInput(${i})" class="bi bi-pencil-square"></i> </td>
-         <td class="remove-wrap" ><i class="bi bi-trash" onclick="openRemove(${i})"></i>
+         <td class="remove-wrap"><i class="bi bi-trash" onclick="openRemove(${i})"></i>
          <div id="remove_conf${i}" class="remove-conf hide">
          <p>Are you sure to delete?</p>
          <button id="delete"  type="submit" onclick="closeRemove(${i})"> No </button>
@@ -39,6 +40,7 @@ const display = (inputPersons) => {
    tableString += "</tbody>";
    tableString += '</table>';
    document.getElementById("display").innerHTML = tableString;
+   displayTotal();
 }
 
 
@@ -57,15 +59,15 @@ const close_modal = () => {
 }
 
 const openRemove = i => {
-   for (let j = 0; j < persons.length; j++) { 
+   for (let j = 0; j < inputPersons.length; j++) {
       document.getElementById("remove_conf" + j).classList.add("hide");
    }
    document.getElementById("remove_conf" + i).classList.remove("hide");
 }
 
 const remove = index => {
-   persons.splice(index, 1);
-   display(persons);
+   inputPersons.splice(index, 1);
+   display();
 }
 const closeRemove = i => {
    document.getElementById("remove_conf" + i).classList.add("hide");
@@ -84,7 +86,7 @@ const getValue = () => {
    }
    return person;
 }
-const checkInputImg = (obj) => {
+const checkInputImg = obj => {
    if (obj.photo) {
       return true;
    }
@@ -92,13 +94,13 @@ const checkInputImg = (obj) => {
    document.getElementById("error").innerText = "Image can not be empty!"
    return false;
 }
-const add = () =>{
+const add = () => {
    let person = getValue();
    let check = checkInputImg(person);
    if (check) {
-   document.getElementById("error").classList.add("hide");
-      persons.push(person);
-      display(persons);
+      document.getElementById("error").classList.add("hide");
+      inputPersons.push(person);
+      display();
       close_modal();
    }
 
@@ -113,13 +115,13 @@ const clearForm = () => {
 const update = index => {
    let person = getValue();
    let { name, email, phone, photo } = person;
-   persons[index].name = name;
-   persons[index].email = email;
-   persons[index].phone = phone;
+   inputPersons[index].name = name;
+   inputPersons[index].email = email;
+   inputPersons[index].phone = phone;
    if (photo != null) {
-      persons[index].photo = photo;
+      inputPersons[index].photo = photo;
    }
-   display(persons)
+   display()
    close_modal();
 }
 
@@ -128,7 +130,7 @@ const updateInput = index => {
    isAdd = false;
    indexEdit = index;
    open_modal();
-   let { name, email, phone, photo } = persons[index];
+   let { name, email, phone, photo } = inputPersons[index];
    document.getElementById("name").value = name;
    document.getElementById("email").value = email;
    document.getElementById("phone").value = phone;
@@ -150,7 +152,7 @@ photo.addEventListener('change', (e) => {
 
 
 
-document.querySelector("#my_form").addEventListener("submit", (e) => {
+document.querySelector("#my_form").addEventListener("submit", e => {
    if (!e.isValid) {
       e.preventDefault();    //stop form from submitting
    }
@@ -160,4 +162,31 @@ document.querySelector("#my_form").addEventListener("submit", (e) => {
       update(indexEdit)
    }
 });
+//total
+const displayCondition = () => {
+   if (inputPersons.length >0) {
+      document.getElementById("total_wrap").classList.remove("hide");
+   } else {
+      document.getElementById("total_wrap").classList.add("hide");
+   }
+}
+const displayTotal = () => {
+   document.getElementById("total").innerHTML = "Total: " + inputPersons.length;
+   document.getElementById("hasEmail").innerHTML = "Email: " + inputPersons.reduce(getEmail, 0);
+   function getEmail(total, num) {
+      if (num.email !== "") {
+         return total + 1;
+      } else return total;
+   }
+   document.getElementById("hasPhone").innerHTML = "Phone: " + inputPersons.reduce(getPhone, 0);
+   function getPhone(total, num) {
+      if (num.phone !== "") {
+         return total + 1;
+      } else {
+         return total
+      };
+   }
+   displayCondition();
+}
+
 
