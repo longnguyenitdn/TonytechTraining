@@ -13,6 +13,18 @@
 </head>
 
 <body>
+   <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+      <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+      </symbol>
+    </svg>
+   <div class="deleteSuccess hide" id="deleteSuccess">
+      <div class="alert alert-success d-flex align-items-center" role="alert">
+         <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+         <div id="delete_noti">
+         </div>
+       </div>
+   </div>
    
    <div id="modal_wrapper" class="modal-wrapper hide">
       <div id="modal" class="modal p-3 mb-2 bg-info bg-gradient text-white">
@@ -42,7 +54,7 @@
          <button type="button" class="btn btn-primary" onclick="open_modal()">Add New <i class="bi bi-person-circle"></i></button>
          <div class="flex-row ">
             <button type="button" class="btn btn-outline-primary"><i class="bi bi-search"></i></button>
-            <input type="text" placeholder="Search..." class="form-control btn-outline-primary" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            <input type="text" oninput="setTimeout(display, 1000)" id="search" placeholder="Search..." class="form-control btn-outline-primary search" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
          </div>
       </div>
       <p id="display"></p>
@@ -53,11 +65,11 @@
       </div>
    </div>
    <script language="javascript" src="bai_tap2_es6.js"></script>
-   <!-- <div id="remove_conf" class="remove-conf hide">
+   <div id="remove_conf" class="remove-conf hide">
       <p>Are you sure to delete?</p> 
       <button id="delete"  type="button" onclick="closeRemove()"> No </button> 
       <button type="button" onclick="remove()" > Yes </button> 
-      </div> -->
+      </div>
 </body>
 
 </html>

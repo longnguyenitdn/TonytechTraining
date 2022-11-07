@@ -76,6 +76,7 @@ function getValue() {
    person.email = email;
    person.phone = phone;
    person.photo = files[0];
+   person.id=Date.now();
    return person;
 }
 

@@ -151,8 +151,7 @@ body {
    box-shadow: 0 0 10px lightgray;
    background-color: white;
    padding: 3px;
-   top: 17px !important;
-   left: 30px !important;
+   
 }
 
 .remove-conf>button {
@@ -177,4 +176,13 @@ body {
    line-height: 100%;
    color: red;
 }
+
+.deleteSuccess{
+   width: 100%;
+   height: auto;
+   position: absolute;
+   top: 0;
+   left: 0;
+}
+
 
