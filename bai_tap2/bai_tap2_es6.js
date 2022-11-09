@@ -33,7 +33,7 @@ const displayPersonList = () => {
             </th>
             <th scope="col">
                <div id="name_arrow" class="flex-row-center hover-arrow">
-                  <p><i class="bi bi-caret-up-fill arrow"></i></p>
+                  <p id="name_arrow_direction><i class="bi bi-caret-up-fill arrow"></i></p>
                   <p>Name</p>
                </div>
             </th>
@@ -238,15 +238,14 @@ const debounce = (func, delay) => {
 
 const sortList = () => {
    if (statusSort !== "up") {
+      console.log("run");
       let byField = inputPersons.slice(0);
       byField.sort(function (a, b) {
          var x = a.name.toLowerCase();
          var y = b.name.toLowerCase();
          return x < y ? -1 : x > y ? 1 : 0;
       });
-      let changeDirection = document.getElementById("name_arrow");
-
-      changeDirection.querySelector("p").innerHTML = '<i class="bi bi-caret-up-fill arrow"></i>';
+      document.getElementById("name_arrow_direction").innerHTML='<i class="bi bi-caret-up-fill"></i>';
       statusSort = "up";
    } else {
       let byField = inputPersons.slice(0);
@@ -255,13 +254,10 @@ const sortList = () => {
          var y = b.name.toLowerCase();
          return x < y ? 1 : x > y ? -1 : 0;
       });
-   let changeDirection = document.getElementById("name_arrow");
-
-      changeDirection.querySelector("p").innerHTML = '<i class="bi bi-caret-down-fill arrow"></i>';
+   document.getElementById("name_arrow_direction").innerText='<i class="bi bi-caret-down-fill"></i>';
+   
       statusSort = "down";
    }
-
-
    displayPersonList();
 }
 
@@ -301,7 +297,8 @@ searchKey.addEventListener('keyup', debounce(function () {
    displayPersonList();
 }, 2000));
 
+
 document.getElementById("addNewBtn").addEventListener("click", openModal);
 
-let changeDirection = document.getElementById("name_arrow");
-changeDirection = addEventListener("click", sortList)
+document.getElementById("name_arrow").addEventListener("click", sortList);
+
