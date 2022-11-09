@@ -12,9 +12,13 @@ body {
 table>th>tr>td {
    padding: auto;
 }
+th{
+   padding-top: 30px !important;
+}
 
 td {
    vertical-align: middle !important;
+   text-align: center;
 }
 
 table>tbody>tr>th>img {
@@ -29,6 +33,10 @@ table>tbody>tr>th>img {
 .flex-row {
    display: flex;
    justify-content: space-around;
+}
+.flex-row-center{
+   display: flex;
+   justify-content: center;  
 }
 
 .flex-row-title {
@@ -183,6 +191,14 @@ body {
    position: absolute;
    top: 0;
    left: 0;
+}
+.arrow{
+   color: black;
+   margin: 0 10px;
+}
+.hover-arrow{
+   cursor:pointer;
+   padding: 0 !important;
 }
 
 
