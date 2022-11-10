@@ -14,7 +14,7 @@ const searchAll = () => {
       searchList = inputPersons;
    } else {
       searchList = inputPersons.filter(checkAll);
-      function checkAll(obj) {
+      const checkAll = obj => {
          if (obj.name.includes(key) || obj.email.includes(key) || obj.phone.includes(key)) {
             return true;
          } else {
@@ -24,7 +24,7 @@ const searchAll = () => {
    }
    return searchList;
 }
-const displayPersonList = (field) => {
+const displayPersonList = field => {
    let searchList = searchAll();
    let tableString = `<table class="table">
       <tbody>
@@ -62,8 +62,8 @@ const displayPersonList = (field) => {
          <td>${searchList[i].name}</td>
          <td>${searchList[i].email}</td>
          <td>${searchList[i].phone}</td>
-         <td><i onclick="onclickToEdit(${searchList[i].id})" class="bi bi-pencil-square"></i> </td>
-         <td class="remove-wrap"><i class="bi bi-trash" onclick="openRemoveConfirm(${searchList[i].id})"></i>
+         <td><i onclick="onclickToEdit(${searchList[i].id})" class="bi bi-pencil-square pencil"></i> </td>
+         <td class="remove-wrap"><i class="bi bi-trash trash" onclick="openRemoveConfirm(${searchList[i].id})"></i>
          </td>
          </tr>`;
    }
@@ -140,7 +140,8 @@ const getValueFromForm = () => {
    }
    return person;
 }
-const setValueToForm = (editObj) => {
+
+const setValueToForm = editObj => {
    let { name, email, phone, photo } = editObj;
    document.getElementById("name").value = name;
    document.getElementById("email").value = email;
@@ -159,6 +160,7 @@ const checkInputImg = obj => {
    document.getElementById("error").innerText = "Image can not be empty!"
    return false;
 }
+
 const handleAddNewPerson = () => {
    let person = getValueFromForm();
    let check = checkInputImg(person);
@@ -241,20 +243,25 @@ const debounce = (func, delay) => {
 }
 
 
-const sortListByfield = (field) => {
+const sortListByfield = field => {
    if (statusSort === "reset") {
       statusSort = "up"
-   }
-   if (statusSort === "up") {
+   }else if (statusSort === "up") {
       statusSort = "down"
-   }
-   if (statusSort === "down") {
+   }else if (statusSort === "down") {
       statusSort = "reset"
    }
-   function compare(a, b) {
+   const compare= (a, b) =>{
       if (statusSort === "reset") {
+         if (a.id < b.id) {
+            return -1;
+         }
+         if (a.id > b.id) {
+            return 1;
+         }
          return 0;
       }
+      
       if (statusSort === "up") {
          if (a[field] < b[field]) {
             return 1;
@@ -273,16 +280,17 @@ const sortListByfield = (field) => {
          }
          return 0;
       }
-      inputPersons.sort(compare);
    }
-   console.log(inputPersons);
+   inputPersons.sort(compare);
 
    if (statusSort === "reset") {
-      displayPersonList(null);
+      displayPersonList();
    } else {
       displayPersonList(field);
    }
    document.getElementById("name_arrow_direction").classList.remove("hide");
+   document.getElementById("email_arrow_direction").classList.remove("hide");
+   document.getElementById("phone_arrow_direction").classList.remove("hide");
 }
 
 const sortListByName = () => {
@@ -294,104 +302,6 @@ const sortListByEmail = () => {
 const sortListByPhone = () => {
    sortListByfield("phone");
 }
-
-// const sortListByName = () => {
-//    if (statusSort !== "up") {
-//       function compare(a, b) {
-//          if (a.name < b.name) {
-//             return -1;
-//          }
-//          if (a.name > b.name) {
-//             return 1;
-//          }
-//          return 0;
-//       }
-//       inputPersons.sort(compare);
-//       displayPersonList('bi bi-caret-up-fill arrow', null, null);
-
-//       statusSort = "up";
-//    } else {
-//       function compare(a, b) {
-//          if (a.name < b.name) {
-//             return 1;
-//          }
-//          if (a.name > b.name) {
-//             return -1;
-//          }
-//          return 0;
-//       }
-//       inputPersons.sort(compare);
-//       displayPersonList('bi bi-caret-down-fill arrow', null, null);
-//       document.getElementById("name_arrow_direction").classList.remove("hide");
-//       statusSort = "down";
-//    }
-// }
-
-
-// const sortListByEmail = () => {
-//    if (statusSort !== "up") {
-//       function compare(a, b) {
-//          if (a.email < b.email) {
-//             return -1;
-//          }
-//          if (a.email > b.email) {
-//             return 1;
-//          }
-//          return 0;
-//       }
-//       inputPersons.sort(compare);
-//       displayPersonList(null, 'bi bi-caret-up-fill arrow', null);
-//       document.getElementById("email_arrow_direction").classList.remove("hide");
-//       statusSort = "up";
-//    } else {
-//       function compare(a, b) {
-//          if (a.email < b.email) {
-//             return 1;
-//          }
-//          if (a.email > b.email) {
-//             return -1;
-//          }
-//          return 0;
-//       }
-//       inputPersons.sort(compare);
-//       displayPersonList(null, 'bi bi-caret-down-fill arrow', null);
-//       document.getElementById("email_arrow_direction").classList.remove("hide");
-//       statusSort = "down";
-//    }
-// }
-
-// const sortListByPhone = () => {
-//    if (statusSort !== "up") {
-//       function compare(a, b) {
-//          if (a.phone < b.phone) {
-//             return -1;
-//          }
-//          if (a.phone > b.phone) {
-//             return 1;
-//          }
-//          return 0;
-//       }
-//       inputPersons.sort(compare);
-//       displayPersonList(null, null, 'bi bi-caret-up-fill arrow');
-//       document.getElementById("phone_arrow_direction").classList.remove("hide");
-//       statusSort = "up";
-//    } else {
-//       function compare(a, b) {
-//          if (a.phone < b.phone) {
-//             return 1;
-//          }
-//          if (a.phone > b.phone) {
-//             return -1;
-//          }
-//          return 0;
-//       }
-//       inputPersons.sort(compare);
-//       displayPersonList(null, null, 'bi bi-caret-down-fill arrow', null);
-//       document.getElementById("phone_arrow_direction").classList.remove("hide");
-//       statusSort = "down";
-//    }
-// }
-
 
 // Operate
 

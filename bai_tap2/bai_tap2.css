@@ -196,9 +196,15 @@ body {
    color: black;
    margin: 0 10px;
 }
-.hover-arrow{
+.hover-arrow:hover{
    cursor:pointer;
-   padding: 0 !important;
+  
+}
+.pencil:hover{
+   cursor:pointer;
+}
+.trash:hover{
+   cursor:pointer;
 }
 
 
