@@ -3,7 +3,9 @@ let isAdd = true;
 let editId = null;
 let inputPersons = [];
 let deleteId = null;
-let statusSort = "down";
+let statusSort = "reset";
+const ARROW_DIRECTION_UP = "bi bi-caret-up-fill arrow";
+const ARROW_DIRECTION_DOWN = "bi bi-caret-down-fill arrow";
 
 const searchAll = () => {
    let key = document.getElementById("search").value;
@@ -22,7 +24,7 @@ const searchAll = () => {
    }
    return searchList;
 }
-const displayPersonList = (classIconName,classIconEmail,classIconPhone) => {
+const displayPersonList = (field) => {
    let searchList = searchAll();
    let tableString = `<table class="table">
       <tbody>
@@ -33,19 +35,19 @@ const displayPersonList = (classIconName,classIconEmail,classIconPhone) => {
             </th>
             <th scope="col">
                <div id="name_arrow" class="flex-row-center hover-arrow">
-                  <p id="name_arrow_direction" class="hide" ><i class="${classIconName}"></i></p>
+                  <p id="name_arrow_direction" class="hide" ><i class=" ${field === "name" ? statusSort === "up" ? ARROW_DIRECTION_UP : ARROW_DIRECTION_DOWN : ""} "></i></p>
                   <p>Name</p>
                </div>
             </th>
             <th  scope="col">
                <div id="email_arrow" class="flex-row-center hover-arrow">
-                  <p id="email_arrow_direction" class="hide"><i class="${classIconEmail}"></i></p>
+                  <p id="email_arrow_direction" class="hide"><i class=" ${field === "email" ? statusSort === "up" ? ARROW_DIRECTION_UP : ARROW_DIRECTION_DOWN : ""} "></i></p>
                   <p>Email</p>
                </div>
             </th>
             <th  scope="col">
                <div id="phone_arrow" class="flex-row-center hover-arrow">
-                  <p id="phone_arrow_direction" class="hide"><i class="${classIconPhone}"></i></p>
+                  <p id="phone_arrow_direction" class="hide"><i class=" ${field === "phone" ? statusSort === "up" ? ARROW_DIRECTION_UP : ARROW_DIRECTION_DOWN : ""} "></i></p>
                   <p>Phone</p>
                </div>
             </th>
@@ -239,102 +241,156 @@ const debounce = (func, delay) => {
 }
 
 
+const sortListByfield = (field) => {
+   if (statusSort === "reset") {
+      statusSort = "up"
+   }
+   if (statusSort === "up") {
+      statusSort = "down"
+   }
+   if (statusSort === "down") {
+      statusSort = "reset"
+   }
+   function compare(a, b) {
+      if (statusSort === "reset") {
+         return 0;
+      }
+      if (statusSort === "up") {
+         if (a[field] < b[field]) {
+            return 1;
+         }
+         if (a[field] > b[field]) {
+            return -1;
+         }
+         return 0;
+      }
+      if (statusSort === "down") {
+         if (a[field] < b[field]) {
+            return -1;
+         }
+         if (a[field] > b[field]) {
+            return 1;
+         }
+         return 0;
+      }
+      inputPersons.sort(compare);
+   }
+   console.log(inputPersons);
+
+   if (statusSort === "reset") {
+      displayPersonList(null);
+   } else {
+      displayPersonList(field);
+   }
+   document.getElementById("name_arrow_direction").classList.remove("hide");
+}
+
 const sortListByName = () => {
-   if (statusSort !== "up") {
-      function compare(a, b) {
-         if (a.name < b.name) {
-            return -1;
-         }
-         if (a.name > b.name) {
-            return 1;
-         }
-         return 0;
-      }
-      inputPersons.sort(compare);
-      displayPersonList('bi bi-caret-up-fill arrow',null,null);
-      document.getElementById("name_arrow_direction").classList.remove("hide");
-      statusSort = "up";
-   } else {
-      function compare(a, b) {
-         if (a.name < b.name) {
-            return 1;
-         }
-         if (a.name > b.name) {
-            return -1;
-         }
-         return 0;
-      }
-      inputPersons.sort(compare);
-      displayPersonList('bi bi-caret-down-fill arrow',null,null);
-      document.getElementById("name_arrow_direction").classList.remove("hide");
-      statusSort = "down";
-   }
+   sortListByfield("name");
 }
-
-
 const sortListByEmail = () => {
-   if (statusSort !== "up") {
-      function compare(a, b) {
-         if (a.email < b.email) {
-            return -1;
-         }
-         if (a.email > b.email) {
-            return 1;
-         }
-         return 0;
-      }
-      inputPersons.sort(compare);
-      displayPersonList(null,'bi bi-caret-up-fill arrow',null);
-      document.getElementById("email_arrow_direction").classList.remove("hide");
-      statusSort = "up";
-   } else {
-      function compare(a, b) {
-         if (a.email < b.email) {
-            return 1;
-         }
-         if (a.email > b.email) {
-            return -1;
-         }
-         return 0;
-      }
-      inputPersons.sort(compare);
-      displayPersonList(null,'bi bi-caret-down-fill arrow',null);
-      document.getElementById("email_arrow_direction").classList.remove("hide");
-      statusSort = "down";
-   }
+   sortListByfield("email");
+}
+const sortListByPhone = () => {
+   sortListByfield("phone");
 }
 
-const sortListByPhone = () => {
-   if (statusSort !== "up") {
-      function compare(a, b) {
-         if (a.phone < b.phone) {
-            return -1;
-         }
-         if (a.phone > b.phone) {
-            return 1;
-         }
-         return 0;
-      }
-      inputPersons.sort(compare);
-      displayPersonList(null,null,'bi bi-caret-up-fill arrow');
-      document.getElementById("phone_arrow_direction").classList.remove("hide");
-      statusSort = "up";
-   } else {
-      function compare(a, b) {
-         if (a.phone < b.phone) {
-            return 1;
-         }
-         if (a.phone > b.phone) {
-            return -1;
-         }
-         return 0;
-      }
-      inputPersons.sort(compare);
-      displayPersonList(null,null,'bi bi-caret-down-fill arrow',null);
-      document.getElementById("phone_arrow_direction").classList.remove("hide");
-      statusSort = "down";
-   }
-}
+// const sortListByName = () => {
+//    if (statusSort !== "up") {
+//       function compare(a, b) {
+//          if (a.name < b.name) {
+//             return -1;
+//          }
+//          if (a.name > b.name) {
+//             return 1;
+//          }
+//          return 0;
+//       }
+//       inputPersons.sort(compare);
+//       displayPersonList('bi bi-caret-up-fill arrow', null, null);
+
+//       statusSort = "up";
+//    } else {
+//       function compare(a, b) {
+//          if (a.name < b.name) {
+//             return 1;
+//          }
+//          if (a.name > b.name) {
+//             return -1;
+//          }
+//          return 0;
+//       }
+//       inputPersons.sort(compare);
+//       displayPersonList('bi bi-caret-down-fill arrow', null, null);
+//       document.getElementById("name_arrow_direction").classList.remove("hide");
+//       statusSort = "down";
+//    }
+// }
+
+
+// const sortListByEmail = () => {
+//    if (statusSort !== "up") {
+//       function compare(a, b) {
+//          if (a.email < b.email) {
+//             return -1;
+//          }
+//          if (a.email > b.email) {
+//             return 1;
+//          }
+//          return 0;
+//       }
+//       inputPersons.sort(compare);
+//       displayPersonList(null, 'bi bi-caret-up-fill arrow', null);
+//       document.getElementById("email_arrow_direction").classList.remove("hide");
+//       statusSort = "up";
+//    } else {
+//       function compare(a, b) {
+//          if (a.email < b.email) {
+//             return 1;
+//          }
+//          if (a.email > b.email) {
+//             return -1;
+//          }
+//          return 0;
+//       }
+//       inputPersons.sort(compare);
+//       displayPersonList(null, 'bi bi-caret-down-fill arrow', null);
+//       document.getElementById("email_arrow_direction").classList.remove("hide");
+//       statusSort = "down";
+//    }
+// }
+
+// const sortListByPhone = () => {
+//    if (statusSort !== "up") {
+//       function compare(a, b) {
+//          if (a.phone < b.phone) {
+//             return -1;
+//          }
+//          if (a.phone > b.phone) {
+//             return 1;
+//          }
+//          return 0;
+//       }
+//       inputPersons.sort(compare);
+//       displayPersonList(null, null, 'bi bi-caret-up-fill arrow');
+//       document.getElementById("phone_arrow_direction").classList.remove("hide");
+//       statusSort = "up";
+//    } else {
+//       function compare(a, b) {
+//          if (a.phone < b.phone) {
+//             return 1;
+//          }
+//          if (a.phone > b.phone) {
+//             return -1;
+//          }
+//          return 0;
+//       }
+//       inputPersons.sort(compare);
+//       displayPersonList(null, null, 'bi bi-caret-down-fill arrow', null);
+//       document.getElementById("phone_arrow_direction").classList.remove("hide");
+//       statusSort = "down";
+//    }
+// }
 
 
 // Operate
