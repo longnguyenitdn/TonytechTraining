@@ -12,7 +12,8 @@ body {
 table>th>tr>td {
    padding: auto;
 }
-th{
+
+th {
    padding-top: 30px !important;
 }
 
@@ -34,9 +35,10 @@ table>tbody>tr>th>img {
    display: flex;
    justify-content: space-around;
 }
-.flex-row-center{
+
+.flex-row-center {
    display: flex;
-   justify-content: center;  
+   justify-content: center;
 }
 
 .flex-row-title {
@@ -49,9 +51,6 @@ table>tbody>tr>th>img {
    flex-direction: column !important;
 
 }
-
-
-
 
 /*Search title */
 .flex-row>button {
@@ -150,16 +149,17 @@ body {
 
 .remove-wrap {
    position: relative;
-   
+
 }
-.remove-conf {     
+
+.remove-conf {
    position: absolute;
    width: 180px;
    height: 80px;
    box-shadow: 0 0 10px lightgray;
    background-color: white;
    padding: 3px;
-   
+
 }
 
 .remove-conf>button {
@@ -170,41 +170,46 @@ body {
    background-color: white;
    box-shadow: 0 0;
 }
-.error{
+
+.error {
    color: red;
 }
-.total{
+
+.total {
    width: 100px;
    height: 110px;
    border: 1px solid red;
    border-radius: 5px;
    padding: 10px;
 }
-.total>p{
+
+.total>p {
    line-height: 100%;
    color: red;
 }
 
-.deleteSuccess{
+.deleteSuccess {
    width: 100%;
    height: auto;
    position: absolute;
    top: 0;
    left: 0;
 }
-.arrow{
+
+.arrow {
    color: black;
    margin: 0 10px;
 }
-.hover-arrow:hover{
-   cursor:pointer;
-  
-}
-.pencil:hover{
-   cursor:pointer;
-}
-.trash:hover{
-   cursor:pointer;
+
+.hover-arrow:hover {
+   cursor: pointer;
+
 }
 
+.pencil:hover {
+   cursor: pointer;
+}
 
+.trash:hover {
+   cursor: pointer;
+}

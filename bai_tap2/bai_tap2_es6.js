@@ -1,31 +1,21 @@
 
 let isAdd = true;
 let editId = null;
+
 let inputPersons = [];
 let deleteId = null;
+let fieldSort = "";
 let statusSort = "reset";
 const ARROW_DIRECTION_UP = "bi bi-caret-up-fill arrow";
 const ARROW_DIRECTION_DOWN = "bi bi-caret-down-fill arrow";
 
-const searchAll = () => {
-   let key = document.getElementById("search").value;
-   let searchList = [];
-   if (key == "") {
-      searchList = inputPersons;
-   } else {
-      searchList = inputPersons.filter(checkAll);
-      const checkAll = obj => {
-         if (obj.name.includes(key) || obj.email.includes(key) || obj.phone.includes(key)) {
-            return true;
-         } else {
-            return false;
-         }
-      }
+
+const displayPersonList = (list) => {
+   if (!list) {
+      list = JSON.parse(localStorage.getItem("personList"));
+      console.log(list);
+      
    }
-   return searchList;
-}
-const displayPersonList = field => {
-   let searchList = searchAll();
    let tableString = `<table class="table">
       <tbody>
          <tr>
@@ -35,38 +25,40 @@ const displayPersonList = field => {
             </th>
             <th scope="col">
                <div id="name_arrow" class="flex-row-center hover-arrow">
-                  <p id="name_arrow_direction" class="hide" ><i class=" ${field === "name" ? statusSort === "up" ? ARROW_DIRECTION_UP : ARROW_DIRECTION_DOWN : ""} "></i></p>
+                  <p id="name_arrow_direction" class="hide" ><i class=" ${fieldSort === "name" ? statusSort === "up" ? ARROW_DIRECTION_UP : ARROW_DIRECTION_DOWN : ""} "></i></p>
                   <p>Name</p>
                </div>
             </th>
             <th  scope="col">
                <div id="email_arrow" class="flex-row-center hover-arrow">
-                  <p id="email_arrow_direction" class="hide"><i class=" ${field === "email" ? statusSort === "up" ? ARROW_DIRECTION_UP : ARROW_DIRECTION_DOWN : ""} "></i></p>
+                  <p id="email_arrow_direction" class="hide"><i class=" ${fieldSort === "email" ? statusSort === "up" ? ARROW_DIRECTION_UP : ARROW_DIRECTION_DOWN : ""} "></i></p>
                   <p>Email</p>
                </div>
             </th>
             <th  scope="col">
                <div id="phone_arrow" class="flex-row-center hover-arrow">
-                  <p id="phone_arrow_direction" class="hide"><i class=" ${field === "phone" ? statusSort === "up" ? ARROW_DIRECTION_UP : ARROW_DIRECTION_DOWN : ""} "></i></p>
+                  <p id="phone_arrow_direction" class="hide"><i class=" ${fieldSort === "phone" ? statusSort === "up" ? ARROW_DIRECTION_UP : ARROW_DIRECTION_DOWN : ""} "></i></p>
                   <p>Phone</p>
                </div>
             </th>
             <th colspan="4"></th>
          </tr>`
-   for (let i = 0; i < searchList.length; i++) {
-      tableString += `<tr> 
+
+   for (let i = 0; i < list.length; i++) {
+      tableString += `<tr>
          <th class="check-box">
          <input class="form-check-input" type="checkbox">
          </th>
-         <th scope="row"><img class="img_border" src="${URL.createObjectURL(searchList[i].photo)}" alt="1"></th>
-         <td>${searchList[i].name}</td>
-         <td>${searchList[i].email}</td>
-         <td>${searchList[i].phone}</td>
-         <td><i onclick="onclickToEdit(${searchList[i].id})" class="bi bi-pencil-square pencil"></i> </td>
-         <td class="remove-wrap"><i class="bi bi-trash trash" onclick="openRemoveConfirm(${searchList[i].id})"></i>
+         <th scope="row"><img class="img_border" src="${URL.createObjectURL(list[i].photo)}" alt="1"></th>
+         <td>${list[i].name}</td>
+         <td>${list[i].email}</td>
+         <td>${list[i].phone}</td>
+         <td><i onclick="onclickToEdit(${list[i].id})" class="bi bi-pencil-square pencil"></i> </td>
+         <td class="remove-wrap"><i class="bi bi-trash trash" onclick="openRemoveConfirm(${list[i].id})"></i>
          </td>
          </tr>`;
    }
+
    tableString += "</tbody>";
    tableString += '</table>';
    document.getElementById("display").innerHTML = tableString;
@@ -124,8 +116,6 @@ const displayTotalCounter = () => {
 }
 
 
-
-
 const getValueFromForm = () => {
    let name = document.getElementById("name").value;
    let email = document.getElementById("email").value;
@@ -138,6 +128,7 @@ const getValueFromForm = () => {
       photo: files[0],
       id: Date.now()
    }
+   console.log(person);
    return person;
 }
 
@@ -167,6 +158,7 @@ const handleAddNewPerson = () => {
    if (check) {
       document.getElementById("error").classList.add("hide");
       inputPersons.push(person);
+      localStorage.setItem('personList', JSON.stringify(inputPersons));
       displayPersonList();
       closeModal();
    }
@@ -186,6 +178,7 @@ const closeRemoveConfirm = () => {
 const handleRemovePerson = () => {
    let deletedObj = inputPersons.find(person => person.id == deleteId);
    inputPersons = inputPersons.filter(person => person.id !== deleteId);
+   localStorage.setItem('personList', JSON.stringify(inputPersons));
    displayPersonList();
    closeRemoveConfirm();
    openDeleteAlert(deletedObj);
@@ -225,33 +218,21 @@ const handleUpdatePerson = () => {
       }
       return item;
    })
+   localStorage.setItem('personList', JSON.stringify(inputPersons));
    displayPersonList()
    closeModal();
 }
 
-
-let searchKey = document.getElementById("search");
-const debounce = (func, delay) => {
-   let debounceTimer
-   return function () {
-      const context = this
-      const args = arguments
-      clearTimeout(debounceTimer)
-      debounceTimer
-         = setTimeout(() => func.apply(context, args), delay)
-   }
-}
-
-
-const sortListByfield = field => {
+const sortListByfield = (field) => {
    if (statusSort === "reset") {
       statusSort = "up"
-   }else if (statusSort === "up") {
+   } else if (statusSort === "up") {
       statusSort = "down"
-   }else if (statusSort === "down") {
+   } else if (statusSort === "down") {
       statusSort = "reset"
+      fieldSort = "";
    }
-   const compare= (a, b) =>{
+   const compare = (a, b) => {
       if (statusSort === "reset") {
          if (a.id < b.id) {
             return -1;
@@ -261,7 +242,7 @@ const sortListByfield = field => {
          }
          return 0;
       }
-      
+
       if (statusSort === "up") {
          if (a[field] < b[field]) {
             return 1;
@@ -282,25 +263,55 @@ const sortListByfield = field => {
       }
    }
    inputPersons.sort(compare);
-
-   if (statusSort === "reset") {
-      displayPersonList();
-   } else {
-      displayPersonList(field);
-   }
-   document.getElementById("name_arrow_direction").classList.remove("hide");
-   document.getElementById("email_arrow_direction").classList.remove("hide");
-   document.getElementById("phone_arrow_direction").classList.remove("hide");
+   displayPersonList();
 }
 
 const sortListByName = () => {
+   fieldSort = "name";
    sortListByfield("name");
+   document.getElementById("name_arrow_direction").classList.remove("hide");
 }
 const sortListByEmail = () => {
+   fieldSort = "email";
    sortListByfield("email");
+   document.getElementById("email_arrow_direction").classList.remove("hide");
 }
 const sortListByPhone = () => {
+   fieldSort = "phone";
    sortListByfield("phone");
+   document.getElementById("phone_arrow_direction").classList.remove("hide");
+
+}
+
+
+const handleSearch = () => {
+   let key = document.getElementById("search").value;
+   let searchList = [];
+   const checkAll = obj => {
+      if (obj.name.includes(key) || obj.email.includes(key) || obj.phone.includes(key)) {
+         return true;
+      } else {
+         return false;
+      }
+   }
+   if (key == "") {
+      searchList = inputPersons;
+   } else {
+      searchList = inputPersons.filter(checkAll);
+
+   }
+   displayPersonList(searchList);
+}
+
+const debounce = (func, delay) => {
+   let debounceTimer
+   return function () {
+      const context = this
+      const args = arguments
+      clearTimeout(debounceTimer)
+      debounceTimer
+         = setTimeout(() => func.apply(context, args), delay)
+   }
 }
 
 // Operate
@@ -327,9 +338,7 @@ document.querySelector("#my_form").addEventListener("submit", e => {
    }
 });
 
-searchKey.addEventListener('keyup', debounce(function () {
-   displayPersonList();
-}, 2000));
+document.getElementById("search").addEventListener('keyup', debounce(handleSearch, 2000));
 
 
 document.getElementById("addNewBtn").addEventListener("click", openModal);
