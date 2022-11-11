@@ -1,21 +1,23 @@
 
 let isAdd = true;
 let editId = null;
-
-let inputPersons = [];
 let deleteId = null;
 let fieldSort = "";
 let statusSort = "reset";
 const ARROW_DIRECTION_UP = "bi bi-caret-up-fill arrow";
 const ARROW_DIRECTION_DOWN = "bi bi-caret-down-fill arrow";
 
+const getListFromStorage = () => {
+   return JSON.parse(localStorage.getItem("personList"));
+}
 
-const displayPersonList = (list) => {
-   if (!list) {
-      list = JSON.parse(localStorage.getItem("personList"));
-      console.log(list);
-      
-   }
+let inputPersons =getListFromStorage() || [];
+
+const setListToStorage = () => {
+   localStorage.setItem('personList', JSON.stringify(inputPersons));
+}
+
+const displayPersonList = (list =inputPersons) => {
    let tableString = `<table class="table">
       <tbody>
          <tr>
@@ -49,7 +51,7 @@ const displayPersonList = (list) => {
          <th class="check-box">
          <input class="form-check-input" type="checkbox">
          </th>
-         <th scope="row"><img class="img_border" src="${URL.createObjectURL(list[i].photo)}" alt="1"></th>
+         <th scope="row"><img class="img_border" src="${list[i].photo instanceof File ? URL.createObjectURL(list[i].photo) : ""}" alt="1"></th>
          <td>${list[i].name}</td>
          <td>${list[i].email}</td>
          <td>${list[i].phone}</td>
@@ -67,6 +69,7 @@ const displayPersonList = (list) => {
    document.getElementById("phone_arrow").addEventListener("click", sortListByPhone);
    displayTotalCounter();
 }
+
 
 const clearForm = () => {
    document.getElementById("my_form").reset();
@@ -128,7 +131,6 @@ const getValueFromForm = () => {
       photo: files[0],
       id: Date.now()
    }
-   console.log(person);
    return person;
 }
 
@@ -154,11 +156,12 @@ const checkInputImg = obj => {
 
 const handleAddNewPerson = () => {
    let person = getValueFromForm();
+
    let check = checkInputImg(person);
    if (check) {
       document.getElementById("error").classList.add("hide");
       inputPersons.push(person);
-      localStorage.setItem('personList', JSON.stringify(inputPersons));
+      setListToStorage();
       displayPersonList();
       closeModal();
    }
@@ -178,7 +181,7 @@ const closeRemoveConfirm = () => {
 const handleRemovePerson = () => {
    let deletedObj = inputPersons.find(person => person.id == deleteId);
    inputPersons = inputPersons.filter(person => person.id !== deleteId);
-   localStorage.setItem('personList', JSON.stringify(inputPersons));
+   setListToStorage();
    displayPersonList();
    closeRemoveConfirm();
    openDeleteAlert(deletedObj);
@@ -218,7 +221,7 @@ const handleUpdatePerson = () => {
       }
       return item;
    })
-   localStorage.setItem('personList', JSON.stringify(inputPersons));
+   setListToStorage();
    displayPersonList()
    closeModal();
 }
@@ -342,6 +345,8 @@ document.getElementById("search").addEventListener('keyup', debounce(handleSearc
 
 
 document.getElementById("addNewBtn").addEventListener("click", openModal);
+
+displayPersonList();
 
 
 
