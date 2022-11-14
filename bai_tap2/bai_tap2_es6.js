@@ -11,13 +11,13 @@ const getListFromStorage = () => {
    return JSON.parse(localStorage.getItem("personList"));
 }
 
-let inputPersons =getListFromStorage() || [];
+let inputPersons = getListFromStorage() || [];
 
 const setListToStorage = () => {
    localStorage.setItem('personList', JSON.stringify(inputPersons));
 }
 
-const displayPersonList = (list =inputPersons) => {
+const displayPersonList = (list = inputPersons) => {
    let tableString = `<table class="table">
       <tbody>
          <tr>
@@ -54,7 +54,7 @@ const displayPersonList = (list =inputPersons) => {
          <th scope="row"><img class="img_border" src="${list[i].photo instanceof File ? URL.createObjectURL(list[i].photo) : ""}" alt="1"></th>
          <td>${list[i].name}</td>
          <td>${list[i].email}</td>
-         <td>${list[i].phone}</td>
+         <td>${list[i].phone ? list[i].phone : "" }</td>
          <td><i onclick="onclickToEdit(${list[i].id})" class="bi bi-pencil-square pencil"></i> </td>
          <td class="remove-wrap"><i class="bi bi-trash trash" onclick="openRemoveConfirm(${list[i].id})"></i>
          </td>
@@ -122,7 +122,7 @@ const displayTotalCounter = () => {
 const getValueFromForm = () => {
    let name = document.getElementById("name").value;
    let email = document.getElementById("email").value;
-   let phone = document.getElementById("phone").value;
+   let phone = parseInt(document.getElementById("phone").value);
    let files = document.getElementById("photo").files;
    const person = {
       name,
