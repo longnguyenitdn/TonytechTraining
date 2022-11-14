@@ -4,6 +4,10 @@ let editId = null;
 let deleteId = null;
 let fieldSort = "";
 let statusSort = "reset";
+let nodeList=[];
+let totalCheckedList=[];
+
+
 const ARROW_DIRECTION_UP = "bi bi-caret-up-fill arrow";
 const ARROW_DIRECTION_DOWN = "bi bi-caret-down-fill arrow";
 
@@ -22,7 +26,7 @@ const displayPersonList = (list = inputPersons) => {
       <tbody>
          <tr>
             <th scope="col" colspan="2">
-               <input class="form-check-input" type="checkbox">
+               <input class="form-check-input-all" type="checkbox">
                   <span class="all-checkbox">All</span>
             </th>
             <th scope="col">
@@ -54,7 +58,7 @@ const displayPersonList = (list = inputPersons) => {
          <th scope="row"><img class="img_border" src="${list[i].photo instanceof File ? URL.createObjectURL(list[i].photo) : ""}" alt="1"></th>
          <td>${list[i].name}</td>
          <td>${list[i].email}</td>
-         <td>${list[i].phone ? list[i].phone : "" }</td>
+         <td>${list[i].phone ? list[i].phone : ""}</td>
          <td><i onclick="onclickToEdit(${list[i].id})" class="bi bi-pencil-square pencil"></i> </td>
          <td class="remove-wrap"><i class="bi bi-trash trash" onclick="openRemoveConfirm(${list[i].id})"></i>
          </td>
@@ -69,6 +73,7 @@ const displayPersonList = (list = inputPersons) => {
    document.getElementById("phone_arrow").addEventListener("click", sortListByPhone);
    displayTotalCounter();
 }
+
 
 
 const clearForm = () => {
@@ -291,7 +296,7 @@ const handleSearch = () => {
    let key = document.getElementById("search").value;
    let searchList = [];
    const checkAll = obj => {
-      if (obj.name.includes(key) || obj.email.includes(key) || obj.phone.includes(key)) {
+      if (obj.name.includes(key) || obj.email.includes(key) || "obj.phone".includes(key)) {
          return true;
       } else {
          return false;
@@ -315,6 +320,31 @@ const debounce = (func, delay) => {
       debounceTimer
          = setTimeout(() => func.apply(context, args), delay)
    }
+}
+const getNodeListCheckBox=()=>{
+   nodeList = document.querySelectorAll(".form-check-input");
+}
+
+const findCheckedInput=(item)=>{
+  return item.checked==true;
+}
+const getTotalChecked = () => {
+   totalCheckedList=Array.from(nodeList).filter(findCheckedInput);
+      if(totalCheckedList.length>0){
+         document.getElementById("btn-show-checked").classList.remove("hide");
+         document.getElementById("delete_multiple").innerHTML = totalCheckedList.length;
+      }else{
+         document.getElementById("btn-show-checked").classList.add("hide");
+      }
+}
+const removeListChecked=()=>{
+   inputPersons = inputPersons.filter( function( el ) {
+      return !totalCheckedList.includes( el );
+    } );
+    console.log(inputPersons);
+    console.log(Array.from(totalCheckedList));
+    
+    displayPersonList();
 }
 
 // Operate
@@ -347,6 +377,11 @@ document.getElementById("search").addEventListener('keyup', debounce(handleSearc
 document.getElementById("addNewBtn").addEventListener("click", openModal);
 
 displayPersonList();
+getNodeListCheckBox();
 
 
-
+nodeList.forEach(function(node) {
+   node.addEventListener('change', getTotalChecked);
+ });
+   
+ document.getElementById("deleteByCheckBox").addEventListener("click",removeListChecked);
