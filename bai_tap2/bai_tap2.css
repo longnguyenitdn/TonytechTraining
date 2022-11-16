@@ -64,7 +64,9 @@ table>tbody>tr>th>img {
    border-left: hidden;
    width: 500px;
 }
-
+.hide{
+   display: none !important;
+}
 
 /*Body*/
 body {
