@@ -7,9 +7,8 @@ let checkedList = [];
 let inputPersons = getListFromStorage("personList") || [];
 let currrentPage = 1;
 let perPage = 2;
-let totalPage = 0;
-let perUser = [];
-let searchList=inputPersons;
+let searchList=[];
+
 
 const ARROW_DIRECTION_UP = "bi bi-caret-up-fill arrow";
 const ARROW_DIRECTION_DOWN = "bi bi-caret-down-fill arrow";
@@ -32,7 +31,8 @@ const removeListChecked = () => {
    checkedList.length = 0;
    setListToStorage(inputPersons);
    showDeleteCheckedBtn(checkedList);
-   renderUserPagination();
+   resetCurrentpage()
+   displayPersonList(inputPersons);
 }
 
 const handleAllCheckBoxStatus = e => {
@@ -53,9 +53,7 @@ const handleAllCheckBoxStatus = e => {
 }
 
 
-
-
-const displayPersonList = (list = perUser) => {
+const displayPersonList = (list = searchList) => {
    
    let tableString = `<table class="table">
       <tbody>
@@ -65,32 +63,35 @@ const displayPersonList = (list = perUser) => {
                   <span class="all-checkbox">All</span>
             </th>
             <th scope="col">
-               <div id="name_arrow" class="flex-row-center hover-arrow">
-                  <p id="name_arrow_direction" class="hide" ><i class=" ${fieldSort === "name" ? statusSort === "up" ? ARROW_DIRECTION_UP : ARROW_DIRECTION_DOWN : ""} "></i></p>
-                  <p>Name</p>
+               <div id="name_arrow" class=" hover-arrow">
+                  <p id="name_arrow_direction" class="hide arrow-absolute" ><i class=" ${fieldSort === "name" ? statusSort === "up" ? ARROW_DIRECTION_UP : ARROW_DIRECTION_DOWN : ""} "></i></p>
+                  <p class="text-mid">Name</p>
                </div>
             </th>
             <th  scope="col">
-               <div id="email_arrow" class="flex-row-center hover-arrow">
-                  <p id="email_arrow_direction" class="hide"><i class=" ${fieldSort === "email" ? statusSort === "up" ? ARROW_DIRECTION_UP : ARROW_DIRECTION_DOWN : ""} "></i></p>
-                  <p>Email</p>
+               <div id="email_arrow" class=" hover-arrow">
+                  <p id="email_arrow_direction" class="hide arrow-absolute"><i class=" ${fieldSort === "email" ? statusSort === "up" ? ARROW_DIRECTION_UP : ARROW_DIRECTION_DOWN : ""} "></i></p>
+                  <p class="text-mid">Email</p>
                </div>
             </th>
             <th  scope="col">
-               <div id="phone_arrow" class="flex-row-center hover-arrow">
-                  <p id="phone_arrow_direction" class="hide"><i class=" ${fieldSort === "phone" ? statusSort === "up" ? ARROW_DIRECTION_UP : ARROW_DIRECTION_DOWN : ""} "></i></p>
-                  <p>Phone</p>
+               <div id="phone_arrow" class=" hover-arrow">
+                  <p id="phone_arrow_direction" class="hide arrow-absolute"><i class=" ${fieldSort === "phone" ? statusSort === "up" ? ARROW_DIRECTION_UP : ARROW_DIRECTION_DOWN : ""} "></i></p>
+                  <p class="text-mid">Phone</p>
                </div>
             </th>
             <th colspan="4"></th>
          </tr>`
 
-   for (let i = 0; i < list.length; i++) {
+         let startPage = (currrentPage - 1) * perPage;   
+         let endPage=startPage + perPage;
+         
+   for (let i = startPage ; i < (endPage<list.length ? endPage : list.length); i++) {
       tableString += `<tr>
-         <th class="check-box">
+         <td class="check-box">
          <input class="form-check-input" type="checkbox" id="checkBox${list[i].id}">
-         </th>
-         <th scope="row"><img class="img_border" src="${list[i].photo instanceof File ? URL.createObjectURL(list[i].photo) : ""}" alt="1"></th>
+         </td>
+         <td scope="row" class="text-left"><img class="img_border" src="${list[i].photo instanceof File ? URL.createObjectURL(list[i].photo) : "https://image.shutterstock.com/image-vector/fail-stamp-square-grungy-red-260nw-1726293580.jpg"}" alt="1"></td>
          <td>${list[i].name}</td>
          <td>${list[i].email}</td>
          <td>${list[i].phone ? list[i].phone : ""}</td>
@@ -111,7 +112,10 @@ const displayPersonList = (list = perUser) => {
       node.addEventListener('change', setIdCheckBox);
    });
    document.getElementById("select_all_checked").addEventListener("change", handleAllCheckBoxStatus)
-   renderPageNumber(searchList);
+   renderPageNumber(list);
+   document.querySelectorAll(".pagination").forEach(node => {
+      node.addEventListener('click', handlePageNumber);
+   });
 }
 
 //total
@@ -136,16 +140,26 @@ const displayTotalCounter = () => {
    displayTotalCounterCondition(inputPersons);
 }
 
+const handleTransferLastPageNumber  = () =>{
+   currrentPage= Math.ceil(inputPersons.length / perPage)
+}
+
 const handleAddNewPerson = () => {
    let person = getValueFromForm();
-
    let check = checkInputImg(person);
    if (check) {
       document.getElementById("error").classList.add("hide");
       inputPersons.push(person);
-      setListToStorage(inputPersons);
-      renderUserPagination();
       closeModal();
+      setListToStorage(inputPersons);
+      handleTransferLastPageNumber();
+      displayPersonList(inputPersons);
+   }
+}
+
+const resetCurrentpage=()=>{
+   if(currrentPage>inputPersons.length/perPage){
+      currrentPage--;
    }
 }
 
@@ -155,9 +169,11 @@ const handleRemovePerson = () => {
    let deletedObj = inputPersons.find(person => person.id == deleteId);
    inputPersons = inputPersons.filter(person => person.id !== deleteId);
    setListToStorage(inputPersons);
-   renderUserPagination();
+   resetCurrentpage()
    closeRemoveConfirm();
    openDeleteAlert(deletedObj);
+   displayPersonList(inputPersons);
+  
 }
 
 const onclickToEdit = id => {
@@ -183,7 +199,7 @@ const handleUpdatePerson = () => {
       return item;
    })
    setListToStorage(inputPersons);
-   renderUserPagination()
+   displayPersonList()
    closeModal();
 }
 
@@ -228,7 +244,7 @@ const sortListByfield = (field) => {
       }
    }
    inputPersons.sort(compare);
-   renderUserPagination();
+   displayPersonList();
 }
 
 const sortListByName = () => {
@@ -250,6 +266,7 @@ const sortListByPhone = () => {
 
 
 const handleSearch = () => {
+
    let key = document.getElementById("search").value;
    const checkAll = obj => {
       if (obj.name.includes(key) || obj.email.includes(key) || "obj.phone".includes(key)) {
@@ -264,40 +281,26 @@ const handleSearch = () => {
       searchList = inputPersons.filter(checkAll);
    }
   
-   renderUserPagination(searchList);
+   displayPersonList(searchList);
 }
 
 
-
-const renderUserPagination = (list = inputPersons) => {
-   perUser = list.slice(
-      (currrentPage - 1) * perPage,
-      (currrentPage - 1) * perPage + perPage
-   );
-   displayPersonList();
-}
-
-const renderPageNumber = (list=inputPersons) => {
+const renderPageNumber = (list) => {
+   let totalPage = Math.ceil(list.length / perPage);
    document.getElementById("pagination").innerHTML = "";
-   totalPage = Math.ceil(list.length / perPage);
    for (let i = 1; i <= totalPage; i++) {
-      document.getElementById("pagination").innerHTML += `<li class="${currrentPage === i ? "checked-pagination" : ""}" id="${i}" onclick="handlePageNumber(${i},${list})">
-      ${i}
+      document.getElementById("pagination").innerHTML += `<li class=" ${currrentPage === i ? "checked-pagination pagination" : "pagination"}" id="page_${i}">${i}
       </li>`;
    }
 }
 
-
-
-const handlePageNumber = (num,list) => {
-   currrentPage = num;
-   perUser = list.slice(
-      (currrentPage - 1) * perPage,
-      (currrentPage - 1) * perPage + perPage
-   );
-   displayPersonList();
+const handlePageNumber = (e) => {
+   currrentPage = parseInt(e.target.id.slice(5)); 
+   console.log(currrentPage); 
+   checkedList.length=0;
+   showDeleteCheckedBtn(checkedList);
+   displayPersonList(inputPersons);
 }
-
 
 // Operate
 
@@ -322,11 +325,12 @@ document.querySelector("#my_form").addEventListener("submit", e => {
    }
 });
 
+
 document.getElementById("search").addEventListener('keyup', debounce(handleSearch, 2000));
 
 document.getElementById("addNewBtn").addEventListener("click", openModal);
 
-renderUserPagination();
+handleSearch();
 
-document.getElementById("deleteByCheckBox").addEventListener("click", removeListChecked);
+document.getElementById("btn_show_checked").addEventListener("click", removeListChecked);
 

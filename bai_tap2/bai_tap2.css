@@ -22,15 +22,6 @@ td {
    text-align: center;
 }
 
-table>tbody>tr>th>img {
-   max-width: 130px;
-   height: 100px;
-   border: 1px solid lightgray;
-   padding: 5px;
-   border-radius: 5px;
-   object-fit: cover;
-}
-
 .flex-row {
    display: flex;
    justify-content: space-around;
@@ -67,6 +58,14 @@ table>tbody>tr>th>img {
 
 .hide {
    display: none !important;
+}
+
+.text-mid{
+   text-align: center;
+}
+
+.text-left{
+   text-align: left;
 }
 
 /*Body*/
@@ -116,6 +115,7 @@ body {
    display: flex;
    justify-content: center;
    align-items: center;
+   z-index: 10;
 }
 
 .photo-wrapper {
@@ -204,10 +204,20 @@ body {
    margin: 0 10px;
 }
 
+.hover-arrow{
+   position: relative;
+}
+
 .hover-arrow:hover {
    cursor: pointer;
-
 }
+
+.arrow-absolute{
+   position: absolute;
+   left: 35px;
+}
+
+
 
 .pencil:hover {
    cursor: pointer;
@@ -233,7 +243,6 @@ body {
 .btn-show-checked .btn-left {
    padding: 0;
    padding-left: 10px;
-
 }
 
 .btn-show-checked .btn-right {
@@ -243,12 +252,12 @@ body {
    padding-left: 0 !important;
 }
 
-.pagination {
+.pagination-row {
    display: flex;
    justify-content: right;
 }
 
-.pagination>li {
+.pagination-row >li {
    list-style: none;
    border: 1px solid rgb(50, 50, 241);
    padding: 5px 10px;
@@ -256,6 +265,15 @@ body {
    cursor: pointer;
    border-radius: 2px;
 
+}
+
+.img_border{
+   width: 100px;
+   height: 100px;
+   border: 1px solid lightgray;
+   padding: 5px;
+   border-radius: 5px;
+   object-fit: cover;
 }
 
 /* .pagination>li:hover {

@@ -7,6 +7,7 @@ const setListToStorage = (list) => {
    localStorage.setItem('personList', JSON.stringify(list));
 }
 
+
 const showDeleteCheckedBtn = (checkedList) => {
    document.getElementById("delete_multiple").innerHTML = checkedList.length;
    if (checkedList.length > 0) {
@@ -79,7 +80,7 @@ const setValueToForm = editObj => {
    document.getElementById("name").value = name;
    document.getElementById("email").value = email;
    document.getElementById("phone").value = phone;
-   if (photo) {
+   if (photo instanceof File) {
       const container = new DataTransfer();
       container.items.add(photo);
       document.getElementById("photo").files = container.files;
