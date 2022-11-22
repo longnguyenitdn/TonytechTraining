@@ -7,7 +7,11 @@ let checkedList = [];
 let inputPersons = getListFromStorage("personList") || [];
 let currrentPage = 1;
 let perPage = 2;
-let searchList=[];
+let searchList = [];
+let startPage = (currrentPage - 1) * perPage;
+let endPage = startPage + perPage;
+let key = document.getElementById("search").value;
+const NOTI_NOT_FOUND="Nothing to show! Please clear your seaching infomation or use add new func. Thank you!";
 
 
 const ARROW_DIRECTION_UP = "bi bi-caret-up-fill arrow";
@@ -32,33 +36,19 @@ const removeListChecked = () => {
    setListToStorage(inputPersons);
    showDeleteCheckedBtn(checkedList);
    resetCurrentpage()
-   displayPersonList(inputPersons);
-}
-
-const handleAllCheckBoxStatus = e => {
-   let checkList = document.querySelectorAll('.form-check-input');
-   checkedList.length = 0;
-   if (e.target.checked) {
-      checkList.forEach(person => {
-         person.checked = true;
-      });
-      inputPersons.forEach(person => checkedList.push(person.id));
-   } else {
-      checkList.forEach(person => {
-         person.checked = false;
-      });
-      checkedList.length = 0;
-   }
-   showDeleteCheckedBtn(checkedList);
+   handleSearch()
 }
 
 
-const displayPersonList = (list = searchList) => {
+
+
+const displayPersonList = () => {
+   let list = getPersonListWithCondition();
    
    let tableString = `<table class="table">
       <tbody>
          <tr>
-            <th scope="col" colspan="2">
+            <th scope="col" colspan="2" class="check-input-all" >
                <input class="form-check-input-all" id="select_all_checked" type="checkbox">
                   <span class="all-checkbox">All</span>
             </th>
@@ -83,10 +73,10 @@ const displayPersonList = (list = searchList) => {
             <th colspan="4"></th>
          </tr>`
 
-         let startPage = (currrentPage - 1) * perPage;   
-         let endPage=startPage + perPage;
-         
-   for (let i = startPage ; i < (endPage<list.length ? endPage : list.length); i++) {
+   startPage = (currrentPage - 1) * perPage;
+   endPage = startPage + perPage;
+
+   for (let i = startPage; i < (endPage < list.length ? endPage : list.length); i++) {
       tableString += `<tr>
          <td class="check-box">
          <input class="form-check-input" type="checkbox" id="checkBox${list[i].id}">
@@ -111,11 +101,15 @@ const displayPersonList = (list = searchList) => {
    document.querySelectorAll(".form-check-input").forEach(node => {
       node.addEventListener('change', setIdCheckBox);
    });
-   document.getElementById("select_all_checked").addEventListener("change", handleAllCheckBoxStatus)
+   document.getElementById("select_all_checked").addEventListener("change", handleAllCheckBoxStatus);
    renderPageNumber(list);
    document.querySelectorAll(".pagination").forEach(node => {
       node.addEventListener('click', handlePageNumber);
    });
+   if(list.length===0){
+     document.getElementById("display").innerText=NOTI_NOT_FOUND;
+   }
+   
 }
 
 //total
@@ -140,8 +134,8 @@ const displayTotalCounter = () => {
    displayTotalCounterCondition(inputPersons);
 }
 
-const handleTransferLastPageNumber  = () =>{
-   currrentPage= Math.ceil(inputPersons.length / perPage)
+const handleTransferLastPageNumber = () => {
+   currrentPage = Math.ceil(inputPersons.length / perPage)
 }
 
 const handleAddNewPerson = () => {
@@ -153,12 +147,12 @@ const handleAddNewPerson = () => {
       closeModal();
       setListToStorage(inputPersons);
       handleTransferLastPageNumber();
-      displayPersonList(inputPersons);
+      handleSearch();
    }
 }
 
-const resetCurrentpage=()=>{
-   if(currrentPage>inputPersons.length/perPage){
+const resetCurrentpage = () => {
+   if (currrentPage > inputPersons.length / perPage) {
       currrentPage--;
    }
 }
@@ -172,8 +166,8 @@ const handleRemovePerson = () => {
    resetCurrentpage()
    closeRemoveConfirm();
    openDeleteAlert(deletedObj);
-   displayPersonList(inputPersons);
-  
+   handleSearch();
+
 }
 
 const onclickToEdit = id => {
@@ -199,7 +193,7 @@ const handleUpdatePerson = () => {
       return item;
    })
    setListToStorage(inputPersons);
-   displayPersonList()
+   handleSearch()
    closeModal();
 }
 
@@ -244,7 +238,7 @@ const sortListByfield = (field) => {
       }
    }
    inputPersons.sort(compare);
-   displayPersonList();
+   handleSearch();
 }
 
 const sortListByName = () => {
@@ -264,10 +258,38 @@ const sortListByPhone = () => {
 
 }
 
+const getPersonListWithCondition = () =>{
+   if(key==""){
+      return inputPersons;
+   }else{
+      return searchList;
+   }
+}
+const handleAllCheckBoxStatus = e => {
+   checkedList.length = 0;
+   let inputList=getPersonListWithCondition();
+   
+   let checkList = inputList.slice(startPage, (endPage < inputList.length ? endPage : inputList.length));
+   
+   if (e.target.checked) {
+      checkList.forEach(person => {
+         document.getElementById(`checkBox${person.id}`).checked = true;
+         checkedList.push(person.id);
+      });
+
+   } else {
+      checkList.forEach(person => {
+         document.getElementById(`checkBox${person.id}`).checked = false;
+      });
+      checkedList.length = 0;
+   }
+   showDeleteCheckedBtn(checkedList);
+}
+
 
 const handleSearch = () => {
-
-   let key = document.getElementById("search").value;
+   currrentPage = 1;
+   key = document.getElementById("search").value;
    const checkAll = obj => {
       if (obj.name.includes(key) || obj.email.includes(key) || "obj.phone".includes(key)) {
          return true;
@@ -280,8 +302,7 @@ const handleSearch = () => {
    } else {
       searchList = inputPersons.filter(checkAll);
    }
-  
-   displayPersonList(searchList);
+   displayPersonList();
 }
 
 
@@ -294,12 +315,11 @@ const renderPageNumber = (list) => {
    }
 }
 
-const handlePageNumber = (e) => {
-   currrentPage = parseInt(e.target.id.slice(5)); 
-   console.log(currrentPage); 
-   checkedList.length=0;
+const handlePageNumber = e => {
+   currrentPage = parseInt(e.target.id.slice(5));
+   checkedList.length = 0;
    showDeleteCheckedBtn(checkedList);
-   displayPersonList(inputPersons);
+   displayPersonList();
 }
 
 // Operate
@@ -326,11 +346,11 @@ document.querySelector("#my_form").addEventListener("submit", e => {
 });
 
 
-document.getElementById("search").addEventListener('keyup', debounce(handleSearch, 2000));
+document.getElementById("search").addEventListener('keyup', debounce(handleSearch, 1500));
 
 document.getElementById("addNewBtn").addEventListener("click", openModal);
 
-handleSearch();
+displayPersonList();
 
 document.getElementById("btn_show_checked").addEventListener("click", removeListChecked);
 
