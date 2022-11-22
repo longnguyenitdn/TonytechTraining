@@ -39,6 +39,7 @@ const clearForm = () => {
 }
 
 const openModal = () => {
+   document.getElementById("search").value="";
    document.getElementById("modal_wrapper").classList.remove("hide");
    if (isAdd) {
       document.getElementById("img_preview").src = "";

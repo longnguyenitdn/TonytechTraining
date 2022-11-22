@@ -7,13 +7,9 @@ let checkedList = [];
 let inputPersons = getListFromStorage("personList") || [];
 let currrentPage = 1;
 let perPage = 2;
-let searchList = [];
 let startPage = (currrentPage - 1) * perPage;
 let endPage = startPage + perPage;
-let key = document.getElementById("search").value;
-const NOTI_NOT_FOUND="Nothing to show! Please clear your seaching infomation or use add new func. Thank you!";
-
-
+const NOTI_NOT_FOUND = "Nothing to show! Please use add new func or clear searching info. Thank you!";
 const ARROW_DIRECTION_UP = "bi bi-caret-up-fill arrow";
 const ARROW_DIRECTION_DOWN = "bi bi-caret-down-fill arrow";
 
@@ -36,15 +32,12 @@ const removeListChecked = () => {
    setListToStorage(inputPersons);
    showDeleteCheckedBtn(checkedList);
    resetCurrentpage()
-   handleSearch()
+   displayPersonList()
 }
-
-
 
 
 const displayPersonList = () => {
    let list = getPersonListWithCondition();
-   
    let tableString = `<table class="table">
       <tbody>
          <tr>
@@ -106,10 +99,10 @@ const displayPersonList = () => {
    document.querySelectorAll(".pagination").forEach(node => {
       node.addEventListener('click', handlePageNumber);
    });
-   if(list.length===0){
-     document.getElementById("display").innerText=NOTI_NOT_FOUND;
+   if (list.length === 0) {
+      document.getElementById("display").innerText = NOTI_NOT_FOUND;
    }
-   
+
 }
 
 //total
@@ -147,7 +140,7 @@ const handleAddNewPerson = () => {
       closeModal();
       setListToStorage(inputPersons);
       handleTransferLastPageNumber();
-      handleSearch();
+      displayPersonList();
    }
 }
 
@@ -166,7 +159,7 @@ const handleRemovePerson = () => {
    resetCurrentpage()
    closeRemoveConfirm();
    openDeleteAlert(deletedObj);
-   handleSearch();
+   displayPersonList();
 
 }
 
@@ -193,7 +186,7 @@ const handleUpdatePerson = () => {
       return item;
    })
    setListToStorage(inputPersons);
-   handleSearch()
+   displayPersonList()
    closeModal();
 }
 
@@ -238,7 +231,7 @@ const sortListByfield = (field) => {
       }
    }
    inputPersons.sort(compare);
-   handleSearch();
+   displayPersonList();
 }
 
 const sortListByName = () => {
@@ -258,25 +251,31 @@ const sortListByPhone = () => {
 
 }
 
-const getPersonListWithCondition = () =>{
-   if(key==""){
+const getPersonListWithCondition = () => {
+   let keySearch = document.getElementById("search").value;
+   if (keySearch == "") {
       return inputPersons;
-   }else{
+   } else {
+      const checkAll = obj => {
+         if (obj.name.includes(keySearch) || obj.email.includes(keySearch) || "obj.phone".includes(keySearch)) {
+            return true;
+         } else {
+            return false;
+         }
+      }
+      let searchList = inputPersons.filter(checkAll);
       return searchList;
    }
 }
 const handleAllCheckBoxStatus = e => {
    checkedList.length = 0;
-   let inputList=getPersonListWithCondition();
-   
+   let inputList = getPersonListWithCondition();
    let checkList = inputList.slice(startPage, (endPage < inputList.length ? endPage : inputList.length));
-   
    if (e.target.checked) {
       checkList.forEach(person => {
          document.getElementById(`checkBox${person.id}`).checked = true;
          checkedList.push(person.id);
       });
-
    } else {
       checkList.forEach(person => {
          document.getElementById(`checkBox${person.id}`).checked = false;
@@ -289,22 +288,8 @@ const handleAllCheckBoxStatus = e => {
 
 const handleSearch = () => {
    currrentPage = 1;
-   key = document.getElementById("search").value;
-   const checkAll = obj => {
-      if (obj.name.includes(key) || obj.email.includes(key) || "obj.phone".includes(key)) {
-         return true;
-      } else {
-         return false;
-      }
-   }
-   if (key == "") {
-      searchList = inputPersons;
-   } else {
-      searchList = inputPersons.filter(checkAll);
-   }
    displayPersonList();
 }
-
 
 const renderPageNumber = (list) => {
    let totalPage = Math.ceil(list.length / perPage);
@@ -316,10 +301,12 @@ const renderPageNumber = (list) => {
 }
 
 const handlePageNumber = e => {
-   currrentPage = parseInt(e.target.id.slice(5));
-   checkedList.length = 0;
-   showDeleteCheckedBtn(checkedList);
-   displayPersonList();
+   if (currrentPage !== parseInt(e.target.id.slice(5))) {
+      currrentPage = parseInt(e.target.id.slice(5));
+      checkedList.length = 0;
+      showDeleteCheckedBtn(checkedList);
+      displayPersonList();
+   }
 }
 
 // Operate
@@ -347,10 +334,7 @@ document.querySelector("#my_form").addEventListener("submit", e => {
 
 
 document.getElementById("search").addEventListener('keyup', debounce(handleSearch, 1500));
-
 document.getElementById("addNewBtn").addEventListener("click", openModal);
-
-displayPersonList();
-
 document.getElementById("btn_show_checked").addEventListener("click", removeListChecked);
+displayPersonList();
 
