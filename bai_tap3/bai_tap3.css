@@ -25,9 +25,7 @@
    align-items: center;
 }
 
-.none-border {
-   border-style: hidden;
-}
+
 
 .bg-white {
    background-color: white;
@@ -70,17 +68,21 @@
    cursor: pointer;
 }
 
+.input {
+   background-color: transparent;
+   border: none;
+}
+
 .btn-bg {
-   padding: 10px;
    border-radius: 50%;
    width: 40px;
    height: 40px;
+   border: none !important;
+   background-color: transparent;
 }
 
 .btn-bg:hover {
    background-color: rgb(231, 231, 231);
-
-
 }
 
 /* body */
@@ -91,12 +93,12 @@
 }
 
 body {
-   width: 100%;
    margin: 0;
 }
 
 .cover-header {
    border-bottom: 1px solid rgb(202, 202, 202);
+   width: 100%;
 }
 
 /* header */
@@ -122,22 +124,22 @@ body {
 
 .cover .header-content .flex-row>p {
    font-size: 22px;
-   line-height: 24px;
+   line-height: 18px;
    padding: 0 10px;
 }
 
 .cover .header-content .flex-row>button {
    border: hidden;
    border-radius: 50%;
-   background-color: white !important;
 }
 
 .cover .header-content .flex-row>button:hover {
-   background-color: rgb(231, 231, 231) !important;
+   background-color: rgb(241, 243, 244) !important;
 }
 
-.header-left {
-   width: 160px;
+.header-mid{
+   flex-wrap: nowrap;
+   width: 100%;
 }
 
 .header-content {
@@ -149,19 +151,24 @@ body {
    border-radius: 10px;
    border: none;
    outline: none;
-   background-color: rgb(245, 245, 245);
-   width: 720px;
-   height: 50px;
+   background-color: rgb(241, 243, 244);
+   width: 42%;
+   height: 45px;
    justify-content: start;
-   margin-left: -590px;
+  margin-left: 85px;
 }
 
 .search>div>input {
-   width: 610px;
+   width: 95%;
    border: none;
    outline: none;
-   height: 100px;
+   
 }
+.input-search-wrap{
+   width: 90%;
+}
+
+
 
 .header-tool {
    margin-right: 35px;
@@ -181,8 +188,9 @@ body {
    font-size: 20px;
    outline: none;
    border: none;
-
+   flex-wrap: nowrap;
 }
+
 
 /* body */
 /* sidebar */
@@ -258,14 +266,22 @@ body {
 }
 
 /* body-content */
+.body-content {
+   width: 100%;
+}
+
+.body-take-note {
+   align-items: center;
+   padding-top: 20px;
+}
+
+
 .take-note {
-   position: absolute;
-   top: 100px;
-   left: 700px;
    box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
    border-radius: 8px;
-   border:1px solid rgb(206, 206, 206);
+   border: 1px solid rgb(206, 206, 206);
    overflow: hidden;
+   width: 598px;
 }
 
 .take-note>input {
@@ -275,7 +291,88 @@ body {
    font-size: 17px;
    padding: 0 10px;
 }
-.take-note-icon>i{
+
+.take-note-icon>i {
    font-size: 21px;
    margin: 0 20px;
+}
+
+.take-note-detail {
+   width: 598px;
+   box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
+   border-radius: 8px;
+   border: 1px solid rgb(206, 206, 206);
+   overflow: hidden;
+}
+
+.take-note-detail>div>input {
+   border: none;
+   width: 410px;
+   height: 45px;
+   font-size: 17px;
+   padding: 0 10px;
+}
+
+/* Reponsive */
+/* For desktop: */
+.col-1 {
+   width: 8.33%;
+}
+
+.col-2 {
+   width: 16.66%;
+}
+
+.col-3 {
+   width: 25%;
+}
+
+.col-4 {
+   width: 33.33%;
+}
+
+.col-5 {
+   width: 41.66%;
+}
+
+.col-6 {
+   width: 50%;
+}
+
+.col-7 {
+   width: 58.33%;
+}
+
+.col-8 {
+   width: 66.66%;
+}
+
+.col-9 {
+   width: 75%;
+}
+
+.col-10 {
+   width: 83.33%;
+}
+
+.col-11 {
+   width: 91.66%;
+}
+
+.col-12 {
+   width: 100%;
+}
+
+@media only screen and (max-width: 678px) {
+   /* For mobile phones: */
+.input-search-wrap{
+   display: none;
+}
+.search{
+background-color: transparent;
+justify-content: end;
+}
+.take-note{
+   width: 90%;
+}
 }

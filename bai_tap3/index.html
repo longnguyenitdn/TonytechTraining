@@ -13,31 +13,33 @@
 <body>
    <div class="cover-header cover">
       <div class="header-content flex-row flex-bet align-center max-width99">
-         <div class="header-left">
-            <div class="flex-row flex-around align-center header-left">
+         <div class="flex-row header-left align-center">
+            <div class="flex-row flex-around align-center">
                <button class="header-icon cursor btn-bg"><i class="fa-solid fa-bars"></i></button>
                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Google_Keep_icon_%282020%29.svg/768px-Google_Keep_icon_%282020%29.svg.png" alt="Fail" class="cursor">
                <p class="cursor">Keep</p>
             </div>
+            
          </div>
-         <div class="header-mid">
+         <div class="header-mid flex-row align-center flex-bet">
             <div class="search flex-row align-center flex-around">
-               <div>
-                  <button class="none-border bg-trans marg10 cursor btn-bg"><i class="fa-solid fa-magnifying-glass bg-trans font-sz17 "></i></button>
+               <div class="search-icon">
+                  <button class=" input bg-trans marg10 cursor btn-bg"><i class="fa-solid fa-magnifying-glass  font-sz17 "></i></button>
                </div>
-               <div>
-                  <input class="input-search none-border bg-trans font-sz17" type="text" placeholder="Search...">
-                  <i class="fa-solid fa-xmark cursor btn-bg"></i>
+               <div class="input-search-wrap flex-row">
+                  <input class="input-search input bg-trans font-sz17" type="text" placeholder="Search...">
+                  <button class="btn-bg"><i class="fa-solid fa-xmark cursor "></i></button>
                </div>
             </div>
-         </div>
-         <div class="header-right flex-row align-center">
-            <div class="header-tool">
+            <div class="header-tool flex-row">
                <button class="cursor btn-bg"><i class="fa-sharp fa-solid fa-rotate-right"></i></button>
                <button class="cursor btn-bg"><i class="fa-regular fa-rectangle-list"></i></button>
                <button class="cursor btn-bg"><i class="fa-solid fa-gear"></i></button>
             </div>
-            <div class="header-gg">
+            
+         </div>
+         <div>
+            <div class="header-gg flex-row">
                <button class="cursor btn-bg"><i class="fa-solid fa-ellipsis-vertical"></i></button>
                <button class="cursor btn-bg"><i class="fa-solid fa-user-tie"></i></button>
             </div>
@@ -69,13 +71,38 @@
             </div>
          </div>
          <div class="body-content">
-            <div class="take-note flex-row">
-               <input type="text" placeholder="Take a note...">  
-               <div class="take-note-icon flex-row align-center">
-                  <i class="fa-regular fa-square-check"></i>
-                  <i class="fa-solid fa-paintbrush"></i>
-                  <i class="fa-regular fa-image"></i>
-               </div> 
+            <div class="body-take-note flex-col">  
+               <div class="take-note flex-row flex-bet">
+                  <input class="input" type="text" placeholder="Take a note...">
+                  <div class="take-note-icon flex-row align-center">
+                     <button class="button-icon cursor"><i class="fa-regular fa-square-check"></i></button>
+                     <button class="button-icon cursor"><i class="fa-solid fa-paintbrush"></i></button>
+                     <button class="button-icon cursor"><i class="fa-regular fa-image"></i></button>
+                  </div>
+               </div>
+               <div class="take-note-detail hiden">
+                  <div class="flex-row flex-bet">
+                     <input type="text" placeholder="Title">
+                     <button class="button-icon cursor font-sz17"><i class="fa-solid fa-thumbtack"></i></button>
+                  </div>
+                  <div>
+                     <input type="text" placeholder="Take a note...">
+                  </div>
+                  <div class="flex-row flex-bet">
+                     <div>
+                        <button class="button-icon cursor font-sz17"><i class="fa-solid fa-bullhorn"></i></button>
+                        <button class="button-icon cursor font-sz17"><i class="fa-solid fa-user-plus"></i></button>
+                        <button class="button-icon cursor font-sz17"> <i class="fa-solid fa-palette"></i></button>
+                        <button class="button-icon cursor font-sz17"><i class="fa-solid fa-image"></i></button>
+                        <button class="button-icon cursor font-sz17"><i class="fa-solid fa-file-arrow-down"></i></button>
+                        <button class="button-icon cursor font-sz17"><i class="fa-solid fa-ellipsis"></i></button>
+                        <button class="button-icon cursor font-sz17"><i class="fa-solid fa-angles-left"></i></button>
+                        <button class="button-icon cursor font-sz17"><i class="fa-solid fa-angles-right"></i></button>
+                     </div>
+                     <div><button class="button-icon cursor font-sz17">Close</button></div>
+                  </div>
+
+               </div>
             </div>
          </div>
       </div>
