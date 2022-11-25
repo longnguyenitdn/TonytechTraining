@@ -70,6 +70,7 @@
 .input {
    background-color: transparent;
    border: none;
+   outline: none;
 }
 
 .btn-bg {
@@ -301,6 +302,7 @@ body {
    border-radius: 8px;
    border: 1px solid rgb(206, 206, 206);
    overflow: hidden;
+   width: 538px;
 }
 
 .take-note-detail>div>input {
