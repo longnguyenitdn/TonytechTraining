@@ -10,7 +10,6 @@
 
 .flex-center {
    justify-content: center;
-   align-items: center;
 }
 
 .flex-bet {
@@ -189,17 +188,18 @@ body {
    padding-top: 5px;
    background-color: white;
    height: 100%;
-   width: 20%;
+   width: 70px;
    transition: width 0.2s;
    overflow: none;
 }
 .sidebar-wrap{
-   width: 15%;
-   height: 100%;
+   width: 300px;
+   position: absolute;
+   height: calc(100vh - 62px);
 }
 
 .sidebar:hover {
-   width: 280px;
+   width: 100%;
    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 
@@ -263,7 +263,9 @@ body {
 
 /* body-content */
 .body-content {
-   width: 85%;
+   width: 100%;
+   padding-left: 300px;
+   height: calc(100vh - 62px);
 }
 
 .body-take-note {
@@ -366,10 +368,18 @@ body {
    .search{
       margin: unset;
    }
+   .body-content{
+      padding-left: 70px;
+      padding-right: 45px;
+   }
+   
 }
 @media only screen and (max-width: 750px){
    .header-tool{
       margin: unset;
+   }
+   .body-content{
+      padding-right: 35px;
    }
 }
 @media only screen and (max-width: 678px) {
@@ -384,22 +394,43 @@ body {
       background-color: transparent;
       justify-content: end;
    }
+   .body-content{
+      padding-right: 25px;
+   }
 }
 @media only screen and (max-width: 520px){
    .header-mid{
       width: unset ;
    }
    .take-note>input{
-      width: unset ;
+      width: auto ;
+      font-size: unset;
    }
-
    .marg10{
       margin: unset;
    }
    .btn-bg{
-      width: unset;
+      width: auto;
    }
    .body-take-note{
-      width: unset;
+      width: 90%;
+      margin: 0 auto;
+   }
+   .body-content{
+      padding-right: 15px;
+   }
+}
+@media only screen and (max-width: 420px){
+   .button-icon{
+     margin: unset;
+     padding-right: 5px ;
+      font-size: 18px;
+   }
+   
+   .take-note-icon{
+      margin-right: 5px;
+   }
+   .body-content{
+      padding-right: unset;
    }
 }
