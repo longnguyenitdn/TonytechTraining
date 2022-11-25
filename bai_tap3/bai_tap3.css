@@ -98,13 +98,11 @@ body {
 
 .cover-header {
    border-bottom: 1px solid rgb(202, 202, 202);
-   width: 100%;
+  
 }
 
 /* header */
-.cover .header-content {
-   margin: 0 auto;
-}
+
 
 .cover .header-content .flex-row .header-icon {
    width: 50px;
@@ -139,11 +137,10 @@ body {
 
 .header-mid {
    flex-wrap: nowrap;
-   width: 100%;
+   width: 85%;
 }
 
 .header-content {
-  
    text-align: center;
 }
 
@@ -152,24 +149,16 @@ body {
    border: none;
    outline: none;
    background-color: rgb(241, 243, 244);
-   width: 42%;
    height: 45px;
    justify-content: start;
-   margin-left: 85px;
+   margin-left: 50px;
 }
 
 .search>div>input {
-   width: 95%;
+   width: 32vw;
    border: none;
    outline: none;
-
 }
-
-.input-search-wrap {
-   width: 90%;
-}
-
-
 
 .header-tool {
    margin-right: 35px;
@@ -289,7 +278,7 @@ body {
    border-radius: 8px;
    border: 1px solid rgb(206, 206, 206);
    overflow: hidden;
-   width: 598px;
+   
 }
 
 .take-note>input {
@@ -306,7 +295,6 @@ body {
 }
 
 .take-note-detail {
-   width: 598px;
    box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
    border-radius: 8px;
    border: 1px solid rgb(206, 206, 206);
@@ -371,12 +359,19 @@ body {
    width: 100%;
 }
 
-@media only screen and (max-width: 835px) {
-   .take-note {
-      width: 90%;
+@media only screen and (max-width: 835px){
+   .take-note>input{
+      width: 50vw ;
+   }
+   .search{
+      margin: unset;
    }
 }
-
+@media only screen and (max-width: 750px){
+   .header-tool{
+      margin: unset;
+   }
+}
 @media only screen and (max-width: 678px) {
 
    /* For mobile phones: */
@@ -385,8 +380,26 @@ body {
    }
 
    .search {
+      width: 100%;
       background-color: transparent;
       justify-content: end;
    }
+}
+@media only screen and (max-width: 520px){
+   .header-mid{
+      width: unset ;
+   }
+   .take-note>input{
+      width: unset ;
+   }
 
+   .marg10{
+      margin: unset;
+   }
+   .btn-bg{
+      width: unset;
+   }
+   .body-take-note{
+      width: unset;
+   }
 }
