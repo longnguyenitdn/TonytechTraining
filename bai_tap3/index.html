@@ -46,7 +46,7 @@
          </div>
       </div>
    </div>
-   <div class="cover sidebar-cover">
+   <div class="cover body-content-cover">
       <div class="flex-row">
          <div class="sidebar-wrap">
             <div class="sidebar flex-col">
@@ -83,52 +83,29 @@
                   </div>
                </div>
                <div id="input_note_detail" class="take-note-detail hiden">
-                  <div class="flex-row flex-bet">
-                     <input class="input skip" type="text" placeholder="Title">
-                     <button class="button-icon cursor font-sz17"><i class="fa-solid fa-thumbtack"></i></button>
+                  <div class="flex-row flex-bet align-center">
+                     <input id="note_title" class="input skip" type="text" placeholder="Title">
+                     <button class="pin-icon button-icon cursor font-sz17"><i class="fa-solid fa-thumbtack"></i></button>
                   </div>
                   <div>
-                     <input class="input skip" type="text" placeholder="Take a note...">
+                     <input id="note_content" class="input skip" type="text" placeholder="Take a note...">
                   </div>
-                  <div class="flex-row flex-bet">
-                     <div>
-                        <button class="button-icon cursor font-sz17"><i class="fa-solid fa-bullhorn"></i></button>
-                        <button class="button-icon cursor font-sz17"><i class="fa-solid fa-user-plus"></i></button>
-                        <button class="button-icon cursor font-sz17"> <i class="fa-solid fa-palette"></i></button>
-                        <button class="button-icon cursor font-sz17"><i class="fa-solid fa-image"></i></button>
-                        <button class="button-icon cursor font-sz17"><i class="fa-solid fa-file-arrow-down"></i></button>
-                        <button class="button-icon cursor font-sz17"><i class="fa-solid fa-ellipsis"></i></button>
-                        <button class="button-icon cursor font-sz17"><i class="fa-solid fa-angles-left"></i></button>
-                        <button class="button-icon cursor font-sz17"><i class="fa-solid fa-angles-right"></i></button>
+                  <div class="flex-row flex-bet align-center">
+                     <div class="button-icon-wrap flex-row flex-bet align-center">
+                        <button class="button-icon cursor font-sz15"><i class="fa-solid fa-bullhorn"></i></button>
+                        <button class="button-icon cursor font-sz15"><i class="fa-solid fa-user-plus"></i></button>
+                        <button class="button-icon cursor font-sz15"> <i class="fa-solid fa-palette"></i></button>
+                        <button class="button-icon cursor font-sz15"><i class="fa-solid fa-image"></i></button>
+                        <button class="button-icon cursor font-sz15"><i class="fa-solid fa-file-arrow-down"></i></button>
+                        <button class="button-icon cursor font-sz15"><i class="fa-solid fa-ellipsis"></i></button>
+                        <button class="button-icon cursor font-sz15"><i class="fa-solid fa-angles-left"></i></button>
+                        <button class="button-icon cursor font-sz15"><i class="fa-solid fa-angles-right"></i></button>
                      </div>
-                     <div><button class="button-icon cursor font-sz17">Close</button></div>
+                     <div><button class="btn-close button-icon cursor font-sz15">Close</button></div>
                   </div>
                </div>
-               <div class="notes-cover flex-row">
-                  <div id="note" class="note">  
-                     <div class="note-wrap">
-                        <div class="note-title-wrap">
-                           <div class="flex-row flex-bet">
-                              <span id="note_title" class="note_title pad10">Longdgfbhjkfgjknhjko;njkhndfjkngbgjkfngsjkhnfgshnfdkgbdfjhgjghdfjghdfhjhdfghdfjkhgjkdfhofgoh</span>
-                              <button class="button-icon cursor font-sz17 hiden display-note-icon note-pin-icon"><i class="fa-solid fa-thumbtack"></i></button>
-                           </div>
-                           <div class="note-content-cover">
-                              <span id="note_content" class="note_content pad10">Long</span>
-                           </div>
-                        </div>
-                        <div class="note-icon flex-row flex-around">
-                           <button class="button-icon cursor font-sz17 hiden display-note-icon"><i class="fa-solid fa-bullhorn"></i></button>
-                           <button class="button-icon cursor font-sz17 hiden display-note-icon"><i class="fa-solid fa-user-plus"></i></button>
-                           <button class="button-icon cursor font-sz17 hiden display-note-icon"><i class="fa-solid fa-palette"></i></button>
-                           <button class="button-icon cursor font-sz17 hiden display-note-icon"><i class="fa-solid fa-image"></i></button>
-                           <button class="button-icon cursor font-sz17 hiden display-note-icon"><i class="fa-solid fa-file-arrow-down"></i></button>
-                           <button class="button-icon cursor font-sz17 hiden display-note-icon"><i class="fa-solid fa-ellipsis"></i></button>
-                        </div>
-                     </div>
-                  </div>
-               </div>
+               <div class="display flex-row" id="display"></div>
             </div>
-            
          </div>
       </div>
    </div>
