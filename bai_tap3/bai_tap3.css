@@ -84,6 +84,10 @@
 .btn-bg:hover {
    background-color: rgb(231, 231, 231);
 }
+.pad10{
+   padding: 10px;
+}
+
 
 /* body */
 * {
@@ -312,6 +316,83 @@ body {
    font-size: 17px;
    padding: 0 10px;
 }
+
+/* Notes */
+.notes-cover{
+   justify-content: start;
+   width: 100%;
+   height: auto;
+   padding: 50px 10px;
+}
+
+.note{
+   border-radius: 5px;
+   border: 1px solid rgb(206, 206, 206);
+   min-height: 80px;
+    max-width: 400px;
+    min-width: 320px;
+}
+.display-note-icon{
+   background: transparent;
+   border-radius: 50%;
+   width: 30px;
+   height: 30px;
+}
+
+.note:hover .display-note-icon{
+   display: inline-block;
+}
+.display-note-icon:hover{
+   background: rgb(206, 206, 206);
+   
+}
+
+.note-wrap{
+   padding: 5px;
+   position: relative;
+  
+}
+/* .note-wrap:hover */
+
+.note_title{
+   font-size: 15px !important;
+   font-weight: 800 !important;
+   font-family: "Google Sans",Roboto,Arial,sans-serif;
+   color: #202124;
+   max-width: 280px;
+   word-wrap: break-word;
+   height: auto;
+}
+
+.note-title-wrap{
+position: relative;
+min-height: 100px;
+}
+
+.note_content{
+   font-size: 18px !important;
+   font-family: "Google Sans",Roboto,Arial,sans-serif;
+   color: #202124;
+   max-width: 280px;
+   height: auto;
+}
+.note-content-cover{
+   margin-bottom: 30px;
+}
+.note-icon{
+position: absolute;
+bottom: 0;
+height: 40px;
+width: 95%;
+margin: 0 auto;
+}
+.note-pin-icon{
+position: absolute;
+top: 0;
+right: 0;
+}
+
+
 
 /* Reponsive */
 /* For desktop: */
