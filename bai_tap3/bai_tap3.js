@@ -1,24 +1,29 @@
 let isOpen = false;
 let notes = [];
+let editId = null;
+let isAdd = false;
 
 
-const clearNoteDetail = () =>{
-   document.getElementById("note_title").value="";
-   document.getElementById("note_content").value="";
+const clearNoteDetail = () => {
+   document.getElementById("note_title").value = "";
+   document.getElementById("note_content").value = "";
 }
-const onclickOpenDetailModal = () => {
+const openDetailModal = () => {
    document.getElementById("input_note_cover").classList.add("hiden");
    document.getElementById("input_note_detail").classList.remove("hiden");
+   isOpen = true;
 }
 const closeDetailModal = () => {
    document.getElementById("input_note_cover").classList.remove("hiden");
    document.getElementById("input_note_detail").classList.add("hiden");
+   clearNoteDetail()
+   isOpen = false;
 }
 const getValueFromNote = () => {
    let title = document.getElementById("note_title").value;
    let content = document.getElementById("note_content").value;
-   console.log(title,content);
    const note = {
+      id: Date.now(),
       title,
       content
    }
@@ -30,15 +35,45 @@ const handleAddNewNote = () => {
    if (note.title !== "" || note.content !== "") {
       notes.push(note);
    }
-displayNotes();
-clearNoteDetail()
+   closeDetailModal();
+   displayNotes();
+   isAdd = false;
 }
+
+
+const setValueToDetailNote = editObj => {
+   let {title, content} = editObj;
+   document.getElementById("note_title").value = title;
+   document.getElementById("note_content").value = content;
+}
+
+const onclickToEdit = () => {
+   editId = parseInt(document.getElementById("note").getAttribute("data-id"));
+   openDetailModal();
+   setValueToDetailNote(notes.find(item => item.id == editId));
+}
+
+
+const handleEditNote = () => {
+   let EditObj = getValueFromNote();
+   let { title, content } = EditObj;
+   notes = notes.map((item) => {
+      if (item.id === editId) {
+         item.title = title;
+         item.content = content;
+      }
+   })
+ 
+   closeDetailModal();
+   displayNotes()
+}
+
 
 const displayNotes = () => {
    let noteString = "";
    for (i = 0; i < notes.length; i++) {
       noteString += `<div class="notes-cover flex-row">
-      <div id="note" class="note">
+      <div id="note" class="note" data-id="${notes[i].id}">
          <div class="note-wrap">
             <div class="note-title-wrap">
                <div class="flex-row flex-bet">
@@ -61,24 +96,41 @@ const displayNotes = () => {
       </div>
    </div>`;
    }
-   document.getElementById("display").innerHTML=noteString;
-}
 
+   document.getElementById("display").innerHTML = noteString;
+   
 document.body.addEventListener('click', e => {
    if (!isOpen) {
       const openNote = document.getElementById("input_note_cover");
+      const openEditNote = document.querySelectorAll(".note");
       if (openNote.contains(e.target)) {
-         onclickOpenDetailModal();
-         isOpen = true;
+         openDetailModal();
+         isAdd = true;
+      } else  {
+         openEditNote.forEach(node => {
+            if(node.contains(e.target)){
+                onclickToEdit();
+            }
+         });
       }
    } else {
-      const closeNote = document.getElementById("input_note_detail");
-      if (!closeNote.contains(e.target)) {
-         handleAddNewNote();
-         closeDetailModal();
-         isOpen = false;
+      const closeNoteDetail = document.getElementById("input_note_detail");
+      if (!closeNoteDetail.contains(e.target)) {
+         if (isAdd) {
+            handleAddNewNote();
+
+         } else {
+
+            handleEditNote();
+         }
       }
    }
 });
+document.getElementById("close_detail_modal").addEventListener("click", closeDetailModal);
+
+
+}
+displayNotes();
+
 
 

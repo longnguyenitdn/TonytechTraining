@@ -168,7 +168,7 @@ const onclickToEdit = id => {
    isAdd = false;
    editId = id;
    openModal();
-   setValueToForm(inputPersons.find(item => item.id === editId));
+   setValueToDetailNote(inputPersons.find(item => item.id === editId));
 }
 
 const handleUpdatePerson = () => {
@@ -183,7 +183,6 @@ const handleUpdatePerson = () => {
             item.photo = photo;
          };
       }
-      return item;
    })
    setListToStorage(inputPersons);
    displayPersonList()
@@ -251,7 +250,8 @@ const sortListByPhone = () => {
 
 }
 
-const getPersonListWithCondition = () => {
+const 
+getPersonListWithCondition = () => {
    let keySearch = document.getElementById("search").value;
    if (keySearch == "") {
       return inputPersons;
