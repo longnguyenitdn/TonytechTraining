@@ -7,11 +7,11 @@ const displayDetailNoteModal = () => {
    }
    return ` <div id="input_note_detail" class="take-note-detail">
    <div class="flex-row flex-bet align-center">
-      <input id="note_title" class="input skip" type="text" placeholder="Title" value="${obj.title}">
+      <input id="input_note_title" class="input skip" type="text" placeholder="Title" value="${obj.title}">
       <button class="pin-icon button-icon cursor font-sz17"><i class="fa-solid fa-thumbtack"></i></button>
    </div>
    <div>
-      <input id="note_content" class="input skip" type="text" placeholder="Take a note..." value="${obj.content}"> 
+      <input id="input_note_content" class="input skip" type="text" placeholder="Take a note..." value="${obj.content}"> 
    </div>
    <div class="flex-row flex-bet align-center">
       <div class="button-icon-wrap flex-row flex-bet align-center">
@@ -28,40 +28,6 @@ const displayDetailNoteModal = () => {
    </div>
 </div>`;
 }
-const clearNoteDetail = () => {
-   document.getElementById("note_title").value = "";
-   document.getElementById("note_content").value = "";
-}
-const openDetailModal = () => {
-   document.getElementById("input_note_cover").classList.add("hiden");
-   document.getElementById("detail_note").innerHTML = displayDetailNoteModal();
-   document.getElementById("close_detail_modal").addEventListener("click", closeDetailModal);
-   isOpen = true;
-}
-const closeDetailModal = () => {
-   document.getElementById("note_title").value = "";
-   document.getElementById("note_content").value = "";
-   if (isAdd) {
-      document.getElementById("input_note_cover").classList.remove("hiden");
-      document.getElementById("detail_note").innerHTML = "";
-      isAdd = false;
-   } else {
-      document.getElementById("detail_edit_note_content").innerHTML = "";
-      document.getElementById("detail_edit_note_wrap").classList.add("hiden");
-   }
-
-   isOpen = false;
-}
-const getValueFromNoteDetail = () => {
-   let title = document.getElementById("note_title").value;
-   let content = document.getElementById("note_content").value;
-   const note = {
-      id: Date.now(),
-      title,
-      content
-   }
-   return note;
-}
 
 const handleAddNewNote = () => {
    const note = getValueFromNoteDetail();
@@ -69,21 +35,13 @@ const handleAddNewNote = () => {
       notes.unshift(note);
    }
    closeDetailModal();
+   setListToStorage(notes);
    displayNotes();
-
 }
 
-
-const setValueToDetailNote = editObj => {
-   let { title, content } = editObj;
-   document.getElementById("note_title").value = title;
-   document.getElementById("note_content").value = content;
-}
 
 const onclickToEdit = e => {
    editId = parseInt(e.target.closest(".note").getAttribute("data-id"));
-
-   console.log(notes);
    setValueToDetailNote(notes.find(item => item.id === editId))
    document.getElementById("detail_edit_note_wrap").classList.remove("hiden");
    document.getElementById("detail_edit_note_content").innerHTML = displayDetailNoteModal();
@@ -99,11 +57,32 @@ const handleEditNote = () => {
          item.title = title;
          item.content = content;
       }
+      return item;
    })
    closeDetailModal();
+   setListToStorage(notes);
    displayNotes()
 }
-
+ 
+const openOptionModal = e => {
+   isOption=true;
+   document.getElementById("optionId").value = parseInt(e.target.id.slice(11));
+   document.getElementById("note_option").classList.remove("hiden");
+   document.getElementById("note_option").style.top = window.event.clientY + 10 + "px";
+   document.getElementById("note_option").style.left = window.event.clientX - 20 + "px";
+   e.stopPropagation();
+   document.getElementById("delete_note").addEventListener("click",handleDeleteNote);
+}
+const closeOptionModal = () =>{
+   document.getElementById("note_option").classList.add("hiden");
+}
+const handleDeleteNote = () =>{
+   let deleteId = parseInt(document.getElementById("optionId").value);
+   notes = notes.filter(person => person.id !== deleteId);
+   setListToStorage(notes);
+   closeOptionModal();
+   displayNotes();
+}
 
 const displayNotes = () => {
    let noteString = "";
@@ -126,7 +105,7 @@ const displayNotes = () => {
                <button class="button-icon cursor font-sz15 hiden display-note-icon"><i class="fa-solid fa-palette"></i></button>
                <button class="button-icon cursor font-sz15 hiden display-note-icon"><i class="fa-solid fa-image"></i></button>
                <button class="button-icon cursor font-sz15 hiden display-note-icon"><i class="fa-solid fa-file-arrow-down"></i></button>
-               <button class="button-icon cursor font-sz15 hiden display-note-icon"><i class="fa-solid fa-ellipsis"></i></button>
+               <button id="btn_option_${notes[i].id}" class="btn-note-option button-icon cursor font-sz15 hiden display-note-icon"><i class="fa-solid fa-ellipsis"></i></button>
             </div>
          </div>
       </div>
@@ -137,6 +116,9 @@ const displayNotes = () => {
       node.addEventListener("click", onclickToEdit)
    });
    document.getElementById("detail_edit_note_wrap").addEventListener("click", handleEditNote);
+   document.querySelectorAll(".btn-note-option").forEach(node => {
+      node.addEventListener("click", openOptionModal)
+   });
 }
 
 document.body.addEventListener('click', e => {
@@ -146,6 +128,13 @@ document.body.addEventListener('click', e => {
          isAdd = true;
          openDetailModal();
       }
+      if (isOption) {
+         const openOption = document.getElementById("note_option");
+         if (!openOption.contains(e.target)) {
+            openOption.classList.add("hiden");
+            isOption=false;
+         }
+      }
    } else {
       const closeNoteDetail = document.getElementById("input_note_detail");
       if (!closeNoteDetail.contains(e.target)) {
@@ -154,6 +143,7 @@ document.body.addEventListener('click', e => {
    }
 });
 
-
+document.getElementById("header_menu_icon")
+displayNotes();
 
 

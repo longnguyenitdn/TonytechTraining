@@ -1,4 +1,5 @@
+let notes = getListFromStorage("noteList") || [];
 let isOpen = false;
-let notes = [];
 let editId = null;
 let isAdd=false;
+let isOption=false;

@@ -13,11 +13,10 @@
       <div class="header-content flex-row flex-bet align-center max-width99">
          <div class="flex-row header-left align-center">
             <div class="flex-row flex-around align-center">
-               <button class="header-icon cursor btn-bg"><i class="fa-solid fa-bars"></i></button>
+               <button id="header_menu_icon" class="header-icon cursor btn-bg"><i class="fa-solid fa-bars"></i></button>
                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Google_Keep_icon_%282020%29.svg/768px-Google_Keep_icon_%282020%29.svg.png" alt="Fail" class="cursor bg-trans">
                <p class="cursor bg-trans">Keep</p>
             </div>
-
          </div>
          <div class="header-mid flex-row align-center flex-bet">
             <div class="search flex-row align-center flex-around">
@@ -88,9 +87,17 @@
          </div>
       </div>
    </div>
-
+   <div id="note_option" class="note-option hiden bg-white">
+         <p id="delete_note">Delete note</p>
+         <p>Add label</p>
+         <p>Add drawing</p>
+         <p>Make a copy</p>
+         <p>Show checkboxes</p>
+         <p>Copy to Google Docs</p>
+         <input type="hidden" id="optionId">
+   </div>
 </body>
-<script language="javascript" src="bai_tap3.js"></script>
+<script language="javascript" src="ultils.js"></script>
 <script language="javascript" src="variable.js"></script>
-
+<script language="javascript" src="bai_tap3.js"></script>
 </html>

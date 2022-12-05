@@ -222,14 +222,16 @@ body {
 }
 
 .sidebar-wrap {
-   width: 300px;
+   width: 280px;
    position: absolute;
    height: calc(100vh - 62px);
+   z-index: 5;
 }
 
 .sidebar:hover {
    width: 100%;
    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+   background-color: white !important;
 }
 
 .sidebar-row:hover {
@@ -289,11 +291,14 @@ body {
    width: 50px;
    height: 50px;
 }
+.sidebar-btn-note:hover{
+   background-color: rgb(255, 235, 192) !important; 
+}
 
 /* body-content */
 .body-content {
    width: 100%;
-   padding-left: 300px;
+   padding-left: 100px;
    height: calc(100vh - 62px);
 }
 
@@ -344,17 +349,22 @@ body {
 
 /* Notes */
 .notes-cover {
-   padding: 50px 10px;
+   padding: 10px 10px;
 }
 
 .note {
    border-radius: 8px;
    border: 1px solid rgb(206, 206, 206);
    min-height: 80px;
-   width: 250px;
+   width: 235px;
    position: relative;
-   
+   animation-name: delay;
+  animation-duration: 0.03s;
 }
+@keyframes delay {
+   from {width: 0;}
+   to {width: 100%;}
+ }
 
 .display-note-icon {
    background: transparent;
@@ -435,9 +445,11 @@ body {
 }
 
 .display {
-   width: 100%;
    justify-content: start;
    align-items: flex-start;
+   max-width: 100%;
+   flex-wrap: wrap;
+   padding: 50px 0;
 }
 
 
@@ -451,15 +463,41 @@ body {
    z-index: 10;
    opacity: 0.7;
 }
+
 .detail-edit-note-content{
    position: absolute;
    z-index: 15;
-   top: 200px;
-   left: 750px;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%,-50%); 
 }
 
+.note-option{
+   width: auto;
+   height: auto;
+   position: absolute;
+   border: none;
+   box-shadow:rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px ;
+   border-radius: 5px;
+   padding: 5px 0;
+}
 
+.note-option>p{
+   line-height: 100%;
+   padding: 10px 20px;
+   margin: 0;
+   font-size: 14px;
+   color: #202124;
+}
 
+.note-option>p:hover{
+    background-color: rgb(241, 243, 244);
+    cursor: pointer;
+}
+
+.btn-note-option>i{
+   pointer-events: none;
+}
 
 /* Reponsive */
 /* For desktop: */
