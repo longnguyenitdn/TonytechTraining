@@ -68,7 +68,6 @@ const displayPersonList = () => {
 
    startPage = (currrentPage - 1) * perPage;
    endPage = startPage + perPage;
-
    for (let i = startPage; i < (endPage < list.length ? endPage : list.length); i++) {
       tableString += `<tr>
          <td class="check-box">
@@ -83,7 +82,6 @@ const displayPersonList = () => {
          </td>
          </tr>`;
    }
-
    tableString += "</tbody>";
    tableString += '</table>';
    document.getElementById("display").innerHTML = tableString;
@@ -102,7 +100,6 @@ const displayPersonList = () => {
    if (list.length === 0) {
       document.getElementById("display").innerText = NOTI_NOT_FOUND;
    }
-
 }
 
 //total

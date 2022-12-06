@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
    <link rel="stylesheet" href="bai_tap3.css">
    <script src="https://kit.fontawesome.com/bfc887d177.js" crossorigin="anonymous"></script>
@@ -8,6 +9,7 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Document</title>
 </head>
+
 <body>
    <div class="cover-header cover">
       <div class="header-content flex-row flex-bet align-center max-width99">
@@ -43,10 +45,10 @@
          </div>
       </div>
    </div>
-   <div class="cover body-content-cover">
+   <div class="cover-body cover body-content-cover">
       <div class="flex-row">
-         <div class="sidebar-wrap">
-            <div class="sidebar flex-col">
+         <div id="sidebar_wrap" class="sidebar-wrap">
+            <div id="sidebar" class="sidebar flex-col">
                <div class="flex-row sidebar-row sidebar-row-top align-center cursor">
                   <button class="button-icon sidebar-btn sidebar-btn-note cursor"><i class="fa-regular fa-lightbulb"></i></button>
                   <p class="sidebar-text hiden">Notes</p>
@@ -69,7 +71,7 @@
                </div>
             </div>
          </div>
-         <div class="body-content flex-row flex-center">
+         <div id="body_content" class="body-content flex-row flex-center">
             <div class="body-take-note flex-col skip">
                <div id="input_note_cover" class="take-note flex-row flex-bet">
                   <input id="input_note" class="input-take-note skip" type="text" placeholder="Take a note...">
@@ -88,16 +90,17 @@
       </div>
    </div>
    <div id="note_option" class="note-option hiden bg-white">
-         <p id="delete_note">Delete note</p>
-         <p>Add label</p>
-         <p>Add drawing</p>
-         <p>Make a copy</p>
-         <p>Show checkboxes</p>
-         <p>Copy to Google Docs</p>
-         <input type="hidden" id="optionId">
+      <p id="delete_note">Delete note</p>
+      <p>Add label</p>
+      <p>Add drawing</p>
+      <p>Make a copy</p>
+      <p>Show checkboxes</p>
+      <p>Copy to Google Docs</p>
+      <input type="hidden" id="optionId">
    </div>
 </body>
-<script language="javascript" src="ultils.js"></script>
 <script language="javascript" src="variable.js"></script>
+<script language="javascript" src="ultils.js"></script>
 <script language="javascript" src="bai_tap3.js"></script>
+
 </html>

@@ -32,7 +32,8 @@
 .bg-trans {
    background-color: transparent !important;
 }
-.bg-trans:hover{
+
+.bg-trans:hover {
    background-color: transparent !important;
 }
 
@@ -51,6 +52,18 @@
 .max-width99 {
    max-width: 99% !important;
    margin: 0 auto;
+}
+
+.menu-padding-left {
+   padding-left: 280px !important;
+}
+
+.menu-padding-left>.body-take-note {
+   padding-left: 50px !important;
+}
+
+.full-width {
+   width: 100% !important;
 }
 
 .cover {
@@ -75,8 +88,10 @@
 .cursor {
    cursor: pointer;
 }
-.cursor:hover{
-  background-color: rgb(241, 243, 244);;
+
+.cursor:hover {
+   background-color: rgb(241, 243, 244);
+   ;
 }
 
 .input {
@@ -100,14 +115,16 @@
 .pad10 {
    padding: 10px;
 }
-.btn-close{
+
+.btn-close {
    border-radius: 3px !important;
    width: unset;
    height: unset;
    padding: 7px;
    margin: 7px;
 }
-.pin-icon{
+
+.pin-icon {
    margin: 7px;
 }
 
@@ -125,7 +142,10 @@ body {
 
 .cover-header {
    border-bottom: 1px solid rgb(202, 202, 202);
-
+   position: fixed;
+   top: 0;
+   background-color: white;
+   z-index: 10;
 }
 
 /* header */
@@ -210,10 +230,16 @@ body {
 
 
 /* body */
+.cover-body {
+   position: relative;
+   top: 63px;
+   height: calc(100vh - 63px);
+}
+
 /* sidebar */
 
 .sidebar {
-   padding-top: 5px;
+   padding-top: 10px;
    background-color: white;
    height: 100%;
    width: 70px;
@@ -223,8 +249,8 @@ body {
 
 .sidebar-wrap {
    width: 280px;
-   position: absolute;
-   height: calc(100vh - 62px);
+   position: fixed;
+   height: calc(100vh - 63px);
    z-index: 5;
 }
 
@@ -248,6 +274,16 @@ body {
    background-color: rgb(255, 235, 192);
    border-top-right-radius: 30px;
    border-bottom-right-radius: 30px;
+}
+
+.click-menu {
+   width: 100%;
+   background-color: white !important;
+   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.click-menu>.sidebar-row>p {
+   display: block;
 }
 
 .body-content-cover {
@@ -291,8 +327,9 @@ body {
    width: 50px;
    height: 50px;
 }
-.sidebar-btn-note:hover{
-   background-color: rgb(255, 235, 192) !important; 
+
+.sidebar-btn-note:hover {
+   background-color: rgb(255, 235, 192) !important;
 }
 
 /* body-content */
@@ -306,6 +343,8 @@ body {
    align-items: center;
    padding-top: 20px;
    width: 100%;
+   height: fit-content;
+
 }
 
 
@@ -356,15 +395,9 @@ body {
    border-radius: 8px;
    border: 1px solid rgb(206, 206, 206);
    min-height: 80px;
-   width: 235px;
+   width: 237px;
    position: relative;
-   animation-name: delay;
-  animation-duration: 0.03s;
 }
-@keyframes delay {
-   from {width: 0;}
-   to {width: 100%;}
- }
 
 .display-note-icon {
    background: transparent;
@@ -376,9 +409,11 @@ body {
 .note:hover .display-note-icon {
    display: inline-block;
 }
-.note:hover{
+
+.note:hover {
    box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
 }
+
 .display-note-icon:hover {
    background: rgb(241, 243, 244);
 }
@@ -407,7 +442,7 @@ body {
    word-wrap: break-word;
 }
 
-.note-title-wrap {  
+.note-title-wrap {
    padding-bottom: 35px;
 }
 
@@ -445,7 +480,8 @@ body {
 }
 
 .display {
-   justify-content: start;
+   width: 100%;
+   justify-content: flex-start;
    align-items: flex-start;
    max-width: 100%;
    flex-wrap: wrap;
@@ -453,7 +489,7 @@ body {
 }
 
 
-.detail-edit-note-wrap{
+.detail-edit-note-wrap {
    position: absolute;
    width: 100%;
    height: 100%;
@@ -464,25 +500,25 @@ body {
    opacity: 0.7;
 }
 
-.detail-edit-note-content{
+.detail-edit-note-content {
    position: absolute;
    z-index: 15;
    top: 50%;
    left: 50%;
-   transform: translate(-50%,-50%); 
+   transform: translate(-50%, -50%);
 }
 
-.note-option{
+.note-option {
    width: auto;
    height: auto;
    position: absolute;
    border: none;
-   box-shadow:rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px ;
+   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
    border-radius: 5px;
    padding: 5px 0;
 }
 
-.note-option>p{
+.note-option>p {
    line-height: 100%;
    padding: 10px 20px;
    margin: 0;
@@ -490,14 +526,33 @@ body {
    color: #202124;
 }
 
-.note-option>p:hover{
-    background-color: rgb(241, 243, 244);
-    cursor: pointer;
+.note-option>p:hover {
+   background-color: rgb(241, 243, 244);
+   cursor: pointer;
 }
 
-.btn-note-option>i{
+.btn-note-option>i {
    pointer-events: none;
 }
+
+/* Animation */
+
+.delay {
+   animation: slide 0.1s;
+}
+
+@keyframes slide {
+   from {
+      width: 0;
+   }
+
+   to {
+      width: 100%;
+   }
+}
+
+
+
 
 /* Reponsive */
 /* For desktop: */

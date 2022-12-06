@@ -33,10 +33,14 @@ const handleAddNewNote = () => {
    const note = getValueFromNoteDetail();
    if (note.title !== "" || note.content !== "") {
       notes.unshift(note);
+      setListToStorage(notes);
+      displayNotes();
+      document.getElementById(`note${notes[0].id}`).classList.add("delay");
+      setTimeout(() => {
+         document.getElementById(`note${notes[0].id}`).classList.remove("delay");
+      }, 1000);
    }
    closeDetailModal();
-   setListToStorage(notes);
-   displayNotes();
 }
 
 
@@ -46,6 +50,7 @@ const onclickToEdit = e => {
    document.getElementById("detail_edit_note_wrap").classList.remove("hiden");
    document.getElementById("detail_edit_note_content").innerHTML = displayDetailNoteModal();
    document.getElementById("close_detail_modal").addEventListener("click", closeDetailModal);
+   document.getElementById("detail_edit_note_wrap").addEventListener("click", handleEditNote);
 }
 
 
@@ -63,20 +68,27 @@ const handleEditNote = () => {
    setListToStorage(notes);
    displayNotes()
 }
- 
+
+
 const openOptionModal = e => {
-   isOption=true;
+   const openOption = document.getElementById("note_option");
    document.getElementById("optionId").value = parseInt(e.target.id.slice(11));
-   document.getElementById("note_option").classList.remove("hiden");
-   document.getElementById("note_option").style.top = window.event.clientY + 10 + "px";
-   document.getElementById("note_option").style.left = window.event.clientX - 20 + "px";
+   openOption.classList.remove("hiden");
+   openOption.style.top = window.event.clientY + 10 + "px";
+   openOption.style.left = window.event.clientX - 20 + "px";
    e.stopPropagation();
-   document.getElementById("delete_note").addEventListener("click",handleDeleteNote);
+   document.getElementById("delete_note").addEventListener("click", handleDeleteNote);
+   document.body.addEventListener('click', e => {
+
+      if (!openOption.contains(e.target)) {
+         openOption.classList.add("hiden");
+      }
+   });
 }
-const closeOptionModal = () =>{
+const closeOptionModal = () => {
    document.getElementById("note_option").classList.add("hiden");
 }
-const handleDeleteNote = () =>{
+const handleDeleteNote = () => {
    let deleteId = parseInt(document.getElementById("optionId").value);
    notes = notes.filter(person => person.id !== deleteId);
    setListToStorage(notes);
@@ -88,7 +100,7 @@ const displayNotes = () => {
    let noteString = "";
    for (i = 0; i < notes.length; i++) {
       noteString += `<div class="notes-cover flex-row">
-      <div id="note" class="note" data-id="${notes[i].id}">
+      <div id="note${notes[i].id}" class="note" data-id="${notes[i].id}">
          <div class="note-wrap">
             <div class="note-title-wrap">
                <div class="flex-row flex-bet">
@@ -112,38 +124,55 @@ const displayNotes = () => {
    </div>`;
    }
    document.getElementById("display").innerHTML = noteString;
-   document.querySelectorAll(".note").forEach(node => {
+   document.querySelectorAll(".note .note-title-wrap").forEach(node => {
       node.addEventListener("click", onclickToEdit)
    });
-   document.getElementById("detail_edit_note_wrap").addEventListener("click", handleEditNote);
    document.querySelectorAll(".btn-note-option").forEach(node => {
       node.addEventListener("click", openOptionModal)
    });
 }
 
-document.body.addEventListener('click', e => {
-   if (!isOpen) {
-      const openNote = document.getElementById("input_note_cover");
-      if (openNote.contains(e.target)) {
-         isAdd = true;
-         openDetailModal();
-      }
-      if (isOption) {
-         const openOption = document.getElementById("note_option");
-         if (!openOption.contains(e.target)) {
-            openOption.classList.add("hiden");
-            isOption=false;
+const clickOutside = () => {
+   /* 
+   1.to open Detail modal.
+   2. to add new.
+   */
+   document.body.addEventListener('click', e => {
+      if (!isOpen) {
+         const openNote = document.getElementById("input_note_cover");
+         if (openNote.contains(e.target)) {
+            isAdd = true;
+            openDetailModal();
+         }
+      } else {
+         const closeNoteDetail = document.getElementById("input_note_detail");
+         if (!closeNoteDetail.contains(e.target)) {
+            handleAddNewNote();
          }
       }
+   });
+}
+const handleMenuBtn = () => {
+   const bodyContent = document.getElementById("body_content");
+   const sideBar = document.getElementById("sidebar");
+   if (!menuBtnStatus) {
+      bodyContent.classList.add("menu-padding-left");
+      sideBar.classList.add("click-menu");
+      menuBtnStatus = true;
    } else {
-      const closeNoteDetail = document.getElementById("input_note_detail");
-      if (!closeNoteDetail.contains(e.target)) {
-         handleAddNewNote();
-      }
+      bodyContent.classList.remove("menu-padding-left");
+      sideBar.classList.remove("click-menu");
+      menuBtnStatus = false;
    }
-});
 
-document.getElementById("header_menu_icon")
-displayNotes();
+}
+const main = () => {
+   notes = getListFromStorage("noteList") || [];
+   clickOutside();
+   displayNotes();
+   document.getElementById("header_menu_icon").addEventListener("click", handleMenuBtn);
+}
+
+main();
 
 
