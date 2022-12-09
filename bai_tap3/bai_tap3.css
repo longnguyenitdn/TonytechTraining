@@ -128,6 +128,13 @@
    margin: 7px;
 }
 
+.text-black {
+   color: #202124;
+}
+
+.text-blue {
+   color: blue;
+}
 
 /* body */
 * {
@@ -245,10 +252,6 @@ body {
    width: 70px;
    transition: width 0.2s;
    overflow: none;
-}
-
-.sidebar-wrap {
-   width: 280px;
    position: fixed;
    height: calc(100vh - 63px);
    z-index: 5;
@@ -258,6 +261,7 @@ body {
    width: 100%;
    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
    background-color: white !important;
+   width: 280px;
 }
 
 .sidebar-row:hover {
@@ -266,7 +270,11 @@ body {
    border-bottom-right-radius: 30px;
 }
 
-.sidebar:hover>.sidebar-row>p {
+.sidebar:hover .sidebar-row .sidebar-text {
+   display: block;
+}
+
+.sidebar:hover .sidebar-labels .sidebar-row .sidebar-text {
    display: block;
 }
 
@@ -276,13 +284,15 @@ body {
    border-bottom-right-radius: 30px;
 }
 
-.click-menu {
-   width: 100%;
+
+
+.click-menu .sidebar {
+   width: 280px;
    background-color: white !important;
    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 
-.click-menu>.sidebar-row>p {
+.click-menu .sidebar .sidebar-row>p {
    display: block;
 }
 
@@ -353,11 +363,13 @@ body {
    border-radius: 8px;
    border: 1px solid rgb(206, 206, 206);
    overflow: hidden;
+   width: 538px;
 
 }
 
 .take-note>input {
    border: none;
+   outline: none;
    width: 410px;
    height: 45px;
    font-size: 17px;
@@ -508,10 +520,13 @@ body {
    transform: translate(-50%, -50%);
 }
 
+.note-option-cover {
+   position: absolute;
+}
+
 .note-option {
    width: auto;
    height: auto;
-   position: absolute;
    border: none;
    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
    border-radius: 5px;
@@ -535,10 +550,226 @@ body {
    pointer-events: none;
 }
 
-/* Animation */
+.detail-edit-label-wrap {
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   top: 0;
+   left: 0;
+   background-color: rgba(0, 0, 0, 0.8);
+   z-index: 10;
+   opacity: 0.7;
+}
 
+.detail-edit-label-content {
+   background-color: white;
+   position: absolute;
+   z-index: 15;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+   width: 300px;
+   border-radius: 5px;
+}
+
+.label-edit-cover-top {
+   width: 100%;
+   border-bottom: 1px solid rgb(206, 206, 206);
+   padding: 10px;
+}
+
+.label-edit-cover-bot {
+   width: 100%;
+}
+
+.label-edit-header {
+   font-size: 20px;
+   margin: 10px !important;
+}
+
+.label-edit-top-row {
+   position: relative;
+}
+
+.label-edit-top-row>button {
+   font-size: 17px;
+   width: 30px;
+   height: 30px;
+}
+
+.label-edit-top-row .btn-left-input-edit-label {
+   position: absolute;
+   left: 0;
+}
+
+.label-edit-top-row .btn-right-input-edit-label {
+   position: absolute;
+   right: 0;
+}
+
+.label-edit-top-row>input {
+   font-size: 16px;
+   margin: 10px 0;
+   border-bottom: 1px solid rgb(206, 206, 206);
+}
+
+.label-edit-bot {
+   text-align: end;
+
+}
+
+.label-edit-bot>button {
+   font-size: 16px;
+   width: 60px;
+   height: 30px;
+}
+
+.labels-row {
+   margin: auto;
+   position: relative;
+}
+
+.labels-row .button-icon .fa-eraser {
+   display: none;
+}
+
+.labels-row:hover .button-icon .fa-tag {
+   display: none;
+}
+
+.labels-row:hover .button-icon .fa-eraser {
+   display: inline-block;
+}
+
+
+.labels-row>button {
+   font-size: 17px;
+}
+
+.labels-row>input {
+   width: 60%;
+   font-size: 16px;
+}
+
+.remove-label-wrap {
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   top: 0;
+   left: 0;
+   background-color: rgba(0, 0, 0, 0.8);
+   z-index: 20;
+   opacity: 0.7;
+}
+
+
+.remove-confirm-modal {
+   position: absolute;
+   z-index: 25;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   width: 500px;
+   border-radius: 10px;
+}
+
+.remove-confirm-modal-cover {
+   padding: 15px;
+}
+
+.remove-confirm-modal-btn {
+   text-align: end;
+}
+
+.remove-confirm-modal-btn>button {
+   font-size: 17px;
+   margin: unset;
+   margin-right: 10px !important;
+   padding: 5px 15px;
+   border-radius: 5px !important;
+}
+
+.edit-label-name {
+   position: absolute;
+   right: 0;
+}
+
+.handle-label {
+   width: 200px;
+   height: auto;
+   position: absolute;
+   border: none;
+   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+   border-radius: 5px;
+   background-color: white;
+}
+
+.handle-label .handle-label-cover {
+   padding: 5px;
+}
+
+.handle-label .handle-label-cover>h5 {
+   margin: 10px 5px;
+}
+
+.handle-label .handle-label-cover>input {
+   margin-bottom: 10px;
+}
+
+.handle-label-row {
+   padding: 5px;
+   margin-bottom: 5px;
+}
+
+.handle-label-row>p {
+   margin: unset;
+   margin-left: 10px !important;
+   font-size: 15px;
+}
+.list-label{
+   margin: 0 10px;
+   font-size: 12px;
+   background-color: rgb(241, 243, 244);
+   width: fit-content;
+   padding: 5px 10px;
+   border-radius: 10px;
+}
+
+.list-label-name {
+   position: relative;
+   background-color: rgb(241, 243, 244);
+   padding: 2px 3px;
+   border-radius: 20px;
+   width: fit-content;
+   margin: 0 1px;
+}
+
+.list-label-name>span {
+   width: fit-content;
+   padding: 5px 5px;
+   font-size: 12px;
+}
+
+.list-label-name>button {
+   position: absolute;
+   right: 2px;
+   width: 18px;
+   height: 18px;
+   font-size: 10px;
+   display: none;
+}
+
+.list-label-name:hover button {
+   display: inline-block;
+   background-color: rgb(214, 214, 214);
+}
+
+
+
+/* Animation */
 .delay {
-   animation: slide 0.1s;
+   animation: slide 0.3s;
 }
 
 @keyframes slide {
@@ -547,7 +778,7 @@ body {
    }
 
    to {
-      width: 100%;
+      width: 237px;
    }
 }
 
@@ -605,8 +836,12 @@ body {
 }
 
 @media only screen and (max-width: 835px) {
-   .take-note>input {
+   .take-note {
       width: 50vw;
+   }
+
+   .take-note>input {
+      width: 90%;
    }
 
    .search {
@@ -631,6 +866,9 @@ body {
 }
 
 @media only screen and (max-width: 678px) {
+   .display {
+      justify-content: center;
+   }
 
    /* For mobile phones: */
    .input-search-wrap {
@@ -687,7 +925,54 @@ body {
       margin-right: 5px;
    }
 
+   .take-note-icon>button {
+      font-size: 16px;
+      width: 25px;
+      height: 25px;
+   }
+
    .body-content {
       padding-right: unset;
+   }
+
+   .input-take-note {
+      padding: unset !important;
+      padding-left: 5px !important;
+   }
+
+   .header-tool>button {
+      font-size: 18px;
+
+   }
+
+   .cover .header-content .flex-row>button {
+      font-size: 18px;
+   }
+
+   .sidebar-wrap {
+      width: 70px;
+   }
+
+   .menu-padding-left {
+      width: 100%;
+      padding-left: unset !important;
+   }
+
+   .input-note-title {
+      width: auto !important;
+      font-size: unset !important;
+   }
+
+   .input-note-content {
+      width: auto !important;
+      font-size: unset !important;
+   }
+
+   .take-note-detail {
+      width: 280px;
+   }
+
+   .take-note {
+      width: 280px;
    }
 }

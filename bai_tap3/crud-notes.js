@@ -7,11 +7,11 @@ const displayDetailNoteModal = () => {
    }
    return ` <div id="input_note_detail" class="take-note-detail">
    <div class="flex-row flex-bet align-center">
-      <input id="input_note_title" class="input skip" type="text" placeholder="Title" value="${obj.title}">
+      <input id="input_note_title" class="input-note-title input skip" type="text" placeholder="Title" value="${obj.title}">
       <button class="pin-icon button-icon cursor font-sz17"><i class="fa-solid fa-thumbtack"></i></button>
    </div>
    <div>
-      <input id="input_note_content" class="input skip" type="text" placeholder="Take a note..." value="${obj.content}"> 
+      <input id="input_note_content" class="input-note-content input skip" type="text" placeholder="Take a note..." value="${obj.content}"> 
    </div>
    <div class="flex-row flex-bet align-center">
       <div class="button-icon-wrap flex-row flex-bet align-center">
@@ -33,12 +33,15 @@ const handleAddNewNote = () => {
    const note = getValueFromNoteDetail();
    if (note.title !== "" || note.content !== "") {
       notes.unshift(note);
-      setListToStorage(notes);
+      setListToStorage("noteList", notes);
       displayNotes();
-      document.getElementById(`note${notes[0].id}`).classList.add("delay");
       setTimeout(() => {
-         document.getElementById(`note${notes[0].id}`).classList.remove("delay");
-      }, 1000);
+         document.getElementById(`note${notes[0].id}`).classList.add("delay");
+         setTimeout(() => {
+            document.getElementById(`note${notes[0].id}`).classList.remove("delay");
+         }, 300);
+      }, 200);
+
    }
    closeDetailModal();
 }
@@ -65,33 +68,99 @@ const handleEditNote = () => {
       return item;
    })
    closeDetailModal();
-   setListToStorage(notes);
+   setListToStorage("noteList", notes);
    displayNotes()
 }
 
+const displayLabelInNote = () => {
+   notes.forEach(node => {
+      if (node.id == parseInt(document.getElementById("optionId").value)) {
+         if (node.noteLabel !== "") {
+            document.getElementById(`list-label${node.id}`).classList.remove("hiden");
+            document.getElementById(`list-label${node.id}`).innerText=node.noteLabel;
+         }else{
+            document.getElementById(`list-label${node.id}`).classList.add("hiden");
+         }
+      }
+   })
+}
+
+const displayHandleLabelModal = () => {
+   closeOptionModal();
+   let stringHandleLabelModal = `<div class="handle-label">
+   <div class="handle-label-cover">
+      <h5 class="text-black">Label note</h5>
+      <input class="input text-black" type="text" placeholder="Enter label name">
+   </div>
+   <div class="handle-label-list flex-col">`;
+   for (let i = 0; i < labels.length; i++) {
+      stringHandleLabelModal += `<div class="handle-label-row flex-row align-center cursor">
+            <input class="checkboxLabel" type="checkbox" id="checkbox${labels[i].id}">
+            <p id="label_name${labels[i].id}" class="text-black">${labels[i].name}</p>
+         </div>
+      </div>
+   </div>`;
+   }
+   document.getElementById("note_option_label").innerHTML = stringHandleLabelModal;
+   document.body.addEventListener('click', e => {
+      if (!document.getElementById("note_option_cover").contains(e.target)) {
+         closeOptionLabelModal();
+      }
+   });
+
+   document.querySelectorAll(".checkboxLabel").forEach(node => {
+      node.addEventListener("click", e => {
+         labelId = parseInt(e.target.id.slice(8));
+         if (node.checked) {
+            notes.map(item => {
+               if (item.id == parseInt(document.getElementById("optionId").value)) {
+                  item.noteLabel = document.getElementById(`label_name${labelId}`).innerText;
+               }
+            });
+         } else {
+            notes.map(item => {
+               if (item.id == parseInt(document.getElementById("optionId").value)) {
+                  item.noteLabel = document.getElementById(`label_name${labelId}`).innerText;
+               }
+            });
+         }
+         displayLabelInNote();
+      });
+   })
+}
+
+const handleCheckBoxStatus = () =>{
+   
+}
 
 const openOptionModal = e => {
+   const openOptionCover = document.getElementById("note_option_cover");
    const openOption = document.getElementById("note_option");
    document.getElementById("optionId").value = parseInt(e.target.id.slice(11));
    openOption.classList.remove("hiden");
-   openOption.style.top = window.event.clientY + 10 + "px";
-   openOption.style.left = window.event.clientX - 20 + "px";
+   openOptionCover.style.top = window.event.clientY + 10 + "px";
+   openOptionCover.style.left = window.event.clientX - 20 + "px";
    e.stopPropagation();
+   document.getElementById("handle_label").addEventListener("click", displayHandleLabelModal);
    document.getElementById("delete_note").addEventListener("click", handleDeleteNote);
    document.body.addEventListener('click', e => {
-
       if (!openOption.contains(e.target)) {
-         openOption.classList.add("hiden");
+         closeOptionModal();
       }
    });
+}
+
+const closeOptionLabelModal = () => {
+   document.getElementById("note_option_label").innerText = "";
 }
 const closeOptionModal = () => {
    document.getElementById("note_option").classList.add("hiden");
 }
+
 const handleDeleteNote = () => {
    let deleteId = parseInt(document.getElementById("optionId").value);
    notes = notes.filter(person => person.id !== deleteId);
-   setListToStorage(notes);
+   setListToStorage("noteList", notes);
    closeOptionModal();
    displayNotes();
 }
@@ -110,6 +179,7 @@ const displayNotes = () => {
                <div class="note-content-cover">
                   <p id="note_content" class="note_content pad10">${notes[i].content}</p>
                </div>
+               <div id="list-label${notes[i].id}" class="list-label hiden"></div>
             </div>
             <div class="note-icon flex-row flex-bet">
                <button class="button-icon cursor font-sz15 hiden display-note-icon"><i class="fa-solid fa-bullhorn"></i></button>
@@ -139,7 +209,7 @@ const clickOutside = () => {
    */
    document.body.addEventListener('click', e => {
       if (!isOpen) {
-         const openNote = document.getElementById("input_note_cover");
+         const openNote = document.getElementById("input_note");
          if (openNote.contains(e.target)) {
             isAdd = true;
             openDetailModal();
@@ -154,25 +224,25 @@ const clickOutside = () => {
 }
 const handleMenuBtn = () => {
    const bodyContent = document.getElementById("body_content");
-   const sideBar = document.getElementById("sidebar");
+   const sideBarWrap = document.getElementById("sidebar_wrap");
    if (!menuBtnStatus) {
       bodyContent.classList.add("menu-padding-left");
-      sideBar.classList.add("click-menu");
+      sideBarWrap.classList.add("click-menu");
       menuBtnStatus = true;
    } else {
       bodyContent.classList.remove("menu-padding-left");
-      sideBar.classList.remove("click-menu");
+      sideBarWrap.classList.remove("click-menu");
       menuBtnStatus = false;
    }
 
 }
-const main = () => {
+const mainNotes = () => {
    notes = getListFromStorage("noteList") || [];
    clickOutside();
    displayNotes();
    document.getElementById("header_menu_icon").addEventListener("click", handleMenuBtn);
 }
 
-main();
+mainNotes();
 
 

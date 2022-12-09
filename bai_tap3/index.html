@@ -57,7 +57,8 @@
                   <button class="button-icon sidebar-btn cursor"><i class="fa-regular fa-bell "></i></button>
                   <p class="sidebar-text hiden">Reminders</p>
                </div>
-               <div class="flex-row sidebar-row align-center cursor">
+               <div id="labels" class="sidebar-labels flex-col"></div>
+               <div id="editLabels" class="flex-row sidebar-row align-center cursor">
                   <button class="button-icon sidebar-btn cursor"><i class="fa-solid fa-pencil "></i></button>
                   <p class="sidebar-text hiden">Edit labels</p>
                </div>
@@ -84,23 +85,60 @@
                <div id="detail_note"></div>
                <div class="display flex-row" id="display"></div>
             </div>
+            <div id="remove_label_wrap" class="remove-label-wrap hiden"></div>
+            <div id="remove_label_confirm_modal" class="remove-confirm-modal bg-white hiden">
+               <div class="remove-confirm-modal-cover">
+                  <input type="hidden" id="removeId">
+                  <p class="text-black">We’ll delete this label and remove it from all of your Keep notes. Your notes won’t be deleted.</p>
+                  <div class="remove-confirm-modal-btn">
+                     <button id="remove_cancel_btn" class="btn-close button-icon text-black cursor">Cancel</button>
+                     <button id="remove_btn" class="btn-close button-icon cursor text-blue">Delete</button>
+                  </div>
+               </div>
+            </div>
             <div class="detail-edit-note-wrap hiden" id="detail_edit_note_wrap"></div>
             <div id="detail_edit_note_content" class="detail-edit-note-content"></div>
+            <div class="detail-edit-label-wrap hiden" id="detail_edit_label_wrap"></div>
+            <div id="detail_edit_label_content" class="detail-edit-label-content hiden">
+               <div class="label-edit-cover-top">
+                  <div class="label-edit-top">
+                     <p class="label-edit-header text-black">Edit labels</p>
+                     <div class="label-edit-top-row flex-row align-center flex-around">
+                        <button id="btn_left_input_edit_label" class="btn-left-input-edit-label button-icon text-black cursor hiden"><i class="fa-solid fa-xmark"></i></button>
+                        <input id="input_new_label" class="input text-black" type="text" placeholder="Create new label...">
+                        <button id="btn_right_input_edit_label" class="btn-right-input-edit-label button-icon text-black cursor hiden"><i class="fa-solid fa-check"></i></button>
+                     </div>
+                     <div id="labels_list_edit" class="labels-list-edit align-center flex-around">
+                     </div>
+                  </div>
+               </div>
+               <div class="label-edit-cover-bot">
+                  <div class="label-edit-bot">
+                     <button id="btn_done_edit_modal" class="btn-close button-icon text-black cursor">Done</button>
+                  </div>
+               </div>
+            </div>
          </div>
       </div>
    </div>
-   <div id="note_option" class="note-option hiden bg-white">
-      <p id="delete_note">Delete note</p>
-      <p>Add label</p>
-      <p>Add drawing</p>
-      <p>Make a copy</p>
-      <p>Show checkboxes</p>
-      <p>Copy to Google Docs</p>
-      <input type="hidden" id="optionId">
+   <div id="note_option_cover" class="note-option-cover">
+      <div id="note_option" class="note-option  bg-white hiden">
+         <p id="delete_note">Delete note</p>
+         <p id="handle_label">Add label</p>
+         <p>Add drawing</p>
+         <p>Make a copy</p>
+         <p>Show checkboxes</p>
+         <p>Copy to Google Docs</p>
+         <input type="hidden" id="optionId">
+      </div>
+      <div id="note_option_label"></div>
    </div>
+   
+
 </body>
 <script language="javascript" src="variable.js"></script>
 <script language="javascript" src="ultils.js"></script>
-<script language="javascript" src="bai_tap3.js"></script>
+<script language="javascript" src="crud-notes.js"></script>
+<script language="javascript" src="crud-labels.js"></script>
 
 </html>
