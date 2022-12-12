@@ -77,13 +77,14 @@ const displayLabelInNote = () => {
       if (node.id == parseInt(document.getElementById("optionId").value)) {
          if (node.noteLabel !== "") {
             document.getElementById(`list-label${node.id}`).classList.remove("hiden");
-            document.getElementById(`list-label${node.id}`).innerText=node.noteLabel;
-         }else{
+            document.getElementById(`list_label_name${node.id}`).innerText = node.noteLabel;
+         } else {
             document.getElementById(`list-label${node.id}`).classList.add("hiden");
          }
       }
    })
 }
+
 
 const displayHandleLabelModal = () => {
    closeOptionModal();
@@ -94,13 +95,14 @@ const displayHandleLabelModal = () => {
    </div>
    <div class="handle-label-list flex-col">`;
    for (let i = 0; i < labels.length; i++) {
-      stringHandleLabelModal += `<div class="handle-label-row flex-row align-center cursor">
+      stringHandleLabelModal += `<div class="handle-label-row flex-row align-center cursor id="label_row${labels[i].id}" data-labelId="${labels[i].id}">
             <input class="checkboxLabel" type="checkbox" id="checkbox${labels[i].id}">
             <p id="label_name${labels[i].id}" class="text-black">${labels[i].name}</p>
-         </div>
-      </div>
-   </div>`;
+         </div>`;
    }
+   stringHandleLabelModal += `</div>
+   </div>`;
+
    document.getElementById("note_option_label").innerHTML = stringHandleLabelModal;
    document.body.addEventListener('click', e => {
       if (!document.getElementById("note_option_cover").contains(e.target)) {
@@ -108,29 +110,50 @@ const displayHandleLabelModal = () => {
       }
    });
 
-   document.querySelectorAll(".checkboxLabel").forEach(node => {
+   document.querySelectorAll(".handle-label-row").forEach(node => {
       node.addEventListener("click", e => {
-         labelId = parseInt(e.target.id.slice(8));
-         if (node.checked) {
+         labelId = parseInt(e.target.closest(".handle-label-row").getAttribute("data-labelId"));
+         let checkboxst = document.getElementById(`checkbox${labelId}`);
+         if (!checkboxst.checked) {
+            checkboxst.checked = true;
             notes.map(item => {
                if (item.id == parseInt(document.getElementById("optionId").value)) {
                   item.noteLabel = document.getElementById(`label_name${labelId}`).innerText;
                }
             });
          } else {
+            checkboxst.checked = false;
             notes.map(item => {
                if (item.id == parseInt(document.getElementById("optionId").value)) {
-                  item.noteLabel = document.getElementById(`label_name${labelId}`).innerText;
+                  item.noteLabel = "";
                }
             });
          }
+         handleCheckBoxStatusAfterClick();
          displayLabelInNote();
       });
    })
+   handleCheckBoxStatus();
 }
 
-const handleCheckBoxStatus = () =>{
-   
+const handleCheckBoxStatus = () => {
+   let optionId = document.getElementById("optionId").value;
+   let note = notes.find(item => item.id == optionId);
+   labels.forEach(node => {
+      if (node.name === note.noteLabel){
+         document.getElementById(`checkbox${node.id}`).checked = true;
+      }else{
+         document.getElementById(`checkbox${node.id}`).checked = false;
+      }
+   })
+}
+
+const handleCheckBoxStatusAfterClick = () => {
+   labels.forEach(node => {
+      if (node.id !== labelId) {
+         document.getElementById(`checkbox${node.id}`).checked = false;
+      }
+   })
 }
 
 const openOptionModal = e => {
@@ -165,6 +188,18 @@ const handleDeleteNote = () => {
    displayNotes();
 }
 
+const removeLabelFromNote = e => {
+   let removeNoteId = parseInt(e.target.id.slice(14));
+   notes.map(item => {
+      if(item.id==removeNoteId){
+         return item.noteLabel="";  
+      }
+   })
+   displayLabelInNote();
+   handleCheckBoxStatus();
+   e.stopPropagation();
+}
+
 const displayNotes = () => {
    let noteString = "";
    for (i = 0; i < notes.length; i++) {
@@ -178,8 +213,11 @@ const displayNotes = () => {
                </div>
                <div class="note-content-cover">
                   <p id="note_content" class="note_content pad10">${notes[i].content}</p>
-               </div>
-               <div id="list-label${notes[i].id}" class="list-label hiden"></div>
+               </div>   
+               <div id="list-label${notes[i].id}" class="list-label hiden">
+               <p id="list_label_name${notes[i].id}"></p>
+               <button id="removeLabelBtn${notes[i].id}" class="remove-label-btn button-icon cursor"><i class="fa-solid fa-xmark avoid-clicks"></i></button>
+            </div>
             </div>
             <div class="note-icon flex-row flex-bet">
                <button class="button-icon cursor font-sz15 hiden display-note-icon"><i class="fa-solid fa-bullhorn"></i></button>
@@ -194,12 +232,17 @@ const displayNotes = () => {
    </div>`;
    }
    document.getElementById("display").innerHTML = noteString;
+   document.querySelectorAll(".list-label .remove-label-btn").forEach(node => {
+      node.addEventListener("click", removeLabelFromNote)
+   });
    document.querySelectorAll(".note .note-title-wrap").forEach(node => {
       node.addEventListener("click", onclickToEdit)
    });
    document.querySelectorAll(".btn-note-option").forEach(node => {
       node.addEventListener("click", openOptionModal)
    });
+
+   displayLabelInNote();
 }
 
 const clickOutside = () => {
