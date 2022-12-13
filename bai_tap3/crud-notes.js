@@ -20,7 +20,7 @@ const displayDetailNoteModal = () => {
          <button class="button-icon cursor font-sz15"> <i class="fa-solid fa-palette"></i></button>
          <button class="button-icon cursor font-sz15"><i class="fa-solid fa-image"></i></button>
          <button class="button-icon cursor font-sz15"><i class="fa-solid fa-file-arrow-down"></i></button>
-         <button class="button-icon cursor font-sz15"><i class="fa-solid fa-ellipsis"></i></button>
+         <button class="option-btn button-icon cursor font-sz15"><i class="fa-solid fa-ellipsis"></i></button>
          <button class="button-icon cursor font-sz15"><i class="fa-solid fa-angles-left"></i></button>
          <button class="button-icon cursor font-sz15"><i class="fa-solid fa-angles-right"></i></button>
       </div>
@@ -72,18 +72,6 @@ const handleEditNote = () => {
    displayNotes()
 }
 
-const displayLabelInNote = () => {
-   notes.forEach(node => {
-      if (node.id == parseInt(document.getElementById("optionId").value)) {
-         if (node.noteLabel !== "") {
-            document.getElementById(`list-label${node.id}`).classList.remove("hiden");
-            document.getElementById(`list_label_name${node.id}`).innerText = node.noteLabel;
-         } else {
-            document.getElementById(`list-label${node.id}`).classList.add("hiden");
-         }
-      }
-   })
-}
 
 
 const displayHandleLabelModal = () => {
@@ -96,8 +84,8 @@ const displayHandleLabelModal = () => {
    <div class="handle-label-list flex-col">`;
    for (let i = 0; i < labels.length; i++) {
       stringHandleLabelModal += `<div class="handle-label-row flex-row align-center cursor id="label_row${labels[i].id}" data-labelId="${labels[i].id}">
-            <input class="checkboxLabel" type="checkbox" id="checkbox${labels[i].id}">
-            <p id="label_name${labels[i].id}" class="text-black">${labels[i].name}</p>
+            <input class="checkbox-label cursor" type="checkbox" id="checkbox${labels[i].id}" name="${labels[i].name}">
+            <label for="checkbox${labels[i].id}" class="text-black cursor">${labels[i].name}</label>
          </div>`;
    }
    stringHandleLabelModal += `</div>
@@ -110,19 +98,16 @@ const displayHandleLabelModal = () => {
       }
    });
 
-   document.querySelectorAll(".handle-label-row").forEach(node => {
-      node.addEventListener("click", e => {
-         labelId = parseInt(e.target.closest(".handle-label-row").getAttribute("data-labelId"));
-         let checkboxst = document.getElementById(`checkbox${labelId}`);
-         if (!checkboxst.checked) {
-            checkboxst.checked = true;
+   document.querySelectorAll(".checkbox-label").forEach(node => {
+      node.addEventListener("change", e => {
+         labelId = parseInt(e.target.id.slice(8));
+         if (e.target.checked) {
             notes.map(item => {
                if (item.id == parseInt(document.getElementById("optionId").value)) {
-                  item.noteLabel = document.getElementById(`label_name${labelId}`).innerText;
+                  item.noteLabel = document.getElementById(`checkbox${labelId}`).name;
                }
             });
          } else {
-            checkboxst.checked = false;
             notes.map(item => {
                if (item.id == parseInt(document.getElementById("optionId").value)) {
                   item.noteLabel = "";
@@ -130,7 +115,8 @@ const displayHandleLabelModal = () => {
             });
          }
          handleCheckBoxStatusAfterClick();
-         displayLabelInNote();
+         setListToStorage("noteList", notes);
+         displayNotes();
       });
    })
    handleCheckBoxStatus();
@@ -140,9 +126,9 @@ const handleCheckBoxStatus = () => {
    let optionId = document.getElementById("optionId").value;
    let note = notes.find(item => item.id == optionId);
    labels.forEach(node => {
-      if (node.name === note.noteLabel){
+      if (node.name === note.noteLabel) {
          document.getElementById(`checkbox${node.id}`).checked = true;
-      }else{
+      } else {
          document.getElementById(`checkbox${node.id}`).checked = false;
       }
    })
@@ -191,32 +177,53 @@ const handleDeleteNote = () => {
 const removeLabelFromNote = e => {
    let removeNoteId = parseInt(e.target.id.slice(14));
    notes.map(item => {
-      if(item.id==removeNoteId){
-         return item.noteLabel="";  
+      if (item.id == removeNoteId) {
+         return item.noteLabel = "";
       }
    })
-   displayLabelInNote();
-   handleCheckBoxStatus();
+   setListToStorage("noteList", notes);
    e.stopPropagation();
+   displayNotes();
+}
+
+const showAllNotes = () =>{
+   isFilter=false;
+   displayNotes();
+}
+
+const displayNotesWithFilter = () => {
+   let list = [];
+   if (isFilter) {
+      if (filterList.length == 0) {
+         document.getElementById("display").innerText = NOTI_NOT_FOUND;
+      } else {
+         list = filterList;
+      }
+   } else {
+      list = notes;
+   }
+return list;
 }
 
 const displayNotes = () => {
+   let list=displayNotesWithFilter();
    let noteString = "";
-   for (i = 0; i < notes.length; i++) {
+   for (i = 0; i < list.length; i++) {
       noteString += `<div class="notes-cover flex-row">
-      <div id="note${notes[i].id}" class="note" data-id="${notes[i].id}">
+      <div id="note${list[i].id}" class="note" data-id="${list[i].id}">
          <div class="note-wrap">
             <div class="note-title-wrap">
                <div class="flex-row flex-bet">
-                  <span id="note_title" class="note_title pad10">${notes[i].title}</span>
+                  <span id="note_title" class="note_title pad10">${list[i].title}</span>
                   <button class="button-icon cursor font-sz15 hiden display-note-icon note-pin-icon"><i class="fa-solid fa-thumbtack"></i></button>
                </div>
                <div class="note-content-cover">
-                  <p id="note_content" class="note_content pad10">${notes[i].content}</p>
+                  <p id="note_content" class="note_content pad10">${list[i].content}</p>
                </div>   
-               <div id="list-label${notes[i].id}" class="list-label hiden">
-               <p id="list_label_name${notes[i].id}"></p>
-               <button id="removeLabelBtn${notes[i].id}" class="remove-label-btn button-icon cursor"><i class="fa-solid fa-xmark avoid-clicks"></i></button>
+           
+               <div id="list_label${list[i].id}" class="list-label ${(list[i].noteLabel) === '' ? "hiden" : ""}">
+               <p id="list_label_name${list[i].id}">${list[i].noteLabel}</p>
+               <button id="removeLabelBtn${list[i].id}" class="remove-label-btn button-icon cursor"><i class="fa-solid fa-xmark avoid-clicks"></i></button>
             </div>
             </div>
             <div class="note-icon flex-row flex-bet">
@@ -225,7 +232,7 @@ const displayNotes = () => {
                <button class="button-icon cursor font-sz15 hiden display-note-icon"><i class="fa-solid fa-palette"></i></button>
                <button class="button-icon cursor font-sz15 hiden display-note-icon"><i class="fa-solid fa-image"></i></button>
                <button class="button-icon cursor font-sz15 hiden display-note-icon"><i class="fa-solid fa-file-arrow-down"></i></button>
-               <button id="btn_option_${notes[i].id}" class="btn-note-option button-icon cursor font-sz15 hiden display-note-icon"><i class="fa-solid fa-ellipsis"></i></button>
+               <button id="btn_option_${list[i].id}" class="btn-note-option button-icon cursor font-sz15 hiden display-note-icon"><i class="fa-solid fa-ellipsis"></i></button>
             </div>
          </div>
       </div>
@@ -242,7 +249,6 @@ const displayNotes = () => {
       node.addEventListener("click", openOptionModal)
    });
 
-   displayLabelInNote();
 }
 
 const clickOutside = () => {
@@ -284,6 +290,8 @@ const mainNotes = () => {
    clickOutside();
    displayNotes();
    document.getElementById("header_menu_icon").addEventListener("click", handleMenuBtn);
+   document.getElementById("sidebar_btn_note").addEventListener("click",showAllNotes);
+
 }
 
 mainNotes();

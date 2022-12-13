@@ -247,8 +247,7 @@ const sortListByPhone = () => {
 
 }
 
-const 
-getPersonListWithCondition = () => {
+const getPersonListWithCondition = () => {
    let keySearch = document.getElementById("search").value;
    if (keySearch == "") {
       return inputPersons;

@@ -244,6 +244,9 @@ body {
 }
 
 /* sidebar */
+.sidebar-wrap{
+   z-index: 10;
+}
 
 .sidebar {
    padding-top: 10px;
@@ -254,7 +257,6 @@ body {
    overflow: none;
    position: fixed;
    height: calc(100vh - 63px);
-   z-index: 5;
 }
 
 .sidebar:hover {
@@ -718,17 +720,24 @@ body {
 }
 
 .handle-label-row {
-   padding: 5px;
+   padding: 5px 0;
    margin-bottom: 5px;
+   position: relative;
+
 }
 
-.handle-label-row>p {
-   margin: unset;
-   margin-left: 10px !important;
-   font-size: 15px;
+.handle-label-row>input {
+   position: absolute;
+   left: 10px;
 }
 
-.list-label{
+.handle-label-row>label {
+   padding: 0 40px;
+   width: 100%;
+}
+
+
+.list-label {
    position: relative;
    margin: 0 10px 5px 10px;
    font-size: 12px;
@@ -736,25 +745,26 @@ body {
    width: fit-content;
    padding: 5px 10px;
    border-radius: 10px;
- 
 }
-.list-label>p{
+
+.list-label>p {
    margin: 0;
 }
 
 .avoid-clicks {
    pointer-events: none;
- }
+}
 
 .list-label>button {
    position: absolute;
-    bottom: 2px;
-    right: 2px;
-    width: 20px;
-    height: 20px;
-    font-size: 12px;
-    background-color: rgb(215, 215, 215) !important;
+   bottom: 2px;
+   right: 2px;
+   width: 20px;
+   height: 20px;
+   font-size: 12px;
+   background-color: rgb(215, 215, 215) !important;
    display: none;
+
 }
 
 .list-label:hover button {
@@ -945,9 +955,6 @@ body {
       font-size: 18px;
    }
 
-   .sidebar-wrap {
-      width: 70px;
-   }
 
    .menu-padding-left {
       width: 100%;
@@ -965,10 +972,21 @@ body {
    }
 
    .take-note-detail {
-      width: 280px;
+      width: auto;
    }
 
    .take-note {
-      width: 280px;
+      width: auto;
+   }
+
+   .input-note-cover{
+      width: 255px;
+      margin-right: 35px !important;
+   }
+   .detail-note{
+      width: inherit;
+   }
+   .option-btn{
+      display: none;
    }
 }

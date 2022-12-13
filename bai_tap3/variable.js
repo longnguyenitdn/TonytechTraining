@@ -14,3 +14,6 @@ const removeLabelConf=document.getElementById("remove_label_confirm_modal");
  const removeLabelWrap = document.getElementById("remove_label_wrap");
 let currentLabelId=null;
 let labelId=null;
+let filterList=[];
+let isFilter=false;
+const NOTI_NOT_FOUND="Nothing to show!"

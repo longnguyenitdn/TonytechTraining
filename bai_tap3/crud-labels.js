@@ -1,12 +1,15 @@
 const displaySidebarLabel = () => {
    let stringLabel = "";
    for (i = 0; i < labels.length; i++) {
-      stringLabel += `<div class="flex-row sidebar-row align-center cursor">
-      <button class="button-icon sidebar-btn cursor"><i class="fa-solid fa-tag"></i></button>
-      <p class="sidebar-text hiden">${labels[i].name}</p>
+      stringLabel += `<div id="sidebar_labels${labels[i].id}" class="sidebar-labels flex-row sidebar-row align-center cursor">
+      <button  class=" button-icon sidebar-btn cursor avoid-clicks"><i class="fa-solid fa-tag avoid-clicks"></i></button>
+      <p class="sidebar-text hiden avoid-clicks">${labels[i].name}</p>
    </div>`;
    }
    document.getElementById("labels").innerHTML = stringLabel;
+   document.querySelectorAll(".sidebar-labels").forEach(node => {
+      node.addEventListener("click", filterLabelByTagName);
+   })
 }
 
 const displayEditLabelList = () => {
@@ -14,7 +17,7 @@ const displayEditLabelList = () => {
    for (i = 0; i < labels.length; i++) {
       stringEditLabel += `<div id="labels_row${labels[i].id}" class="labels-row flex-row align-center flex-bet">
       <button class="button-icon cursor">
-      <i class="fa-solid fa-tag"></i>
+      <i class="fa-solid fa-tag "></i>
       <i id="rbtn${labels[i].id}" class="eraser fa-solid fa-eraser"></i>
       </button>
       <input id="label-name${labels[i].id}" class="label-name input" value="${labels[i].name}">
@@ -39,6 +42,17 @@ const displayEditLabelList = () => {
       })
    })
 }
+
+
+const filterLabelByTagName = e => {
+   isFilter=true;
+   let labelIdSidebar = parseInt(e.target.id.slice(14));
+   let label = labels.find(item => item.id == labelIdSidebar);
+   filterList = notes.filter(item => label.name == item.noteLabel);
+   displayNotes();
+}
+
+
 
 const handleAddNewLabel = () => {
    const label = getValueFromLabelModal();
@@ -65,7 +79,7 @@ const handleEditLabel = () => {
       if (item.id == editLabelId) {
          item.name = editLabelName;
       }
-      return item;   
+      return item;
    })
    setListToStorage("labelList", labels);
    displayLabelList();
