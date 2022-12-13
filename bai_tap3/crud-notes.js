@@ -186,59 +186,59 @@ const removeLabelFromNote = e => {
    displayNotes();
 }
 
-const showAllNotes = () =>{
-   isFilter=false;
+const showAllNotes = () => {
+   isFilter = false;
    displayNotes();
 }
 
 const displayNotesWithFilter = () => {
    let list = [];
    if (isFilter) {
-      if (filterList.length == 0) {
-         document.getElementById("display").innerText = NOTI_NOT_FOUND;
-      } else {
-         list = filterList;
-      }
+      list = filterList;
    } else {
       list = notes;
    }
-return list;
+   return list;
 }
 
 const displayNotes = () => {
-   let list=displayNotesWithFilter();
+   let list = displayNotesWithFilter();
    let noteString = "";
-   for (i = 0; i < list.length; i++) {
-      noteString += `<div class="notes-cover flex-row">
-      <div id="note${list[i].id}" class="note" data-id="${list[i].id}">
-         <div class="note-wrap">
-            <div class="note-title-wrap">
-               <div class="flex-row flex-bet">
-                  <span id="note_title" class="note_title pad10">${list[i].title}</span>
-                  <button class="button-icon cursor font-sz15 hiden display-note-icon note-pin-icon"><i class="fa-solid fa-thumbtack"></i></button>
+   if (list.length !== 0) {
+      for (i = 0; i < list.length; i++) {
+         noteString += `<div class="notes-cover flex-row">
+         <div id="note${list[i].id}" class="note" data-id="${list[i].id}">
+            <div class="note-wrap">
+               <div class="note-title-wrap">
+                  <div class="flex-row flex-bet">
+                     <span id="note_title" class="note_title pad10">${list[i].title}</span>
+                     <button class="button-icon cursor font-sz15 hiden display-note-icon note-pin-icon"><i class="fa-solid fa-thumbtack"></i></button>
+                  </div>
+                  <div class="note-content-cover">
+                     <p id="note_content" class="note_content pad10">${list[i].content}</p>
+                  </div>               
+                  <div id="list_label${list[i].id}" class="list-label ${(list[i].noteLabel) === '' ? "hiden" : ""}">
+                  <p id="list_label_name${list[i].id}">${list[i].noteLabel}</p>
+                  <button id="removeLabelBtn${list[i].id}" class="remove-label-btn button-icon cursor"><i class="fa-solid fa-xmark avoid-clicks"></i></button>
                </div>
-               <div class="note-content-cover">
-                  <p id="note_content" class="note_content pad10">${list[i].content}</p>
-               </div>   
-           
-               <div id="list_label${list[i].id}" class="list-label ${(list[i].noteLabel) === '' ? "hiden" : ""}">
-               <p id="list_label_name${list[i].id}">${list[i].noteLabel}</p>
-               <button id="removeLabelBtn${list[i].id}" class="remove-label-btn button-icon cursor"><i class="fa-solid fa-xmark avoid-clicks"></i></button>
-            </div>
-            </div>
-            <div class="note-icon flex-row flex-bet">
-               <button class="button-icon cursor font-sz15 hiden display-note-icon"><i class="fa-solid fa-bullhorn"></i></button>
-               <button class="button-icon cursor font-sz15 hiden display-note-icon"><i class="fa-solid fa-user-plus"></i></button>
-               <button class="button-icon cursor font-sz15 hiden display-note-icon"><i class="fa-solid fa-palette"></i></button>
-               <button class="button-icon cursor font-sz15 hiden display-note-icon"><i class="fa-solid fa-image"></i></button>
-               <button class="button-icon cursor font-sz15 hiden display-note-icon"><i class="fa-solid fa-file-arrow-down"></i></button>
-               <button id="btn_option_${list[i].id}" class="btn-note-option button-icon cursor font-sz15 hiden display-note-icon"><i class="fa-solid fa-ellipsis"></i></button>
+               </div>
+               <div class="note-icon flex-row flex-bet">
+                  <button class="button-icon cursor font-sz15 hiden display-note-icon"><i class="fa-solid fa-bullhorn"></i></button>
+                  <button class="button-icon cursor font-sz15 hiden display-note-icon"><i class="fa-solid fa-user-plus"></i></button>
+                  <button class="button-icon cursor font-sz15 hiden display-note-icon"><i class="fa-solid fa-palette"></i></button>
+                  <button class="button-icon cursor font-sz15 hiden display-note-icon"><i class="fa-solid fa-image"></i></button>
+                  <button class="button-icon cursor font-sz15 hiden display-note-icon"><i class="fa-solid fa-file-arrow-down"></i></button>
+                  <button id="btn_option_${list[i].id}" class="btn-note-option button-icon cursor font-sz15 hiden display-note-icon"><i class="fa-solid fa-ellipsis"></i></button>
+               </div>
             </div>
          </div>
-      </div>
-   </div>`;
+      </div>`;
+      }
+   } else {
+      noteString = `<p class="nothing">${NOTI_NOT_FOUND}</p>`;
    }
    document.getElementById("display").innerHTML = noteString;
+
    document.querySelectorAll(".list-label .remove-label-btn").forEach(node => {
       node.addEventListener("click", removeLabelFromNote)
    });
@@ -290,7 +290,7 @@ const mainNotes = () => {
    clickOutside();
    displayNotes();
    document.getElementById("header_menu_icon").addEventListener("click", handleMenuBtn);
-   document.getElementById("sidebar_btn_note").addEventListener("click",showAllNotes);
+   document.getElementById("sidebar_btn_note").addEventListener("click", showAllNotes);
 
 }
 

@@ -771,6 +771,13 @@ body {
    display: inline-block;
 }
 
+.nothing{
+   color: #202124 !important;
+   font-size: 20px;
+   width: 100%;
+   text-align: center;
+}
+
 
 
 /* Animation */
