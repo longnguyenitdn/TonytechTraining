@@ -135,7 +135,7 @@
 .text-blue {
    color: blue;
 }
-
+/* --------------------------------header----------------------------- */
 /* body */
 * {
    box-sizing: border-box;
@@ -236,14 +236,14 @@ body {
 }
 
 
-/* body */
+/*----------------------------------------- body-------------------------------------- */
 .cover-body {
    position: relative;
    top: 63px;
    height: calc(100vh - 63px);
 }
 
-/* sidebar */
+/* ---------------------------------------sidebar------------------------------------- */
 .sidebar-wrap{
    z-index: 10;
 }
@@ -344,7 +344,7 @@ body {
    background-color: rgb(255, 235, 192) !important;
 }
 
-/* body-content */
+/* -----------------------------------------body-content-------------------------------------- */
 .body-content {
    width: 100%;
    padding-left: 100px;
@@ -432,12 +432,12 @@ body {
    background: rgb(241, 243, 244);
 }
 
+
+
+/* -------------------------------------Note-------------------------------------- */
 .note-wrap {
    padding: 5px;
 }
-
-/* .note-wrap:hover */
-
 .note_title {
    font-size: 18px !important;
    font-weight: 600 !important;
@@ -504,19 +504,19 @@ body {
 
 
 .detail-edit-note-wrap {
-   position: absolute;
+   position: fixed;
    width: 100%;
    height: 100%;
    top: 0;
    left: 0;
    background-color: rgba(0, 0, 0, 0.8);
-   z-index: 10;
+   z-index: 50;
    opacity: 0.7;
 }
 
 .detail-edit-note-content {
-   position: absolute;
-   z-index: 15;
+   position: fixed;
+   z-index: 55;
    top: 50%;
    left: 50%;
    transform: translate(-50%, -50%);
@@ -553,20 +553,20 @@ body {
 }
 
 .detail-edit-label-wrap {
-   position: absolute;
+   position: fixed;
    width: 100%;
    height: 100%;
    top: 0;
    left: 0;
    background-color: rgba(0, 0, 0, 0.8);
-   z-index: 10;
+   z-index: 50;
    opacity: 0.7;
 }
 
 .detail-edit-label-content {
    background-color: white;
-   position: absolute;
-   z-index: 15;
+   position: fixed;
+   z-index: 55;
    top: 50%;
    left: 50%;
    transform: translate(-50%, -50%);
@@ -664,7 +664,6 @@ body {
    z-index: 20;
    opacity: 0.7;
 }
-
 
 .remove-confirm-modal {
    position: absolute;
@@ -764,7 +763,6 @@ body {
    font-size: 12px;
    background-color: rgb(215, 215, 215) !important;
    display: none;
-
 }
 
 .list-label:hover button {
@@ -789,64 +787,14 @@ body {
    from {
       width: 0;
    }
-
    to {
       width: 237px;
    }
 }
 
 
-
-
-/* Reponsive */
+/* ----------------------------------------------Reponsive------------------------------------------- */
 /* For desktop: */
-.col-1 {
-   width: 8.33%;
-}
-
-.col-2 {
-   width: 16.66%;
-}
-
-.col-3 {
-   width: 25%;
-}
-
-.col-4 {
-   width: 33.33%;
-}
-
-.col-5 {
-   width: 41.66%;
-}
-
-.col-6 {
-   width: 50%;
-}
-
-.col-7 {
-   width: 58.33%;
-}
-
-.col-8 {
-   width: 66.66%;
-}
-
-.col-9 {
-   width: 75%;
-}
-
-.col-10 {
-   width: 83.33%;
-}
-
-.col-11 {
-   width: 91.66%;
-}
-
-.col-12 {
-   width: 100%;
-}
 
 @media only screen and (max-width: 835px) {
    .take-note {

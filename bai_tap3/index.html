@@ -35,7 +35,6 @@
                <button class="cursor btn-bg"><i class="fa-regular fa-rectangle-list"></i></button>
                <button class="cursor btn-bg"><i class="fa-solid fa-gear"></i></button>
             </div>
-
          </div>
          <div>
             <div class="header-gg flex-row">
@@ -47,9 +46,31 @@
    </div>
    <div class="cover-body cover body-content-cover">
       <div class="flex-row">
+         <div id="detail_edit_note_wrap" class="detail-edit-note-wrap hiden"></div>
+         <div id="detail_edit_note_content" class="detail-edit-note-content"></div>
+         <div class="detail-edit-label-wrap hiden" id="detail_edit_label_wrap"></div>
+         <div id="detail_edit_label_content" class="detail-edit-label-content hiden">
+            <div class="label-edit-cover-top">
+               <div class="label-edit-top">
+                  <p class="label-edit-header text-black">Edit labels</p>
+                  <div class="label-edit-top-row flex-row align-center flex-around">
+                     <button id="btn_left_input_edit_label" class="btn-left-input-edit-label button-icon text-black cursor hiden"><i class="fa-solid fa-xmark"></i></button>
+                     <input id="input_new_label" class="input text-black" type="text" placeholder="Create new label...">
+                     <button id="btn_right_input_edit_label" class="btn-right-input-edit-label button-icon text-black cursor hiden"><i class="fa-solid fa-check"></i></button>
+                  </div>
+                  <div id="labels_list_edit" class="labels-list-edit align-center flex-around">
+                  </div>
+               </div>
+            </div>
+            <div class="label-edit-cover-bot">
+               <div class="label-edit-bot">
+                  <button id="btn_done_edit_modal" class="btn-close button-icon text-black cursor">Done</button>
+               </div>
+            </div>
+         </div>
          <div id="sidebar_wrap" class="sidebar-wrap">
             <div id="sidebar" class="sidebar flex-col">
-               <div id="sidebar_btn_note"  class="flex-row sidebar-row sidebar-row-top align-center cursor">
+               <div id="sidebar_btn_note" class="flex-row sidebar-row sidebar-row-top align-center cursor">
                   <button id="sidebar_btn_note" class="button-icon sidebar-btn sidebar-btn-note cursor void-clicks"><i class="fa-regular fa-lightbulb void-clicks"></i></button>
                   <p class="sidebar-text hiden">Notes</p>
                </div>
@@ -96,28 +117,6 @@
                   </div>
                </div>
             </div>
-            <div class="detail-edit-note-wrap hiden" id="detail_edit_note_wrap"></div>
-            <div id="detail_edit_note_content" class="detail-edit-note-content"></div>
-            <div class="detail-edit-label-wrap hiden" id="detail_edit_label_wrap"></div>
-            <div id="detail_edit_label_content" class="detail-edit-label-content hiden">
-               <div class="label-edit-cover-top">
-                  <div class="label-edit-top">
-                     <p class="label-edit-header text-black">Edit labels</p>
-                     <div class="label-edit-top-row flex-row align-center flex-around">
-                        <button id="btn_left_input_edit_label" class="btn-left-input-edit-label button-icon text-black cursor hiden"><i class="fa-solid fa-xmark"></i></button>
-                        <input id="input_new_label" class="input text-black" type="text" placeholder="Create new label...">
-                        <button id="btn_right_input_edit_label" class="btn-right-input-edit-label button-icon text-black cursor hiden"><i class="fa-solid fa-check"></i></button>
-                     </div>
-                     <div id="labels_list_edit" class="labels-list-edit align-center flex-around">
-                     </div>
-                  </div>
-               </div>
-               <div class="label-edit-cover-bot">
-                  <div class="label-edit-bot">
-                     <button id="btn_done_edit_modal" class="btn-close button-icon text-black cursor">Done</button>
-                  </div>
-               </div>
-            </div>
          </div>
       </div>
    </div>
@@ -138,7 +137,7 @@
 </body>
 <script language="javascript" src="variable.js"></script>
 <script language="javascript" src="ultils.js"></script>
-<script language="javascript" src="crud-notes.js"></script>
 <script language="javascript" src="crud-labels.js"></script>
+<script language="javascript" src="crud-notes.js"></script>
 
 </html>

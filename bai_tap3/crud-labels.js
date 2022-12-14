@@ -24,7 +24,6 @@ const displayEditLabelList = () => {
       <button id="eLabelBtn${labels[i].id}" class="edit-label-name button-icon cursor hiden"><i class="fa-solid fa-check"></i></button>
    </div>`;
    }
-
    document.getElementById("labels_list_edit").innerHTML = stringEditLabel;
    document.querySelectorAll(".eraser").forEach(node => {
       node.addEventListener("click", e => {
@@ -32,7 +31,6 @@ const displayEditLabelList = () => {
          openRemoveConfirmModal(removeLabelWrap, removeLabelConf);
       })
    })
-
    document.querySelectorAll(".label-name").forEach(node => {
       node.addEventListener("click", e => {
          if (node.contains(e.target)) {
@@ -47,8 +45,7 @@ const displayEditLabelList = () => {
 const filterLabelByTagName = e => {
    isFilter=true;
    let labelIdSidebar = parseInt(e.target.id.slice(14));
-   let label = labels.find(item => item.id == labelIdSidebar);
-   filterList = notes.filter(item => label.name == item.noteLabel);
+   filterList = notes.filter(item => labelIdSidebar == item.noteLabelId);
    displayNotes();
 }
 

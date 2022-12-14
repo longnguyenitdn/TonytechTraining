@@ -2,7 +2,7 @@ const getListFromStorage = (list) => {
    return JSON.parse(localStorage.getItem(list));
 }
 
-const setListToStorage = (key,list) => {
+const setListToStorage = (key, list) => {
    localStorage.setItem(key, JSON.stringify(list));
 }
 
@@ -39,7 +39,7 @@ const getValueFromNoteDetail = () => {
       id: Date.now(),
       title,
       content,
-      noteLabelId:""
+      noteLabelId: ""
    }
    return note;
 }
@@ -62,9 +62,9 @@ const openRemoveConfirmModal = () => {
    removeLabelWrap.classList.remove("hiden");
    document.getElementById("remove_cancel_btn").addEventListener("click", closeRemoveConfirmModal);
    document.getElementById("remove_btn").addEventListener("click", handleRemoveLabel);
-   removeLabelWrap.addEventListener("click",closeRemoveConfirmModal);
-
+   removeLabelWrap.addEventListener("click", closeRemoveConfirmModal);
 }
+
 const displayLabelList = () => {
    displaySidebarLabel();
    displayEditLabelList();
@@ -107,14 +107,14 @@ const openEditLabelModal = () => {
    document.getElementById("input_new_label").addEventListener("click", openEditLabelBtn);
    document.getElementById("btn_done_edit_modal").addEventListener("click", closeEditLabelModal);
    displayEditLabelList();
-   editWrapLabel.addEventListener("click",closeEditLabelModal);
+   editWrapLabel.addEventListener("click", closeEditLabelModal);
 }
 
 const handleEditLabelToSaveBtn = () => {
    document.querySelectorAll(".edit-label-name").forEach(node => {
       if (parseInt(node.id.slice(9)) === editLabelId) {
          node.classList.remove("hiden");
-         node.addEventListener("click",handleEditLabel);
+         node.addEventListener("click", handleEditLabel);
       } else {
          node.classList.add("hiden");
       }
