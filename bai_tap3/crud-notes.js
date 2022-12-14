@@ -100,20 +100,7 @@ const displayHandleLabelModal = () => {
 
    document.querySelectorAll(".checkbox-label").forEach(node => {
       node.addEventListener("change", e => {
-         labelId = parseInt(e.target.id.slice(8));
-         if (e.target.checked) {
-            notes.map(item => {
-               if (item.id == parseInt(document.getElementById("optionId").value)) {
-                  item.noteLabel = document.getElementById(`checkbox${labelId}`).name;
-               }
-            });
-         } else {
-            notes.map(item => {
-               if (item.id == parseInt(document.getElementById("optionId").value)) {
-                  item.noteLabel = "";
-               }
-            });
-         }
+         handleAddNewLabeltoNote(e);
          handleCheckBoxStatusAfterClick();
          setListToStorage("noteList", notes);
          displayNotes();
@@ -121,7 +108,22 @@ const displayHandleLabelModal = () => {
    })
    handleCheckBoxStatus();
 }
-
+const handleAddNewLabeltoNote = (e) => {
+   labelId = parseInt(e.target.id.slice(8));
+   if (e.target.checked) {
+      notes.map(item => {
+         if (item.id == parseInt(document.getElementById("optionId").value)) {
+            item.noteLabelId = labelId;
+         }
+      });
+   } else {
+      notes.map(item => {
+         if (item.id == parseInt(document.getElementById("optionId").value)) {
+            item.noteLabelId = "";
+         }
+      });
+   }
+}
 const handleCheckBoxStatus = () => {
    let optionId = document.getElementById("optionId").value;
    let note = notes.find(item => item.id == optionId);
@@ -202,10 +204,13 @@ const displayNotesWithFilter = () => {
 }
 
 const displayNotes = () => {
+   console.log(labels);
    let list = displayNotesWithFilter();
    let noteString = "";
    if (list.length !== 0) {
       for (i = 0; i < list.length; i++) {
+         let noteLabelInNote = labels.find(item => item.id == list[i].noteLabelId);
+         console.log(noteLabelInNote);
          noteString += `<div class="notes-cover flex-row">
          <div id="note${list[i].id}" class="note" data-id="${list[i].id}">
             <div class="note-wrap">
@@ -217,7 +222,7 @@ const displayNotes = () => {
                   <div class="note-content-cover">
                      <p id="note_content" class="note_content pad10">${list[i].content}</p>
                   </div>               
-                  <div id="list_label${list[i].id}" class="list-label ${(list[i].noteLabel) === '' ? "hiden" : ""}">
+                  <div id="list_label${list[i].id}" class="list-label ${(list[i].noteLabelId !== "") ? "" : "hiden"}">
                   <p id="list_label_name${list[i].id}">${list[i].noteLabel}</p>
                   <button id="removeLabelBtn${list[i].id}" class="remove-label-btn button-icon cursor"><i class="fa-solid fa-xmark avoid-clicks"></i></button>
                </div>

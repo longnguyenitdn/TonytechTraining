@@ -39,7 +39,7 @@ const getValueFromNoteDetail = () => {
       id: Date.now(),
       title,
       content,
-      noteLabel:""
+      noteLabelId:""
    }
    return note;
 }

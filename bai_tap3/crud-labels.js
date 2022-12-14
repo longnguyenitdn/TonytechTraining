@@ -83,6 +83,7 @@ const handleEditLabel = () => {
    })
    setListToStorage("labelList", labels);
    displayLabelList();
+   displayNotes();
    document.getElementById(`eLabelBtn${editLabelId}`).classList.add("hiden");
 }
 
