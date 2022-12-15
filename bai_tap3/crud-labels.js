@@ -10,7 +10,6 @@ const displaySidebarLabel = () => {
    document.querySelectorAll(".sidebar-labels").forEach(node => {
       node.addEventListener("click", filterLabelByTagName);
    })
-   handleActiveSidebarMenu();
 }
 
 const displayEditLabelList = () => {
@@ -95,7 +94,7 @@ const handleEditLabel = () => {
    let editLabelName = document.getElementById(`label-name${editLabelId}`).value;
    labels = labels.map(item => {
       if (item.name == editLabelName) {
-         conf=true;
+         conf = true;
          handleLabelSameName(item.id);
       } else {
          if (item.id == editLabelId) {
@@ -112,15 +111,14 @@ const handleEditLabel = () => {
    displayLabelList();
    displayNotes();
 }
+
 const handleActiveSidebarMenu = () => {
    document.querySelectorAll(".active-menu").forEach(node => {
-      node.addEventListener("click",e =>{
-         if(node.contains(e.target)){
-            node.classList.add("active");
-         }else{
-            console.log("den");
-            node.classList.remove("active");
-         }
+      node.addEventListener("click", e => {
+         document.querySelectorAll(".active").forEach(node2 => {
+            node2.classList.remove("active");
+         })
+         node.classList.add("active");
       })
    });
 }
@@ -130,6 +128,7 @@ const mainLabels = () => {
    displaySidebarLabel();
    document.getElementById("editLabels").addEventListener("click", openEditLabelModal);
    handleActiveSidebarMenu();
+
 }
 
 mainLabels();
