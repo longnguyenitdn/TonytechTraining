@@ -39,7 +39,7 @@ const getValueFromNoteDetail = () => {
       id: Date.now(),
       title,
       content,
-      noteLabelId: ""
+      noteLabelId:null
    }
    return note;
 }
@@ -61,7 +61,9 @@ const openRemoveConfirmModal = () => {
    removeLabelConf.classList.remove("hiden");
    removeLabelWrap.classList.remove("hiden");
    document.getElementById("remove_cancel_btn").addEventListener("click", closeRemoveConfirmModal);
-   document.getElementById("remove_btn").addEventListener("click", handleRemoveLabel);
+   document.getElementById("remove_btn").addEventListener("click", ()=> {
+      handleRemoveLabel(parseInt(document.getElementById("removeId").value));
+   });
    removeLabelWrap.addEventListener("click", closeRemoveConfirmModal);
 }
 

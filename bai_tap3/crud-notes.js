@@ -101,7 +101,7 @@ const displayHandleLabelModal = () => {
 
    document.querySelectorAll(".checkbox-label").forEach(node => {
       node.addEventListener("change", e => {
-         handleAddNewLabeltoNote(e);
+         handleAddNewLabeltoNote(e.target.id);
          handleCheckBoxStatusAfterClick();
          setListToStorage("noteList", notes);
          displayNotes();
@@ -109,9 +109,11 @@ const displayHandleLabelModal = () => {
    })
    handleCheckBoxStatus();
 }
-const handleAddNewLabeltoNote = e => {
-   labelId = parseInt(e.target.id.slice(8));
-   if (e.target.checked) {
+
+const handleAddNewLabeltoNote = id => {
+   labelId = parseInt(id.slice(8));
+   let obj = document.getElementById(id);
+   if (obj.checked) {
       notes.map(item => {
          if (item.id == parseInt(document.getElementById("optionId").value)) {
             item.noteLabelId = labelId;
@@ -120,7 +122,7 @@ const handleAddNewLabeltoNote = e => {
    } else {
       notes.map(item => {
          if (item.id == parseInt(document.getElementById("optionId").value)) {
-            item.noteLabelId = "";
+            item.noteLabelId = null;
          }
       });
    }
@@ -130,7 +132,7 @@ const handleCheckBoxStatus = () => {
    let optionId = document.getElementById("optionId").value;
    let note = notes.find(item => item.id == optionId);
    labels.forEach(node => {
-      if (node.name === note.noteLabel) {
+      if (node.id === note.noteLabelId) {
          document.getElementById(`checkbox${node.id}`).checked = true;
       } else {
          document.getElementById(`checkbox${node.id}`).checked = false;
@@ -183,7 +185,7 @@ const removeLabelFromNote = e => {
    let removeNoteId = parseInt(e.target.id.slice(14));
    notes.map(item => {
       if (item.id == removeNoteId) {
-         return item.noteLabel = "";
+         return item.noteLabelId = "";
       }
    })
    setListToStorage("noteList", notes);
@@ -200,6 +202,7 @@ const displayNotesWithFilter = () => {
    let list = [];
    if (isFilter) {
       list = filterList;
+
    } else {
       list = notes;
    }
@@ -223,7 +226,7 @@ const displayNotes = () => {
                   <div class="note-content-cover">
                      <p id="note_content" class="note_content pad10">${list[i].content}</p>
                   </div>               
-                  <div id="list_label${list[i].id}" class="list-label ${(list[i].noteLabelId !== "") ? "" : "hiden"}">
+                  <div id="list_label${list[i].id}" class="list-label ${(noteLabelInNote) ? "" : "hiden"}">
                   <p id="list_label_name${list[i].id}">${noteLabelInNote ? noteLabelInNote.name : ""}</p>
                   <button id="removeLabelBtn${list[i].id}" class="remove-label-btn button-icon cursor"><i class="fa-solid fa-xmark avoid-clicks"></i></button>
                </div>
@@ -289,6 +292,8 @@ const handleMenuBtn = () => {
       menuBtnStatus = false;
    }
 }
+
+
 
 const mainNotes = () => {
    notes = getListFromStorage("noteList") || [];

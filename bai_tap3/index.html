@@ -46,6 +46,17 @@
    </div>
    <div class="cover-body cover body-content-cover">
       <div class="flex-row">
+         <div id="remove_label_wrap" class="remove-label-wrap hiden"></div>
+         <div id="remove_label_confirm_modal" class="remove-confirm-modal bg-white hiden">
+            <div class="remove-confirm-modal-cover">
+               <input type="hidden" id="removeId">
+               <p class="text-black">We’ll delete this label and remove it from all of your Keep notes. Your notes won’t be deleted.</p>
+               <div class="remove-confirm-modal-btn">
+                  <button id="remove_cancel_btn" class="btn-close button-icon text-black cursor">Cancel</button>
+                  <button id="remove_btn" class="btn-close button-icon cursor text-blue">Delete</button>
+               </div>
+            </div>
+         </div>
          <div id="detail_edit_note_wrap" class="detail-edit-note-wrap hiden"></div>
          <div id="detail_edit_note_content" class="detail-edit-note-content"></div>
          <div class="detail-edit-label-wrap hiden" id="detail_edit_label_wrap"></div>
@@ -70,26 +81,26 @@
          </div>
          <div id="sidebar_wrap" class="sidebar-wrap">
             <div id="sidebar" class="sidebar flex-col">
-               <div id="sidebar_btn_note" class="flex-row sidebar-row sidebar-row-top align-center cursor">
+               <div id="sidebar_btn_note" class="flex-row sidebar-row sidebar-row-top align-center cursor active-menu active">
                   <button id="sidebar_btn_note" class="button-icon sidebar-btn sidebar-btn-note cursor void-clicks"><i class="fa-regular fa-lightbulb void-clicks"></i></button>
-                  <p class="sidebar-text hiden">Notes</p>
+                  <p class="sidebar-text hiden avoid-clicks">Notes</p>
                </div>
-               <div class="flex-row sidebar-row align-center cursor">
-                  <button class="button-icon sidebar-btn cursor"><i class="fa-regular fa-bell "></i></button>
-                  <p class="sidebar-text hiden">Reminders</p>
+               <div id="sidebar_btn_reminder" class="flex-row sidebar-row align-center cursor active-menu">
+                  <button class="button-icon sidebar-btn cursor avoid-clicks"><i class="fa-regular fa-bell "></i></button>
+                  <p class="sidebar-text hiden avoid-clicks">Reminders</p>
                </div>
                <div id="labels" class="sidebar-labels flex-col"></div>
-               <div id="editLabels" class="flex-row sidebar-row align-center cursor">
-                  <button class="button-icon sidebar-btn cursor"><i class="fa-solid fa-pencil "></i></button>
-                  <p class="sidebar-text hiden">Edit labels</p>
+               <div id="editLabels" class="flex-row sidebar-row align-center cursor active-menu">
+                  <button class="button-icon sidebar-btn cursor avoid-clicks"><i class="fa-solid fa-pencil avoid-clicks"></i></button>
+                  <p class="sidebar-text hiden avoid-clicks">Edit labels</p>
                </div>
-               <div class="flex-row sidebar-row align-center cursor">
-                  <button class="button-icon sidebar-btn cursor"><i class="fa-regular fa-circle-down "></i></button>
-                  <p class="sidebar-text hiden">Archive</p>
+               <div id="sidebar_btn_archive" class="flex-row sidebar-row align-center cursor active-menu">
+                  <button class="button-icon sidebar-btn cursor avoid-clicks"><i class="fa-regular fa-circle-down avoid-clicks"></i></button>
+                  <p class="sidebar-text hiden avoid-clicks">Archive</p>
                </div>
-               <div class="flex-row sidebar-row align-center cursor">
-                  <button class="button-icon sidebar-btn cursor"><i class="fa-regular fa-trash-can "></i></button>
-                  <p class="sidebar-text hiden">Trash</p>
+               <div id="sidebar_btn_trash" class="flex-row sidebar-row align-center cursor active-menu">
+                  <button class="button-icon sidebar-btn cursor avoid-clicks"><i class="fa-regular fa-trash-can avoid-clicks "></i></button>
+                  <p class="sidebar-text hiden avoid-clicks">Trash</p>
                </div>
             </div>
          </div>
@@ -105,17 +116,6 @@
                </div>
                <div id="detail_note" class="detail-note"></div>
                <div class="display flex-row" id="display"></div>
-            </div>
-            <div id="remove_label_wrap" class="remove-label-wrap hiden"></div>
-            <div id="remove_label_confirm_modal" class="remove-confirm-modal bg-white hiden">
-               <div class="remove-confirm-modal-cover">
-                  <input type="hidden" id="removeId">
-                  <p class="text-black">We’ll delete this label and remove it from all of your Keep notes. Your notes won’t be deleted.</p>
-                  <div class="remove-confirm-modal-btn">
-                     <button id="remove_cancel_btn" class="btn-close button-icon text-black cursor">Cancel</button>
-                     <button id="remove_btn" class="btn-close button-icon cursor text-blue">Delete</button>
-                  </div>
-               </div>
             </div>
          </div>
       </div>

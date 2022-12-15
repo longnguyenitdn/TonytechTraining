@@ -1,7 +1,7 @@
 const displaySidebarLabel = () => {
    let stringLabel = "";
    for (i = 0; i < labels.length; i++) {
-      stringLabel += `<div id="sidebar_labels${labels[i].id}" class="sidebar-labels flex-row sidebar-row align-center cursor">
+      stringLabel += `<div id="sidebar_labels${labels[i].id}" class="sidebar-labels flex-row sidebar-row align-center cursor active-menu">
       <button  class=" button-icon sidebar-btn cursor avoid-clicks"><i class="fa-solid fa-tag avoid-clicks"></i></button>
       <p class="sidebar-text hiden avoid-clicks">${labels[i].name}</p>
    </div>`;
@@ -10,6 +10,7 @@ const displaySidebarLabel = () => {
    document.querySelectorAll(".sidebar-labels").forEach(node => {
       node.addEventListener("click", filterLabelByTagName);
    })
+   handleActiveSidebarMenu();
 }
 
 const displayEditLabelList = () => {
@@ -35,6 +36,7 @@ const displayEditLabelList = () => {
       node.addEventListener("click", e => {
          if (node.contains(e.target)) {
             editLabelId = parseInt(e.target.id.slice(10));
+            oldLabelName = document.getElementById(`label-name${editLabelId}`).value;
             handleEditLabelToSaveBtn();
          }
       })
@@ -43,8 +45,8 @@ const displayEditLabelList = () => {
 
 
 const filterLabelByTagName = e => {
-   isFilter=true;
-   let labelIdSidebar = parseInt(e.target.id.slice(14));
+   isFilter = true;
+   labelIdSidebar = parseInt(e.target.id.slice(14));
    filterList = notes.filter(item => labelIdSidebar == item.noteLabelId);
    displayNotes();
 }
@@ -60,35 +62,74 @@ const handleAddNewLabel = () => {
       clearEditLabelInput();
       closeEditLabelBtn();
    }
+   console.log(labels);
 }
 
-const handleRemoveLabel = () => {
-   const deleteId = document.getElementById("removeId").value;
-   labels = labels.filter(item => item.id !== parseInt(deleteId));
+const handleRemoveLabel = (id) => {
+   labels = labels.filter(item => item.id !== id);
    setListToStorage("labelList", labels);
+   notes.map(item => {
+      if (item.noteLabelId == id) {
+         item.noteLabelId = null;
+      }
+   })
+   setListToStorage("noteList", notes);
    displayLabelList();
+   if (id == labelIdSidebar) {
+      isFilter = false;
+   }
+   displayNotes();
    closeRemoveConfirmModal(removeLabelWrap, removeLabelConf);
 }
 
-const handleEditLabel = () => {
-   const editLabelName = document.getElementById(`label-name${editLabelId}`).value;
-   labels = labels.map(item => {
-      if (item.id == editLabelId) {
-         item.name = editLabelName;
+const handleLabelSameName = (oldId) => {
+   notes.map(item => {
+      if (item.noteLabelId === editLabelId) {
+         item.noteLabelId = oldId;
       }
       return item;
    })
-   setListToStorage("labelList", labels);
+}
+
+const handleEditLabel = () => {
+   let editLabelName = document.getElementById(`label-name${editLabelId}`).value;
+   labels = labels.map(item => {
+      if (item.name == editLabelName) {
+         conf=true;
+         handleLabelSameName(item.id);
+      } else {
+         if (item.id == editLabelId) {
+            item.name = editLabelName;
+         }
+      }
+      return item;
+   })
+   document.getElementById(`eLabelBtn${editLabelId}`).classList.add("hiden");
+   if (conf) {
+      handleRemoveLabel(editLabelId);
+      conf = false;
+   }
    displayLabelList();
    displayNotes();
-   document.getElementById(`eLabelBtn${editLabelId}`).classList.add("hiden");
+}
+const handleActiveSidebarMenu = () => {
+   document.querySelectorAll(".active-menu").forEach(node => {
+      node.addEventListener("click",e =>{
+         if(node.contains(e.target)){
+            node.classList.add("active");
+         }else{
+            console.log("den");
+            node.classList.remove("active");
+         }
+      })
+   });
 }
 
 const mainLabels = () => {
    labels = getListFromStorage("labelList") || [];
    displaySidebarLabel();
    document.getElementById("editLabels").addEventListener("click", openEditLabelModal);
+   handleActiveSidebarMenu();
 }
-
 
 mainLabels();
