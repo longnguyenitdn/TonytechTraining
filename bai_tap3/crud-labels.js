@@ -1,5 +1,4 @@
 const displaySidebarLabel = () => {
-   console.log(labels);
    let stringLabel = "";
    for (i = 0; i < labels.length; i++) {
       stringLabel += `<div id="sidebar_labels${labels[i].id}" class="sidebar-labels flex-row sidebar-row align-center cursor active-menu">
@@ -11,6 +10,7 @@ const displaySidebarLabel = () => {
    document.querySelectorAll(".sidebar-labels").forEach(node => {
       node.addEventListener("click", filterLabelByTagName);
    })
+   handleActiveSidebarMenu();
 }
 
 const displayEditLabelList = () => {
@@ -136,7 +136,7 @@ const mainLabels = () => {
    labels = getListFromStorage("labelList") || [];
    displaySidebarLabel();
    document.getElementById("editLabels").addEventListener("click", openEditLabelModal);
-   handleActiveSidebarMenu();
+   
 
 }
 
