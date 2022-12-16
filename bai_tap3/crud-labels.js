@@ -1,4 +1,5 @@
 const displaySidebarLabel = () => {
+   console.log(labels);
    let stringLabel = "";
    for (i = 0; i < labels.length; i++) {
       stringLabel += `<div id="sidebar_labels${labels[i].id}" class="sidebar-labels flex-row sidebar-row align-center cursor active-menu">
@@ -51,10 +52,6 @@ const filterLabelByTagName = e => {
 }
 
 
-
-
-
-
 const handleAddNewLabel = () => {
    let isExist = false;
    const label = getValueFromLabelModal();
@@ -97,26 +94,32 @@ const handleRemoveLabel = (id) => {
 
 
 const handleEditLabel = () => {
+   let isExist = false;
    let editLabelName = document.getElementById(`label-name${editLabelId}`).value;
-   labels = labels.map(item => {
-      let isExist = false;
-      if (item.name == editLabelName) {
+   isExist = labels.some(item => {
+      if (editLabelName === item.name) {
          if (item.id !== editLabelId) {
-            isExist = true;
+            document.getElementById("exist_label").classList.remove("hiden");
+            return true;
          }
-      }
-      if (!isExist) {
-         item.name = editLabelName;
-         document.getElementById("exist_label").classList.remove("hiden");
-         return item;
-      } else {
-         document.getElementById("exist_label").classList.add("hiden");
+         return true;
       }
    })
-   setListToStorage("labelList", labels);
-   document.getElementById(`eLabelBtn${editLabelId}`).classList.add("hiden");
-   displayLabelList();
-   displayNotes();
+   if (!isExist) {
+      labels = labels.map(item => {
+         if (item.id === editLabelId) {
+            item.name = editLabelName;
+         }
+         return item;
+      })
+      setListToStorage("labelList", labels);
+      document.getElementById(`eLabelBtn${editLabelId}`).classList.add("hiden");
+      displayLabelList();
+      displayNotes();
+      document.getElementById("exist_label").classList.add("hiden");
+   }
+
+
 }
 
 const handleActiveSidebarMenu = () => {
