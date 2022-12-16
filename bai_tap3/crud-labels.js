@@ -113,12 +113,11 @@ const handleEditLabel = () => {
          return item;
       })
       setListToStorage("labelList", labels);
-      document.getElementById(`eLabelBtn${editLabelId}`).classList.add("hiden");
       displayLabelList();
       displayNotes();
       document.getElementById("exist_label").classList.add("hiden");
    }
-
+   document.getElementById(`eLabelBtn${editLabelId}`).classList.add("hiden");
 
 }
 
