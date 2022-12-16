@@ -52,25 +52,39 @@ const filterLabelByTagName = e => {
 
 
 
+
+
+
 const handleAddNewLabel = () => {
+   let isExist = false;
    const label = getValueFromLabelModal();
-   if (label.name) {
-      labels.unshift(label);
-      setListToStorage("labelList", labels);
-      displayLabelList();
+   if (label.name !== "") {
+      if (labels.length !== 0) {
+         isExist = labels.some(node => node.name === label.name)
+      }
+      if (!isExist) {
+         labels.unshift(label);
+         setListToStorage("labelList", labels);
+         displayLabelList();
+         closeEditLabelBtn();
+         document.getElementById("exist_label").classList.add("hiden");
+      } else {
+         document.getElementById("exist_label").classList.remove("hiden");
+      }
       clearEditLabelInput();
-      closeEditLabelBtn();
+
    }
-   console.log(labels);
+
 }
 
 const handleRemoveLabel = (id) => {
    labels = labels.filter(item => item.id !== id);
    setListToStorage("labelList", labels);
-   notes.map(item => {
+   notes = notes.map(item => {
       if (item.noteLabelId == id) {
          item.noteLabelId = null;
       }
+      return item;
    })
    setListToStorage("noteList", notes);
    displayLabelList();
@@ -81,33 +95,26 @@ const handleRemoveLabel = (id) => {
    closeRemoveConfirmModal(removeLabelWrap, removeLabelConf);
 }
 
-const handleLabelSameName = (oldId) => {
-   notes.map(item => {
-      if (item.noteLabelId === editLabelId) {
-         item.noteLabelId = oldId;
-      }
-      return item;
-   })
-}
 
 const handleEditLabel = () => {
    let editLabelName = document.getElementById(`label-name${editLabelId}`).value;
    labels = labels.map(item => {
+      let isExist = false;
       if (item.name == editLabelName) {
-         conf = true;
-         handleLabelSameName(item.id);
-      } else {
-         if (item.id == editLabelId) {
-            item.name = editLabelName;
+         if (item.id !== editLabelId) {
+            isExist = true;
          }
       }
-      return item;
+      if (!isExist) {
+         item.name = editLabelName;
+         document.getElementById("exist_label").classList.remove("hiden");
+         return item;
+      } else {
+         document.getElementById("exist_label").classList.add("hiden");
+      }
    })
+   setListToStorage("labelList", labels);
    document.getElementById(`eLabelBtn${editLabelId}`).classList.add("hiden");
-   if (conf) {
-      handleRemoveLabel(editLabelId);
-      conf = false;
-   }
    displayLabelList();
    displayNotes();
 }

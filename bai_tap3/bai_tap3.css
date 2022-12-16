@@ -622,7 +622,12 @@ body {
 
 .label-edit-bot {
    text-align: end;
-
+position: relative;
+}
+.exist-label{
+   position: absolute;
+   left: 15px;
+   color: red;
 }
 
 .label-edit-bot>button {
