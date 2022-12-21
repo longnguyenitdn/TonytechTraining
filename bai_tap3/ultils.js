@@ -1,5 +1,5 @@
 const getListFromStorage = (list) => {
-   return JSON.parse(localStorage.getItem(list));
+   return 
 }
 
 const setListToStorage = (key, list) => {
@@ -36,7 +36,6 @@ const getValueFromNoteDetail = () => {
    let title = document.getElementById("input_note_title").value;
    let content = document.getElementById("input_note_content").value;
    const note = {
-      id: Date.now(),
       title,
       content,
       noteLabelId:null

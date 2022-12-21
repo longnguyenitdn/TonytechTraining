@@ -5,7 +5,6 @@ const displayDetailNoteModal = () => {
    } else {
       obj = notes.find(item => item.id == editId);
    }
-
    return ` <div id="input_note_detail" class="take-note-detail">
    <div class="flex-row flex-bet align-center">
       <input id="input_note_title" class="input-note-title input skip" type="text" placeholder="Title" value="${obj.title}">
@@ -33,15 +32,24 @@ const displayDetailNoteModal = () => {
 const handleAddNewNote = () => {
    const note = getValueFromNoteDetail();
    if (note.title !== "" || note.content !== "") {
-      notes.unshift(note);
-      setListToStorage("noteList", notes);
-      displayNotes();
-      setTimeout(() => {
-         document.getElementById(`note${notes[0].id}`).classList.add("delay");
-         setTimeout(() => {
-            document.getElementById(`note${notes[0].id}`).classList.remove("delay");
-         }, 300);
-      }, 200);
+      fetch("http://localhost:3000/notes", {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json'
+         },
+         body: JSON.stringify(note)
+      })
+         .then(res => res.json())
+         .then((data) => {
+            notes = data;
+            displayNotes();
+            setTimeout(() => {
+               document.getElementById(`note${notes[notes.length - 1].id}`).classList.add("delay");
+               setTimeout(() => {
+                  document.getElementById(`note${notes[notes.length - 1].id}`).classList.remove("delay");
+               }, 300);
+            }, 200);
+         })
 
    }
    closeDetailModal();
@@ -61,19 +69,20 @@ const onclickToEdit = e => {
 const handleEditNote = () => {
    let editObj = getValueFromNoteDetail();
    let { title, content } = editObj;
-   notes = notes.map((item) => {
-      if (item.id == editId) {
-         item.title = title;
-         item.content = content;
-      }
-      return item;
+   fetch(`http://localhost:3000/notes/${editId}`, {
+      method: 'PUT',
+      headers: {
+         'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+         "title": title,
+         "content": content
+      })
+
    })
    closeDetailModal();
-   setListToStorage("noteList", notes);
    displayNotes()
 }
-
-
 
 const displayHandleLabelModal = () => {
    closeOptionModal();
@@ -175,8 +184,12 @@ const closeOptionModal = () => {
 
 const handleDeleteNote = () => {
    let deleteId = parseInt(document.getElementById("optionId").value);
-   notes = notes.filter(person => person.id !== deleteId);
-   setListToStorage("noteList", notes);
+   fetch(`http://localhost:3000/notes/${deleteId}`, {
+      method: 'DELETE',
+      headers: {
+         'Content-Type': 'application/json'
+      }
+   })
    closeOptionModal();
    displayNotes();
 }
@@ -202,7 +215,6 @@ const displayNotesWithFilter = () => {
    let list = [];
    if (isFilter) {
       list = filterList;
-
    } else {
       list = notes;
    }
@@ -293,14 +305,16 @@ const handleMenuBtn = () => {
    }
 }
 
-
-
 const mainNotes = () => {
-   notes = getListFromStorage("noteList") || [];
-   clickOutside();
-   displayNotes();
-   document.getElementById("header_menu_icon").addEventListener("click", handleMenuBtn);
-   document.getElementById("sidebar_btn_note").addEventListener("click", showAllNotes);
+   fetch("http://localhost:3000/notes")
+      .then(res => res.json())
+      .then(data => {
+         notes = data
+         clickOutside();
+         displayNotes();
+         document.getElementById("header_menu_icon").addEventListener("click", handleMenuBtn);
+         document.getElementById("sidebar_btn_note").addEventListener("click", showAllNotes);
+      })
 }
 
 mainNotes();

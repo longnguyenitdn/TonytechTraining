@@ -69,9 +69,7 @@ const handleAddNewLabel = () => {
          document.getElementById("exist_label").classList.remove("hiden");
       }
       clearEditLabelInput();
-
    }
-
 }
 
 const handleRemoveLabel = (id) => {
@@ -133,11 +131,13 @@ const handleActiveSidebarMenu = () => {
 }
 
 const mainLabels = () => {
-   labels = getListFromStorage("labelList") || [];
-   displaySidebarLabel();
+   fetch("http://localhost:3000/labels")
+      .then(res => res.json())
+      .then(data => {
+         labels = data
+         displaySidebarLabel();
+      })
    document.getElementById("editLabels").addEventListener("click", openEditLabelModal);
-   
-
 }
 
 mainLabels();
