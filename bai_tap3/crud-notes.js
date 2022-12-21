@@ -79,7 +79,7 @@ const handleEditNote = () => {
          "noteLableId":null
       })
    })
-   .then(res => res.json())
+   
    .then(() => {
       notes = notes.map(item => {
          if(item.id===editId){
@@ -199,7 +199,6 @@ const handleDeleteNote = () => {
          'Content-Type': 'application/json'
       }
    })
-      .then(res => res.json())
       .then(() => {
          notes = notes.filter(item => item.id !== deleteId)
          closeOptionModal();

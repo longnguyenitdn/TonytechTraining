@@ -78,21 +78,20 @@ const handleAddNewLabel = async () => {
 }
 
 const handleRemoveLabel = async (id) => {
-   await fetch(`${url}/labels/${id}`,{
+   await fetch(`${url}/labels/${id}`, {
       method: 'DELETE',
       headers: {
          'Content-Type': 'application/json'
       }
    })
    labels = labels.filter(item => item.id !== id);
-   
+
    notes = notes.map(item => {
       if (item.noteLabelId == id) {
          item.noteLabelId = null;
       }
       return item;
    })
-   setListToStorage("noteList", notes);
    displayLabelList();
    if (id == labelIdSidebar) {
       isFilter = false;
