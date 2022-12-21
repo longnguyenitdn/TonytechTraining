@@ -32,7 +32,7 @@ const displayDetailNoteModal = () => {
 const handleAddNewNote = () => {
    const note = getValueFromNoteDetail();
    if (note.title !== "" || note.content !== "") {
-      fetch("http://localhost:3000/notes", {
+      fetch(`${url}/notes`, {
          method: 'POST',
          headers: {
             'Content-Type': 'application/json'
@@ -40,19 +40,18 @@ const handleAddNewNote = () => {
          body: JSON.stringify(note)
       })
          .then(res => res.json())
-         .then((data) => {
-            notes = data;
+         .then(data => {
+            notes.unshift(data);
             displayNotes();
             setTimeout(() => {
-               document.getElementById(`note${notes[notes.length - 1].id}`).classList.add("delay");
+               document.getElementById(`note${notes[0].id}`).classList.add("delay");
                setTimeout(() => {
-                  document.getElementById(`note${notes[notes.length - 1].id}`).classList.remove("delay");
+                  document.getElementById(`note${notes[0].id}`).classList.remove("delay");
                }, 300);
             }, 200);
+            closeDetailModal();
          })
-
    }
-   closeDetailModal();
 }
 
 
@@ -69,19 +68,29 @@ const onclickToEdit = e => {
 const handleEditNote = () => {
    let editObj = getValueFromNoteDetail();
    let { title, content } = editObj;
-   fetch(`http://localhost:3000/notes/${editId}`, {
+   fetch(`${url}/notes/${editId}`, {
       method: 'PUT',
       headers: {
          'Content-Type': 'application/json'
       },
       body: JSON.stringify({
          "title": title,
-         "content": content
+         "content": content,
+         "noteLableId":null
       })
-
    })
-   closeDetailModal();
-   displayNotes()
+   .then(res => res.json())
+   .then(() => {
+      notes = notes.map(item => {
+         if(item.id===editId){
+            item.title=title;
+            item.content=content;
+         }
+         return item;
+      })
+      closeDetailModal();
+      displayNotes();
+   })
 }
 
 const displayHandleLabelModal = () => {
@@ -184,14 +193,18 @@ const closeOptionModal = () => {
 
 const handleDeleteNote = () => {
    let deleteId = parseInt(document.getElementById("optionId").value);
-   fetch(`http://localhost:3000/notes/${deleteId}`, {
+   fetch(`${url}/notes/${deleteId}`, {
       method: 'DELETE',
       headers: {
          'Content-Type': 'application/json'
       }
    })
-   closeOptionModal();
-   displayNotes();
+      .then(res => res.json())
+      .then(() => {
+         notes = notes.filter(item => item.id !== deleteId)
+         closeOptionModal();
+         displayNotes();
+      })
 }
 
 const removeLabelFromNote = e => {
@@ -306,7 +319,7 @@ const handleMenuBtn = () => {
 }
 
 const mainNotes = () => {
-   fetch("http://localhost:3000/notes")
+   fetch(`${url}/notes`)
       .then(res => res.json())
       .then(data => {
          notes = data

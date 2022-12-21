@@ -43,7 +43,6 @@ const displayEditLabelList = () => {
    })
 }
 
-
 const filterLabelByTagName = e => {
    isFilter = true;
    labelIdSidebar = parseInt(e.target.id.slice(14));
@@ -51,8 +50,7 @@ const filterLabelByTagName = e => {
    displayNotes();
 }
 
-
-const handleAddNewLabel = () => {
+const handleAddNewLabel = async () => {
    let isExist = false;
    const label = getValueFromLabelModal();
    if (label.name !== "") {
@@ -60,8 +58,15 @@ const handleAddNewLabel = () => {
          isExist = labels.some(node => node.name === label.name)
       }
       if (!isExist) {
-         labels.unshift(label);
-         setListToStorage("labelList", labels);
+         const response = await fetch(`${url}/labels`, {
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(label)
+         })
+         let newLabel = await response.json();
+         labels.unshift(newLabel);
          displayLabelList();
          closeEditLabelBtn();
          document.getElementById("exist_label").classList.add("hiden");
@@ -72,9 +77,15 @@ const handleAddNewLabel = () => {
    }
 }
 
-const handleRemoveLabel = (id) => {
+const handleRemoveLabel = async (id) => {
+   await fetch(`${url}/labels/${id}`,{
+      method: 'DELETE',
+      headers: {
+         'Content-Type': 'application/json'
+      }
+   })
    labels = labels.filter(item => item.id !== id);
-   setListToStorage("labelList", labels);
+   
    notes = notes.map(item => {
       if (item.noteLabelId == id) {
          item.noteLabelId = null;
@@ -131,11 +142,11 @@ const handleActiveSidebarMenu = () => {
 }
 
 const mainLabels = () => {
-   fetch("http://localhost:3000/labels")
+   fetch(`${url}/labels`)
       .then(res => res.json())
       .then(data => {
          labels = data
-         displaySidebarLabel();
+         displayLabelList();
       })
    document.getElementById("editLabels").addEventListener("click", openEditLabelModal);
 }
