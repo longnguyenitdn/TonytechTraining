@@ -135,6 +135,7 @@
 .text-blue {
    color: blue;
 }
+
 /* --------------------------------header----------------------------- */
 /* body */
 * {
@@ -244,7 +245,7 @@ body {
 }
 
 /* ---------------------------------------sidebar------------------------------------- */
-.sidebar-wrap{
+.sidebar-wrap {
    z-index: 10;
 }
 
@@ -286,7 +287,7 @@ body {
    border-bottom-right-radius: 30px;
 } */
 
-.active{
+.active {
    background-color: rgb(255, 235, 192) !important;
    border-top-right-radius: 30px;
    border-bottom-right-radius: 30px;
@@ -442,6 +443,7 @@ body {
 .note-wrap {
    padding: 5px;
 }
+
 .note_title {
    font-size: 18px !important;
    font-weight: 600 !important;
@@ -622,9 +624,10 @@ body {
 
 .label-edit-bot {
    text-align: end;
-position: relative;
+   position: relative;
 }
-.exist-label{
+
+.exist-label {
    position: absolute;
    left: 15px;
    color: red;
@@ -683,6 +686,7 @@ position: relative;
    width: 500px;
    border-radius: 10px;
 }
+
 .edit-label-wrap {
    position: fixed;
    width: 100%;
@@ -798,11 +802,23 @@ position: relative;
    display: inline-block;
 }
 
-.nothing{
+.nothing {
    color: #202124 !important;
    font-size: 20px;
    width: 100%;
    text-align: center;
+}
+.loading{
+   background-color: transparent;
+   position: fixed;
+   z-index: 70;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+}
+.loading>img{
+   width: 50px;
+   height: 50px;
 }
 
 
@@ -816,6 +832,7 @@ position: relative;
    from {
       width: 0;
    }
+
    to {
       width: 237px;
    }
@@ -963,14 +980,18 @@ position: relative;
       width: auto;
    }
 
-   .input-note-cover{
+   .input-note-cover {
       width: 255px;
       margin-right: 35px !important;
    }
-   .detail-note{
+
+   .detail-note {
       width: inherit;
    }
-   .option-btn{
+
+   .option-btn {
       display: none;
    }
+
+   
 }

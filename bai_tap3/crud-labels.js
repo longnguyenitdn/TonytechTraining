@@ -50,6 +50,11 @@ const filterLabelByTagName = e => {
    displayNotes();
 }
 
+const newObj = () => {
+   return obj = {
+
+   }
+}
 const handleAddNewLabel = async () => {
    let isExist = false;
    const label = getValueFromLabelModal();
@@ -58,18 +63,18 @@ const handleAddNewLabel = async () => {
          isExist = labels.some(node => node.name === label.name)
       }
       if (!isExist) {
-         const response = await fetch(`${url}/labels`, {
-            method: 'POST',
-            headers: {
-               'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(label)
-         })
-         let newLabel = await response.json();
-         labels.unshift(newLabel);
-         displayLabelList();
-         closeEditLabelBtn();
-         document.getElementById("exist_label").classList.add("hiden");
+         try {
+            let link = `${url}/labels`;
+            let method = 'POST';
+            let obj = label;
+            const newLabel = await myFetch(link, method, obj);
+            labels.unshift(newLabel);
+            displayLabelList();
+            closeEditLabelBtn();
+            document.getElementById("exist_label").classList.add("hiden");
+         } catch (error) {
+            console.log(error);
+         }
       } else {
          document.getElementById("exist_label").classList.remove("hiden");
       }
@@ -78,49 +83,67 @@ const handleAddNewLabel = async () => {
 }
 
 const handleRemoveLabel = async (id) => {
-   await fetch(`${url}/labels/${id}`, {
-      method: 'DELETE',
-      headers: {
-         'Content-Type': 'application/json'
-      }
-   })
-   labels = labels.filter(item => item.id !== id);
+   try {
+      let link = `${url}/labels/${id}`;
+      let method = 'DELETE';
 
-   notes = notes.map(item => {
-      if (item.noteLabelId == id) {
-         item.noteLabelId = null;
+      await fetch(`${url}/labels/${id}`, {
+         method: 'DELETE',
+         headers: {
+            'Content-Type': 'application/json'
+         }
+      })
+      labels = labels.filter(item => item.id !== id);
+      notes = notes.map(item => {
+         if (item.noteLabelId == id) {
+            item.noteLabelId = null;
+         }
+         return item;
+      })
+      displayLabelList();
+      if (id == labelIdSidebar) {
+         isFilter = false;
       }
-      return item;
-   })
-   displayLabelList();
-   if (id == labelIdSidebar) {
-      isFilter = false;
+      displayNotes();
+      closeRemoveConfirmModal(removeLabelWrap, removeLabelConf);
+   } catch (error) {
+      console.log(error);
+
    }
-   displayNotes();
-   closeRemoveConfirmModal(removeLabelWrap, removeLabelConf);
 }
 
 
-const handleEditLabel = () => {
+const handleEditLabel = async () => {
    let isExist = false;
    let editLabelName = document.getElementById(`label-name${editLabelId}`).value;
    isExist = labels.some(item => {
       if (editLabelName === item.name) {
          if (item.id !== editLabelId) {
             document.getElementById("exist_label").classList.remove("hiden");
+            displayEditLabelList();
             return true;
          }
          return true;
       }
    })
    if (!isExist) {
-      labels = labels.map(item => {
-         if (item.id === editLabelId) {
-            item.name = editLabelName;
+      try {
+         let link = `${url}/labels/${editLabelId}`;
+         let method = 'PUT';
+         let obj = {
+            "name": editLabelName
          }
-         return item;
-      })
-      setListToStorage("labelList", labels);
+         await myFetch(link, method, obj)
+         labels = labels.map(item => {
+            if (item.id === editLabelId) {
+               item.name = editLabelName;
+            }
+            return item;
+         })
+      } catch (error) {
+         console.log(error);
+
+      }
       displayLabelList();
       displayNotes();
       document.getElementById("exist_label").classList.add("hiden");
@@ -141,13 +164,22 @@ const handleActiveSidebarMenu = () => {
 }
 
 const mainLabels = () => {
-   fetch(`${url}/labels`)
-      .then(res => res.json())
+   let link = `${url}/labels`;
+   let method = 'GET';
+   document.getElementById("loading").classList.remove("hiden");
+   myFetch(link, method)
       .then(data => {
          labels = data
-         displayLabelList();
+            document.getElementById("loading").classList.add("hiden");
+            displayLabelList();
+            document.getElementById("editLabels").addEventListener("click", openEditLabelModal);
+            document.getElementById("remove_cancel_btn").addEventListener("click", closeRemoveConfirmModal);
+            document.getElementById("remove_btn").addEventListener("click", () => {
+               handleRemoveLabel(parseInt(document.getElementById("removeId").value));
+            });
+            removeLabelWrap.addEventListener("click", closeRemoveConfirmModal);
       })
-   document.getElementById("editLabels").addEventListener("click", openEditLabelModal);
+
 }
 
 mainLabels();

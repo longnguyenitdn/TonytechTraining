@@ -31,15 +31,10 @@ const displayDetailNoteModal = () => {
 
 const handleAddNewNote = () => {
    const note = getValueFromNoteDetail();
+   const link = `${url}/notes`;
+   const option = 'POST';
    if (note.title !== "" || note.content !== "") {
-      fetch(`${url}/notes`, {
-         method: 'POST',
-         headers: {
-            'Content-Type': 'application/json'
-         },
-         body: JSON.stringify(note)
-      })
-         .then(res => res.json())
+      myFetch(link, option, note)
          .then(data => {
             notes.unshift(data);
             displayNotes();
@@ -65,32 +60,29 @@ const onclickToEdit = e => {
 }
 
 
+
 const handleEditNote = () => {
    let editObj = getValueFromNoteDetail();
-   let { title, content } = editObj;
-   fetch(`${url}/notes/${editId}`, {
-      method: 'PUT',
-      headers: {
-         'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-         "title": title,
-         "content": content,
-         "noteLableId":null
+   let { title, content, noteLableId } = editObj;
+   let link = `${url}/notes/${editId}`;
+   let option = 'PUT';
+   let obj = {
+      "title": title,
+      "content": content,
+      "noteLableId": noteLableId
+   }
+   myFetch(link, option, obj)
+      .then(() => {
+         notes = notes.map(item => {
+            if (item.id === editId) {
+               item.title = title;
+               item.content = content;
+            }
+            return item;
+         })
+         closeDetailModal();
+         displayNotes();
       })
-   })
-   
-   .then(() => {
-      notes = notes.map(item => {
-         if(item.id===editId){
-            item.title=title;
-            item.content=content;
-         }
-         return item;
-      })
-      closeDetailModal();
-      displayNotes();
-   })
 }
 
 const displayHandleLabelModal = () => {
@@ -121,7 +113,6 @@ const displayHandleLabelModal = () => {
       node.addEventListener("change", e => {
          handleAddNewLabeltoNote(e.target.id);
          handleCheckBoxStatusAfterClick();
-         setListToStorage("noteList", notes);
          displayNotes();
       });
    })
@@ -130,19 +121,41 @@ const displayHandleLabelModal = () => {
 
 const handleAddNewLabeltoNote = id => {
    labelId = parseInt(id.slice(8));
-   let obj = document.getElementById(id);
-   if (obj.checked) {
-      notes.map(item => {
-         if (item.id == parseInt(document.getElementById("optionId").value)) {
-            item.noteLabelId = labelId;
-         }
-      });
+   editId = parseInt(document.getElementById("optionId").value);
+   let editObj = notes.find(item => item.id === editId)
+   let { title, content } = editObj;
+   let link = `${url}/notes/${editId}`;
+   let option = 'PUT';
+
+   let objCheckBox = document.getElementById(id);
+   if (objCheckBox.checked) {
+      let obj = {
+         "title": title,
+         "content": content,
+         "noteLableId": labelId
+      }
+      myFetch(link, option, obj)
+         .then(() => {
+            notes.map(item => {
+               if (item.id == editId) {
+                  item.noteLabelId = labelId;
+               }
+            });
+         })
    } else {
-      notes.map(item => {
-         if (item.id == parseInt(document.getElementById("optionId").value)) {
-            item.noteLabelId = null;
-         }
-      });
+      let obj = {
+         "title": title,
+         "content": content,
+         "noteLableId": null
+      }
+      myFetch(link, option, obj)
+         .then(() => {
+            notes.map(item => {
+               if (item.id == parseInt(document.getElementById("optionId").value)) {
+                  item.noteLabelId = null;
+               }
+            });
+         })
    }
 }
 
@@ -193,12 +206,9 @@ const closeOptionModal = () => {
 
 const handleDeleteNote = () => {
    let deleteId = parseInt(document.getElementById("optionId").value);
-   fetch(`${url}/notes/${deleteId}`, {
-      method: 'DELETE',
-      headers: {
-         'Content-Type': 'application/json'
-      }
-   })
+   const link = `${url}/notes/${deleteId}`;
+   const option = 'DELETE';
+   myFetch(link, option)
       .then(() => {
          notes = notes.filter(item => item.id !== deleteId)
          closeOptionModal();
@@ -318,12 +328,15 @@ const handleMenuBtn = () => {
 }
 
 const mainNotes = () => {
-   fetch(`${url}/notes`)
-      .then(res => res.json())
+   let link = `${url}/notes`;
+   let option = 'GET';
+   document.getElementById("loading").classList.remove("hiden");
+   myFetch(link, option)
       .then(data => {
          notes = data
-         clickOutside();
+         document.getElementById("loading").classList.add("hiden");
          displayNotes();
+         clickOutside();
          document.getElementById("header_menu_icon").addEventListener("click", handleMenuBtn);
          document.getElementById("sidebar_btn_note").addEventListener("click", showAllNotes);
       })

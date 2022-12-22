@@ -1,9 +1,13 @@
-const getListFromStorage = (list) => {
-   return 
-}
 
-const setListToStorage = (key, list) => {
-   localStorage.setItem(key, JSON.stringify(list));
+const myFetch = (link,option,obj) => {
+   return fetch(link, {
+      method:option,
+      headers: {
+         'Content-Type': 'application/json'
+      },
+      body: option==='GET' ? undefined : JSON.stringify(obj ? obj : {})
+   })
+   .then(res => res.json())
 }
 
 
@@ -35,10 +39,11 @@ const closeDetailModal = () => {
 const getValueFromNoteDetail = () => {
    let title = document.getElementById("input_note_title").value;
    let content = document.getElementById("input_note_content").value;
+   let noteLabelId=null;
    const note = {
       title,
       content,
-      noteLabelId:null
+      noteLabelId
    }
    return note;
 }
@@ -59,11 +64,6 @@ const closeRemoveConfirmModal = () => {
 const openRemoveConfirmModal = () => {
    removeLabelConf.classList.remove("hiden");
    removeLabelWrap.classList.remove("hiden");
-   document.getElementById("remove_cancel_btn").addEventListener("click", closeRemoveConfirmModal);
-   document.getElementById("remove_btn").addEventListener("click", (e)=> {
-      handleRemoveLabel(parseInt(document.getElementById("removeId").value));
-   });
-   removeLabelWrap.addEventListener("click", closeRemoveConfirmModal);
 }
 
 const displayLabelList = () => {
@@ -84,7 +84,6 @@ const closeEditLabelBtn = () => {
 const getValueFromLabelModal = () => {
    const name = document.getElementById("input_new_label").value;
    const label = {
-      id: Date.now(),
       name
    }
    return label;

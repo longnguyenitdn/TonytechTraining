@@ -21,4 +21,5 @@ let isFilter = false;
 let labelIdSidebar=null;
 let oldLabelName= null;
 let url="http://localhost:3000";
-const NOTI_NOT_FOUND = "Nothing to show!"
+const NOTI_NOT_FOUND = "Nothing to show!";
+
