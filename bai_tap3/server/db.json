@@ -2,63 +2,27 @@
   "notes": [
     {
       "title": "1",
-      "content": "453",
-      "noteLableId": 1,
-      "id": 7
-    },
-    {
-      "title": "123",
-      "content": "123",
-      "noteLableId": 1,
-      "id": 8
-    },
-    {
-      "title": "123",
-      "content": "123",
-      "noteLabelId": null,
-      "id": 9
-    },
-    {
-      "title": "dfsdf",
-      "content": "dfs",
-      "noteLabelId": null,
-      "id": 10
-    },
-    {
-      "title": "4323",
-      "content": "234",
-      "noteLabelId": null,
-      "id": 11
-    },
-    {
-      "title": "432",
-      "content": "4423",
-      "noteLabelId": null,
-      "id": 12
-    },
-    {
-      "title": "1",
       "content": "1",
       "noteLabelId": null,
-      "id": 13
+      "id": 1
+    },
+    {
+      "title": "12",
+      "content": "12",
+      "noteLabelId": null,
+      "id": 2
+    },
+    {
+      "title": "3",
+      "content": "3",
+      "noteLabelId": null,
+      "id": 3
     }
   ],
   "labels": [
     {
-      "name": "5",
+      "name": "logn1",
       "id": 1
-    },
-    {
-      "name": "1",
-      "id": 2
-    },
-    {
-      "name": "3",
-      "id": 3
-    },
-    {
-      "name": "fghjghj",
-      "id": 4
     }
   ]
 }

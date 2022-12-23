@@ -10,6 +10,15 @@ const myFetch = (link,option,obj) => {
    .then(res => res.json())
 }
 
+const setLoading = (statusLoading)=>{
+if(statusLoading===true){
+   document.getElementById("loading_wrap").classList.remove("hiden");
+   document.getElementById("loading").classList.remove("hiden");
+}else{
+   document.getElementById("loading").classList.add("hiden");
+   document.getElementById("loading_wrap").classList.add("hiden");
+}
+}
 
 const clearNoteDetail = () => {
    document.getElementById("input_note_title").value = "";
@@ -39,20 +48,22 @@ const closeDetailModal = () => {
 const getValueFromNoteDetail = () => {
    let title = document.getElementById("input_note_title").value;
    let content = document.getElementById("input_note_content").value;
-   let noteLabelId=null;
+   let noteLabelId=parseInt(document.getElementById("input_note_label").value);
+
    const note = {
       title,
       content,
-      noteLabelId
+      noteLabelId: noteLabelId ? noteLabelId : null
    }
    return note;
 }
 
-const setValueToDetailNote = editObj => {
-   let { title, content } = editObj;
-   document.getElementById("note_title").value = title;
-   document.getElementById("note_content").value = content;
-}
+// const setValueToDetailNote = editObj => {
+//    let { title, content, noteLabelId } = editObj;
+//    document.getElementById("input_note_title").value = title;
+//    document.getElementById("input_note_content").value = content;
+//    document.getElementById("input_note_label").value = noteLabelId;
+// }
 
 
 /*------------Labels------------*/

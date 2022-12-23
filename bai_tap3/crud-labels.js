@@ -1,4 +1,5 @@
 const displaySidebarLabel = () => {
+   setLoading(false);
    let stringLabel = "";
    for (i = 0; i < labels.length; i++) {
       stringLabel += `<div id="sidebar_labels${labels[i].id}" class="sidebar-labels flex-row sidebar-row align-center cursor active-menu">
@@ -14,6 +15,7 @@ const displaySidebarLabel = () => {
 }
 
 const displayEditLabelList = () => {
+   setLoading(false);
    let stringEditLabel = "";
    for (i = 0; i < labels.length; i++) {
       stringEditLabel += `<div id="labels_row${labels[i].id}" class="labels-row flex-row align-center flex-bet">
@@ -50,11 +52,6 @@ const filterLabelByTagName = e => {
    displayNotes();
 }
 
-const newObj = () => {
-   return obj = {
-
-   }
-}
 const handleAddNewLabel = async () => {
    let isExist = false;
    const label = getValueFromLabelModal();
@@ -63,10 +60,11 @@ const handleAddNewLabel = async () => {
          isExist = labels.some(node => node.name === label.name)
       }
       if (!isExist) {
+         let link = `${url}/labels`;
+         let method = 'POST';
+         let obj = label;
+         setLoading(true);
          try {
-            let link = `${url}/labels`;
-            let method = 'POST';
-            let obj = label;
             const newLabel = await myFetch(link, method, obj);
             labels.unshift(newLabel);
             displayLabelList();
@@ -81,19 +79,29 @@ const handleAddNewLabel = async () => {
       clearEditLabelInput();
    }
 }
-
+const handleClearLabelNote = async (link,method,obj) =>{
+   await myFetch(link,method,obj)
+}
 const handleRemoveLabel = async (id) => {
-   try {
-      let link = `${url}/labels/${id}`;
-      let method = 'DELETE';
+   let linkLabel = `${url}/labels/${id}`;
+   let methodLabel = 'DELETE';
 
-      await fetch(`${url}/labels/${id}`, {
-         method: 'DELETE',
-         headers: {
-            'Content-Type': 'application/json'
+   setLoading(true);
+   try {
+      await myFetch(linkLabel, methodLabel)
+      labels = labels.filter(item => item.id !== id);
+      notes.forEach (node =>  {
+         if (node.noteLabelId === id) {
+            let linkNote = `${url}/notes/${node.id}`;
+            let methodNote = 'PUT';
+            let obj = {
+               "title": node.title,
+               "content": node.content,
+               "noteLabelId": null
+            }
+            handleClearLabelNote(linkNote,methodNote,obj);
          }
       })
-      labels = labels.filter(item => item.id !== id);
       notes = notes.map(item => {
          if (item.noteLabelId == id) {
             item.noteLabelId = null;
@@ -127,12 +135,13 @@ const handleEditLabel = async () => {
       }
    })
    if (!isExist) {
+      let link = `${url}/labels/${editLabelId}`;
+      let method = 'PUT';
+      let obj = {
+         "name": editLabelName
+      }
+      setLoading(true);
       try {
-         let link = `${url}/labels/${editLabelId}`;
-         let method = 'PUT';
-         let obj = {
-            "name": editLabelName
-         }
          await myFetch(link, method, obj)
          labels = labels.map(item => {
             if (item.id === editLabelId) {
@@ -142,7 +151,6 @@ const handleEditLabel = async () => {
          })
       } catch (error) {
          console.log(error);
-
       }
       displayLabelList();
       displayNotes();
@@ -166,11 +174,11 @@ const handleActiveSidebarMenu = () => {
 const mainLabels = () => {
    let link = `${url}/labels`;
    let method = 'GET';
-   document.getElementById("loading").classList.remove("hiden");
-   myFetch(link, method)
-      .then(data => {
-         labels = data
-            document.getElementById("loading").classList.add("hiden");
+   setLoading(true);
+   try {
+      myFetch(link, method)
+         .then(data => {
+            labels = data
             displayLabelList();
             document.getElementById("editLabels").addEventListener("click", openEditLabelModal);
             document.getElementById("remove_cancel_btn").addEventListener("click", closeRemoveConfirmModal);
@@ -178,8 +186,10 @@ const mainLabels = () => {
                handleRemoveLabel(parseInt(document.getElementById("removeId").value));
             });
             removeLabelWrap.addEventListener("click", closeRemoveConfirmModal);
-      })
-
+         })
+   } catch (error) {
+      console.log(error);
+   }
 }
 
 mainLabels();

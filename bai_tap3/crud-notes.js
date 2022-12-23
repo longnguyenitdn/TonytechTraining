@@ -1,7 +1,7 @@
 const displayDetailNoteModal = () => {
    let obj = {};
    if (isAdd) {
-      obj = { title: "", content: "" };
+      obj = { title: "", content: "" , noteLabelId : ""};
    } else {
       obj = notes.find(item => item.id == editId);
    }
@@ -12,6 +12,7 @@ const displayDetailNoteModal = () => {
    </div>
    <div>
       <input id="input_note_content" class="input-note-content input skip" type="text" placeholder="Take a note..." value="${obj.content}"> 
+      <input type="hidden" id="input_note_label" class="input-note-content input skip" type="text"  value="${obj.noteLabelId}"> 
    </div>
    <div class="flex-row flex-bet align-center">
       <div class="button-icon-wrap flex-row flex-bet align-center">
@@ -34,55 +35,58 @@ const handleAddNewNote = () => {
    const link = `${url}/notes`;
    const option = 'POST';
    if (note.title !== "" || note.content !== "") {
-      myFetch(link, option, note)
-         .then(data => {
-            notes.unshift(data);
-            displayNotes();
-            setTimeout(() => {
-               document.getElementById(`note${notes[0].id}`).classList.add("delay");
+      setLoading(true);
+      try {
+         myFetch(link, option, note)
+            .then(data => {
+               notes.unshift(data);
+               displayNotes();
                setTimeout(() => {
-                  document.getElementById(`note${notes[0].id}`).classList.remove("delay");
-               }, 300);
-            }, 200);
-            closeDetailModal();
-         })
+                  document.getElementById(`note${notes[0].id}`).classList.add("delay");
+                  setTimeout(() => {
+                     document.getElementById(`note${notes[0].id}`).classList.remove("delay");
+                  }, 300);
+               }, 200);
+               closeDetailModal();
+            })
+      } catch (error) {
+         console.log(error);
+      }
    }
 }
 
 
 const onclickToEdit = e => {
    editId = parseInt(e.target.closest(".note").getAttribute("data-id"));
-   setValueToDetailNote(notes.find(item => item.id === editId))
    document.getElementById("detail_edit_note_wrap").classList.remove("hiden");
    document.getElementById("detail_edit_note_content").innerHTML = displayDetailNoteModal();
    document.getElementById("close_detail_modal").addEventListener("click", closeDetailModal);
    document.getElementById("detail_edit_note_wrap").addEventListener("click", handleEditNote);
 }
 
-
-
 const handleEditNote = () => {
    let editObj = getValueFromNoteDetail();
-   let { title, content, noteLableId } = editObj;
+   let { title, content, noteLabelId } = editObj;
    let link = `${url}/notes/${editId}`;
-   let option = 'PUT';
-   let obj = {
-      "title": title,
-      "content": content,
-      "noteLableId": noteLableId
-   }
-   myFetch(link, option, obj)
-      .then(() => {
-         notes = notes.map(item => {
-            if (item.id === editId) {
-               item.title = title;
-               item.content = content;
-            }
-            return item;
+   let method = 'PUT';
+   setLoading(true);
+   try {
+      myFetch(link, method, editObj)
+         .then(() => {
+            notes = notes.map(item => {
+               if (item.id === editId) {
+                  item.title = title;
+                  item.content = content;
+                  item.noteLabelId=noteLabelId;
+               }
+               return item;
+            })
+            closeDetailModal();
+            displayNotes();
          })
-         closeDetailModal();
-         displayNotes();
-      })
+   } catch (error) {
+      console.log(error);
+   }
 }
 
 const displayHandleLabelModal = () => {
@@ -95,7 +99,7 @@ const displayHandleLabelModal = () => {
    <div class="handle-label-list flex-col">`;
    for (let i = 0; i < labels.length; i++) {
       stringHandleLabelModal += `<div class="handle-label-row flex-row align-center cursor id="label_row${labels[i].id}" data-labelId="${labels[i].id}">
-            <input class="checkbox-label cursor" type="checkbox" id="checkbox${labels[i].id}" name="${labels[i].name}">
+            <input class="checkbox-label cursor" type="checkbox" id="checkbox${labels[i].id}">
             <label for="checkbox${labels[i].id}" class="text-black cursor">${labels[i].name}</label>
          </div>`;
    }
@@ -112,8 +116,7 @@ const displayHandleLabelModal = () => {
    document.querySelectorAll(".checkbox-label").forEach(node => {
       node.addEventListener("change", e => {
          handleAddNewLabeltoNote(e.target.id);
-         handleCheckBoxStatusAfterClick();
-         displayNotes();
+
       });
    })
    handleCheckBoxStatus();
@@ -121,42 +124,55 @@ const displayHandleLabelModal = () => {
 
 const handleAddNewLabeltoNote = id => {
    labelId = parseInt(id.slice(8));
-   editId = parseInt(document.getElementById("optionId").value);
-   let editObj = notes.find(item => item.id === editId)
-   let { title, content } = editObj;
-   let link = `${url}/notes/${editId}`;
+   let editNote = notes.find(item => item.id === parseInt(document.getElementById("optionId").value))
+   let { title, content } = editNote;
+   let link = `${url}/notes/${parseInt(document.getElementById("optionId").value)}`;
    let option = 'PUT';
-
    let objCheckBox = document.getElementById(id);
    if (objCheckBox.checked) {
       let obj = {
          "title": title,
          "content": content,
-         "noteLableId": labelId
+         "noteLabelId": labelId
       }
-      myFetch(link, option, obj)
-         .then(() => {
-            notes.map(item => {
-               if (item.id == editId) {
-                  item.noteLabelId = labelId;
-               }
-            });
-         })
+      setLoading(true);
+      try {
+         myFetch(link, option, obj)
+            .then(() => {
+               notes.map(item => {
+                  if (item.id === parseInt(document.getElementById("optionId").value)) {
+                     item.noteLabelId = labelId;
+                  }
+               });
+               handleCheckBoxStatusAfterClick();
+               displayNotes();
+            })
+      } catch (error) {
+         console.log(error);
+      }
    } else {
       let obj = {
          "title": title,
          "content": content,
-         "noteLableId": null
+         "noteLabelId": null
       }
-      myFetch(link, option, obj)
-         .then(() => {
-            notes.map(item => {
-               if (item.id == parseInt(document.getElementById("optionId").value)) {
-                  item.noteLabelId = null;
-               }
-            });
-         })
+      setLoading(true);
+      try {
+         myFetch(link, option, obj)
+            .then(() => {
+               notes.map(item => {
+                  if (item.id === parseInt(document.getElementById("optionId").value)) {
+                     item.noteLabelId = null;
+                  }
+               });
+               handleCheckBoxStatusAfterClick();
+               displayNotes();
+            })
+      } catch (error) {
+         console.log(error);
+      }
    }
+
 }
 
 const handleCheckBoxStatus = () => {
@@ -180,8 +196,6 @@ const handleCheckBoxStatusAfterClick = () => {
 }
 
 const openOptionModal = e => {
-   const openOptionCover = document.getElementById("note_option_cover");
-   const openOption = document.getElementById("note_option");
    document.getElementById("optionId").value = parseInt(e.target.id.slice(11));
    openOption.classList.remove("hiden");
    openOptionCover.style.top = window.event.clientY + 10 + "px";
@@ -194,6 +208,7 @@ const openOptionModal = e => {
          closeOptionModal();
       }
    });
+
 }
 
 const closeOptionLabelModal = () => {
@@ -208,24 +223,47 @@ const handleDeleteNote = () => {
    let deleteId = parseInt(document.getElementById("optionId").value);
    const link = `${url}/notes/${deleteId}`;
    const option = 'DELETE';
-   myFetch(link, option)
-      .then(() => {
-         notes = notes.filter(item => item.id !== deleteId)
-         closeOptionModal();
-         displayNotes();
-      })
+   setLoading(true);
+   try {
+      myFetch(link, option)
+         .then(() => {
+            notes = notes.filter(item => item.id !== deleteId)
+            closeOptionModal();
+            displayNotes();
+         })
+   } catch (error) {
+      console.log(error);
+   }
+
 }
 
 const removeLabelFromNote = e => {
    let removeNoteId = parseInt(e.target.id.slice(14));
-   notes.map(item => {
-      if (item.id == removeNoteId) {
-         return item.noteLabelId = "";
-      }
-   })
-   setListToStorage("noteList", notes);
+   let editNote = notes.find(item => item.id === removeNoteId)
+   let { title, content, noteLabelId } = editNote;
+   let link = `${url}/notes/${removeNoteId}`;
+   let option = 'PUT';
+   let obj = {
+      "title": title,
+      "content": content,
+      "noteLabelId": null
+   }  
+   setLoading(true);
+   try {
+      myFetch(link, option, obj)
+         .then(() => {
+            notes.map(item => {
+               if (item.id == removeNoteId) {
+                  return item.noteLabelId = "";
+               }
+            })
+            displayNotes();
+            
+         })
+   } catch (error) {
+      console.log(error);
+   }
    e.stopPropagation();
-   displayNotes();
 }
 
 const showAllNotes = () => {
@@ -244,11 +282,12 @@ const displayNotesWithFilter = () => {
 }
 
 const displayNotes = () => {
+   setLoading(false);
    let list = displayNotesWithFilter();
    let noteString = "";
    if (list.length !== 0) {
       for (i = 0; i < list.length; i++) {
-         let noteLabelInNote = labels.find(item => item.id == list[i].noteLabelId);
+         let labelInNote = labels.find(item => item.id === list[i].noteLabelId);
          noteString += `<div class="notes-cover flex-row">
          <div id="note${list[i].id}" class="note" data-id="${list[i].id}">
             <div class="note-wrap">
@@ -260,8 +299,8 @@ const displayNotes = () => {
                   <div class="note-content-cover">
                      <p id="note_content" class="note_content pad10">${list[i].content}</p>
                   </div>               
-                  <div id="list_label${list[i].id}" class="list-label ${(noteLabelInNote) ? "" : "hiden"}">
-                  <p id="list_label_name${list[i].id}">${noteLabelInNote ? noteLabelInNote.name : ""}</p>
+                  <div id="list_label${list[i].id}" class="list-label ${labelInNote ? "" : "hiden"}">
+                  <p id="list_label_name${list[i].id}">${labelInNote ? labelInNote.name : ""}</p>
                   <button id="removeLabelBtn${list[i].id}" class="remove-label-btn button-icon cursor"><i class="fa-solid fa-xmark avoid-clicks"></i></button>
                </div>
                </div>
@@ -330,16 +369,19 @@ const handleMenuBtn = () => {
 const mainNotes = () => {
    let link = `${url}/notes`;
    let option = 'GET';
-   document.getElementById("loading").classList.remove("hiden");
-   myFetch(link, option)
-      .then(data => {
-         notes = data
-         document.getElementById("loading").classList.add("hiden");
-         displayNotes();
-         clickOutside();
-         document.getElementById("header_menu_icon").addEventListener("click", handleMenuBtn);
-         document.getElementById("sidebar_btn_note").addEventListener("click", showAllNotes);
-      })
+   setLoading(true);
+   try {
+      myFetch(link, option)
+         .then(data => {
+            notes = data;
+            displayNotes();
+            clickOutside();
+            document.getElementById("header_menu_icon").addEventListener("click", handleMenuBtn);
+            document.getElementById("sidebar_btn_note").addEventListener("click", showAllNotes);
+         })
+   } catch (error) {
+      console.log(error);
+   }
 }
 
 mainNotes();
