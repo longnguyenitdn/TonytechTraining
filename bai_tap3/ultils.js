@@ -1,19 +1,19 @@
 
-const myFetch = (link,option,obj) => {
-   let urlFetch ="http://localhost:3000";
+const myFetch = async (link,option,obj) => {
+   let urlFetch = "http://localhost:3000";
    urlFetch += link;
-   return fetch(urlFetch, {
-      method:option,
+   const res = await fetch(urlFetch, {
+      method: option,
       headers: {
          'Content-Type': 'application/json'
       },
-      body: option==='GET' ? undefined : JSON.stringify(obj ? obj : {})
-   })
-   .then(res => res.json())
+      body: option === 'GET' ? undefined : JSON.stringify(obj ? obj : {})
+   });
+   return await res.json();
 }
 
-const setLoading = (statusLoading)=>{
-if(statusLoading===true){
+const setLoading = (statusLoading) => {
+if(statusLoading === true){
    document.getElementById("loading_modal").classList.remove("hiden");
 }else{
    document.getElementById("loading_modal").classList.add("hiden");
@@ -57,13 +57,6 @@ const getValueFromNoteDetail = () => {
    }
    return note;
 }
-
-// const setValueToDetailNote = editObj => {
-//    let { title, content, noteLabelId } = editObj;
-//    document.getElementById("input_note_title").value = title;
-//    document.getElementById("input_note_content").value = content;
-//    document.getElementById("input_note_label").value = noteLabelId;
-// }
 
 
 /*------------Labels------------*/

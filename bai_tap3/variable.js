@@ -22,7 +22,7 @@ let currentLabelId = null;
 let labelId = null;
 let filterList = [];
 let isFilter = false;
-let labelIdSidebar=null;
-let oldLabelName= null;
+let labelIdSidebar = null;
+let oldLabelName = null;
 const NOTI_NOT_FOUND = "Nothing to show!";
 
