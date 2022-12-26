@@ -1,6 +1,8 @@
 
 const myFetch = (link,option,obj) => {
-   return fetch(link, {
+   let urlFetch ="http://localhost:3000";
+   urlFetch += link;
+   return fetch(urlFetch, {
       method:option,
       headers: {
          'Content-Type': 'application/json'
@@ -12,11 +14,9 @@ const myFetch = (link,option,obj) => {
 
 const setLoading = (statusLoading)=>{
 if(statusLoading===true){
-   document.getElementById("loading_wrap").classList.remove("hiden");
-   document.getElementById("loading").classList.remove("hiden");
+   document.getElementById("loading_modal").classList.remove("hiden");
 }else{
-   document.getElementById("loading").classList.add("hiden");
-   document.getElementById("loading_wrap").classList.add("hiden");
+   document.getElementById("loading_modal").classList.add("hiden");
 }
 }
 
@@ -40,7 +40,7 @@ const closeDetailModal = () => {
       isAdd = false;
    } else {
       document.getElementById("detail_edit_note_content").innerHTML = "";
-      document.getElementById("detail_edit_note_wrap").classList.add("hiden");
+      document.getElementById("detail_edit_note_content_wrap").classList.add("hiden");
    }
    isOpen = false;
 }
@@ -69,12 +69,10 @@ const getValueFromNoteDetail = () => {
 /*------------Labels------------*/
 
 const closeRemoveConfirmModal = () => {
-   removeLabelConf.classList.add("hiden");
-   removeLabelWrap.classList.add("hiden");
+   removeLabeConfirmlWrap.classList.add("hiden");
 }
 const openRemoveConfirmModal = () => {
-   removeLabelConf.classList.remove("hiden");
-   removeLabelWrap.classList.remove("hiden");
+   removeLabeConfirmlWrap.classList.remove("hiden");
 }
 
 const displayLabelList = () => {
@@ -108,13 +106,13 @@ const openEditLabelBtn = () => {
 }
 
 const closeEditLabelModal = () => {
-   editContentLabel.classList.add("hiden");
-   editWrapLabel.classList.add("hiden");
+   
+   editLabelContentWrap.classList.add("hiden");
 }
 
 const openEditLabelModal = () => {
-   editContentLabel.classList.remove("hiden");
-   editWrapLabel.classList.remove("hiden");
+   
+   editLabelContentWrap.classList.remove("hiden");
    document.getElementById("input_new_label").addEventListener("click", openEditLabelBtn);
    document.getElementById("btn_done_edit_modal").addEventListener("click", closeEditLabelModal);
    displayEditLabelList();

@@ -508,6 +508,13 @@ body {
    padding: 50px 0;
 }
 
+.detail-edit-note-content-wrap {
+   position: relative;
+   width: 100%;
+   height: 100%;
+   top: 0;
+   left: 0;
+}
 
 .detail-edit-note-wrap {
    position: fixed;
@@ -666,6 +673,14 @@ body {
    font-size: 16px;
 }
 
+.remove-label-confirm-wrap {
+   position: relative;
+   width: 100%;
+   height: 100%;
+   top: 0;
+   left: 0;
+}
+
 .remove-label-wrap {
    position: fixed;
    width: 100%;
@@ -796,7 +811,7 @@ body {
    font-size: 12px;
    background-color: rgb(215, 215, 215) !important;
    display: none;
-   
+
 }
 
 .list-label:hover button {
@@ -810,26 +825,34 @@ body {
    text-align: center;
 }
 
-.loading-wrap{
+.loading-modal {
+   position: relative;
+   width: 100%;
+   height: 100%;
+   z-index: 100;
+}
+
+.loading-modal .loading-wrap {
    position: fixed;
    width: 100%;
    height: 100%;
    top: 0;
    left: 0;
    background-color: rgba(0, 0, 0, 0.8);
-   z-index: 70;
    opacity: 0.7;
+   z-index: 101;
 }
-.loading{
+
+.loading-modal .loading {
    background-color: transparent;
    position: fixed;
-   z-index: 75;
    top: 50%;
    left: 50%;
    transform: translate(-50%, -50%);
-   border-radius: 10px;
+   z-index: 102;
 }
-.loading>img{
+
+.loading-modal .loading>img {
    width: 50px;
    height: 50px;
 }
@@ -1006,5 +1029,5 @@ body {
       display: none;
    }
 
-   
+
 }

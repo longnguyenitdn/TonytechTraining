@@ -1,5 +1,4 @@
 const displaySidebarLabel = () => {
-   setLoading(false);
    let stringLabel = "";
    for (i = 0; i < labels.length; i++) {
       stringLabel += `<div id="sidebar_labels${labels[i].id}" class="sidebar-labels flex-row sidebar-row align-center cursor active-menu">
@@ -15,7 +14,6 @@ const displaySidebarLabel = () => {
 }
 
 const displayEditLabelList = () => {
-   setLoading(false);
    let stringEditLabel = "";
    for (i = 0; i < labels.length; i++) {
       stringEditLabel += `<div id="labels_row${labels[i].id}" class="labels-row flex-row align-center flex-bet">
@@ -60,7 +58,7 @@ const handleAddNewLabel = async () => {
          isExist = labels.some(node => node.name === label.name)
       }
       if (!isExist) {
-         let link = `${url}/labels`;
+         let link = '/labels';
          let method = 'POST';
          let obj = label;
          setLoading(true);
@@ -73,33 +71,39 @@ const handleAddNewLabel = async () => {
          } catch (error) {
             console.log(error);
          }
+         setLoading(false);
+
       } else {
          document.getElementById("exist_label").classList.remove("hiden");
       }
       clearEditLabelInput();
    }
 }
-const handleClearLabelNote = async (link,method,obj) =>{
-   await myFetch(link,method,obj)
+
+const handleClearLabelNote = async (link, method, obj) => {
+   setLoading(true);
+   await myFetch(link, method, obj)
+   setLoading(false);
 }
+
 const handleRemoveLabel = async (id) => {
-   let linkLabel = `${url}/labels/${id}`;
+   let linkLabel = `/labels/${id}`;
    let methodLabel = 'DELETE';
 
    setLoading(true);
    try {
       await myFetch(linkLabel, methodLabel)
       labels = labels.filter(item => item.id !== id);
-      notes.forEach (node =>  {
+      notes.forEach(node => {
          if (node.noteLabelId === id) {
-            let linkNote = `${url}/notes/${node.id}`;
+            let linkNote = `/notes/${node.id}`;
             let methodNote = 'PUT';
             let obj = {
                "title": node.title,
                "content": node.content,
                "noteLabelId": null
             }
-            handleClearLabelNote(linkNote,methodNote,obj);
+            handleClearLabelNote(linkNote, methodNote, obj);
          }
       })
       notes = notes.map(item => {
@@ -113,11 +117,11 @@ const handleRemoveLabel = async (id) => {
          isFilter = false;
       }
       displayNotes();
-      closeRemoveConfirmModal(removeLabelWrap, removeLabelConf);
+      closeRemoveConfirmModal();
    } catch (error) {
       console.log(error);
-
    }
+   setLoading(false);
 }
 
 
@@ -135,7 +139,7 @@ const handleEditLabel = async () => {
       }
    })
    if (!isExist) {
-      let link = `${url}/labels/${editLabelId}`;
+      let link = `/labels/${editLabelId}`;
       let method = 'PUT';
       let obj = {
          "name": editLabelName
@@ -149,12 +153,13 @@ const handleEditLabel = async () => {
             }
             return item;
          })
+         displayLabelList();
+         displayNotes();
+         document.getElementById("exist_label").classList.add("hiden");
       } catch (error) {
          console.log(error);
       }
-      displayLabelList();
-      displayNotes();
-      document.getElementById("exist_label").classList.add("hiden");
+      setLoading(false);
    }
    document.getElementById(`eLabelBtn${editLabelId}`).classList.add("hiden");
 
@@ -171,25 +176,24 @@ const handleActiveSidebarMenu = () => {
    });
 }
 
-const mainLabels = () => {
-   let link = `${url}/labels`;
+const mainLabels = async () => {
+   let link = '/labels';
    let method = 'GET';
    setLoading(true);
    try {
-      myFetch(link, method)
-         .then(data => {
-            labels = data
-            displayLabelList();
-            document.getElementById("editLabels").addEventListener("click", openEditLabelModal);
-            document.getElementById("remove_cancel_btn").addEventListener("click", closeRemoveConfirmModal);
-            document.getElementById("remove_btn").addEventListener("click", () => {
-               handleRemoveLabel(parseInt(document.getElementById("removeId").value));
-            });
-            removeLabelWrap.addEventListener("click", closeRemoveConfirmModal);
-         })
+      labels = await myFetch(link, method)
+      displayLabelList();
+      document.getElementById("editLabels").addEventListener("click", openEditLabelModal);
+      document.getElementById("remove_cancel_btn").addEventListener("click", closeRemoveConfirmModal);
+      document.getElementById("remove_btn").addEventListener("click", () => {
+         handleRemoveLabel(parseInt(document.getElementById("removeId").value));
+      });
+      removeLabelWrap.addEventListener("click", closeRemoveConfirmModal);
+
    } catch (error) {
       console.log(error);
    }
+   setLoading(false);
 }
 
 mainLabels();

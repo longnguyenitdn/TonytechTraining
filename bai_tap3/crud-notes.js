@@ -1,7 +1,7 @@
 const displayDetailNoteModal = () => {
    let obj = {};
    if (isAdd) {
-      obj = { title: "", content: "" , noteLabelId : ""};
+      obj = { title: "", content: "", noteLabelId: "" };
    } else {
       obj = notes.find(item => item.id == editId);
    }
@@ -32,33 +32,37 @@ const displayDetailNoteModal = () => {
 
 const handleAddNewNote = () => {
    const note = getValueFromNoteDetail();
-   const link = `${url}/notes`;
+   const link = '/notes';
    const option = 'POST';
    if (note.title !== "" || note.content !== "") {
       setLoading(true);
-      try {
-         myFetch(link, option, note)
-            .then(data => {
-               notes.unshift(data);
-               displayNotes();
+
+      myFetch(link, option, note)
+         .then(data => {
+            notes.unshift(data);
+            displayNotes();
+            setTimeout(() => {
+               document.getElementById(`note${notes[0].id}`).classList.add("delay");
                setTimeout(() => {
-                  document.getElementById(`note${notes[0].id}`).classList.add("delay");
-                  setTimeout(() => {
-                     document.getElementById(`note${notes[0].id}`).classList.remove("delay");
-                  }, 300);
-               }, 200);
-               closeDetailModal();
-            })
-      } catch (error) {
-         console.log(error);
-      }
+                  document.getElementById(`note${notes[0].id}`).classList.remove("delay");
+               }, 300);
+            }, 200);
+            closeDetailModal();
+         })
+         .catch(error => {
+            console.log(error);
+         })
+         .finally(() => {
+            setLoading(false);
+
+         })
    }
 }
 
 
 const onclickToEdit = e => {
    editId = parseInt(e.target.closest(".note").getAttribute("data-id"));
-   document.getElementById("detail_edit_note_wrap").classList.remove("hiden");
+   document.getElementById("detail_edit_note_content_wrap").classList.remove("hiden");
    document.getElementById("detail_edit_note_content").innerHTML = displayDetailNoteModal();
    document.getElementById("close_detail_modal").addEventListener("click", closeDetailModal);
    document.getElementById("detail_edit_note_wrap").addEventListener("click", handleEditNote);
@@ -67,26 +71,30 @@ const onclickToEdit = e => {
 const handleEditNote = () => {
    let editObj = getValueFromNoteDetail();
    let { title, content, noteLabelId } = editObj;
-   let link = `${url}/notes/${editId}`;
+   let link = `/notes/${editId}`;
    let method = 'PUT';
    setLoading(true);
-   try {
-      myFetch(link, method, editObj)
-         .then(() => {
-            notes = notes.map(item => {
-               if (item.id === editId) {
-                  item.title = title;
-                  item.content = content;
-                  item.noteLabelId=noteLabelId;
-               }
-               return item;
-            })
-            closeDetailModal();
-            displayNotes();
+
+   myFetch(link, method, editObj)
+      .then(() => {
+         notes = notes.map(item => {
+            if (item.id === editId) {
+               item.title = title;
+               item.content = content;
+               item.noteLabelId = noteLabelId;
+            }
+            return item;
          })
-   } catch (error) {
-      console.log(error);
-   }
+         closeDetailModal();
+         displayNotes();
+      })
+      .catch(error => {
+         console.log(error);
+      })
+      .finally(() => {
+         setLoading(false);
+
+      })
 }
 
 const displayHandleLabelModal = () => {
@@ -107,11 +115,7 @@ const displayHandleLabelModal = () => {
    </div>`;
 
    document.getElementById("note_option_label").innerHTML = stringHandleLabelModal;
-   document.body.addEventListener('click', e => {
-      if (!document.getElementById("note_option_cover").contains(e.target)) {
-         closeOptionLabelModal();
-      }
-   });
+
 
    document.querySelectorAll(".checkbox-label").forEach(node => {
       node.addEventListener("change", e => {
@@ -126,7 +130,7 @@ const handleAddNewLabeltoNote = id => {
    labelId = parseInt(id.slice(8));
    let editNote = notes.find(item => item.id === parseInt(document.getElementById("optionId").value))
    let { title, content } = editNote;
-   let link = `${url}/notes/${parseInt(document.getElementById("optionId").value)}`;
+   let link = `/notes/${parseInt(document.getElementById("optionId").value)}`;
    let option = 'PUT';
    let objCheckBox = document.getElementById(id);
    if (objCheckBox.checked) {
@@ -136,20 +140,24 @@ const handleAddNewLabeltoNote = id => {
          "noteLabelId": labelId
       }
       setLoading(true);
-      try {
-         myFetch(link, option, obj)
-            .then(() => {
-               notes.map(item => {
-                  if (item.id === parseInt(document.getElementById("optionId").value)) {
-                     item.noteLabelId = labelId;
-                  }
-               });
-               handleCheckBoxStatusAfterClick();
-               displayNotes();
-            })
-      } catch (error) {
-         console.log(error);
-      }
+
+      myFetch(link, option, obj)
+         .then(() => {
+            notes.map(item => {
+               if (item.id === parseInt(document.getElementById("optionId").value)) {
+                  item.noteLabelId = labelId;
+               }
+            });
+            handleCheckBoxStatusAfterClick();
+            displayNotes();
+         })
+         .catch(error => {
+            console.log(error);
+         })
+         .finally(() => {
+            setLoading(false);
+
+         })
    } else {
       let obj = {
          "title": title,
@@ -157,20 +165,23 @@ const handleAddNewLabeltoNote = id => {
          "noteLabelId": null
       }
       setLoading(true);
-      try {
-         myFetch(link, option, obj)
-            .then(() => {
-               notes.map(item => {
-                  if (item.id === parseInt(document.getElementById("optionId").value)) {
-                     item.noteLabelId = null;
-                  }
-               });
-               handleCheckBoxStatusAfterClick();
-               displayNotes();
-            })
-      } catch (error) {
-         console.log(error);
-      }
+
+      myFetch(link, option, obj)
+         .then(() => {
+            notes.map(item => {
+               if (item.id === parseInt(document.getElementById("optionId").value)) {
+                  item.noteLabelId = null;
+               }
+            });
+            handleCheckBoxStatusAfterClick();
+            displayNotes();
+         })
+         .catch(error => {
+            console.log(error);
+         })
+         .finally(() => {
+            setLoading(false);
+         })
    }
 
 }
@@ -201,14 +212,6 @@ const openOptionModal = e => {
    openOptionCover.style.top = window.event.clientY + 10 + "px";
    openOptionCover.style.left = window.event.clientX - 20 + "px";
    e.stopPropagation();
-   document.getElementById("handle_label").addEventListener("click", displayHandleLabelModal);
-   document.getElementById("delete_note").addEventListener("click", handleDeleteNote);
-   document.body.addEventListener('click', e => {
-      if (!openOption.contains(e.target)) {
-         closeOptionModal();
-      }
-   });
-
 }
 
 const closeOptionLabelModal = () => {
@@ -221,48 +224,53 @@ const closeOptionModal = () => {
 
 const handleDeleteNote = () => {
    let deleteId = parseInt(document.getElementById("optionId").value);
-   const link = `${url}/notes/${deleteId}`;
+   const link = `/notes/${deleteId}`;
    const option = 'DELETE';
    setLoading(true);
-   try {
-      myFetch(link, option)
-         .then(() => {
-            notes = notes.filter(item => item.id !== deleteId)
-            closeOptionModal();
-            displayNotes();
-         })
-   } catch (error) {
-      console.log(error);
-   }
 
+   myFetch(link, option)
+      .then(() => {
+         notes = notes.filter(item => item.id !== deleteId)
+         closeOptionModal();
+         displayNotes();
+      })
+      .catch(error => {
+         console.log(error);
+      })
+      .finally(() => {
+         setLoading(false);
+
+      })
 }
 
 const removeLabelFromNote = e => {
    let removeNoteId = parseInt(e.target.id.slice(14));
    let editNote = notes.find(item => item.id === removeNoteId)
    let { title, content, noteLabelId } = editNote;
-   let link = `${url}/notes/${removeNoteId}`;
+   let link = `/notes/${removeNoteId}`;
    let option = 'PUT';
    let obj = {
       "title": title,
       "content": content,
       "noteLabelId": null
-   }  
-   setLoading(true);
-   try {
-      myFetch(link, option, obj)
-         .then(() => {
-            notes.map(item => {
-               if (item.id == removeNoteId) {
-                  return item.noteLabelId = "";
-               }
-            })
-            displayNotes();
-            
-         })
-   } catch (error) {
-      console.log(error);
    }
+   setLoading(true);
+
+   myFetch(link, option, obj)
+      .then(() => {
+         notes.map(item => {
+            if (item.id == removeNoteId) {
+               return item.noteLabelId = "";
+            }
+         })
+         displayNotes();
+      })
+      .catch(error => {
+         console.log(error);
+      })
+      .finally(() => {
+         setLoading(false);
+      })
    e.stopPropagation();
 }
 
@@ -317,7 +325,7 @@ const displayNotes = () => {
       </div>`;
       }
    } else {
-      noteString = `<p class="nothing">${NOTI_NOT_FOUND}</p>`;
+      noteString = '<p class="nothing">${NOTI_NOT_FOUND}</p>';
    }
    document.getElementById("display").innerHTML = noteString;
    document.querySelectorAll(".list-label .remove-label-btn").forEach(node => {
@@ -367,21 +375,35 @@ const handleMenuBtn = () => {
 }
 
 const mainNotes = () => {
-   let link = `${url}/notes`;
+   let link = '/notes';
    let option = 'GET';
    setLoading(true);
-   try {
-      myFetch(link, option)
-         .then(data => {
-            notes = data;
-            displayNotes();
-            clickOutside();
-            document.getElementById("header_menu_icon").addEventListener("click", handleMenuBtn);
-            document.getElementById("sidebar_btn_note").addEventListener("click", showAllNotes);
-         })
-   } catch (error) {
-      console.log(error);
-   }
+   myFetch(link, option)
+      .then(data => {
+         notes = data;
+         displayNotes();
+         clickOutside();
+         document.getElementById("header_menu_icon").addEventListener("click", handleMenuBtn);
+         document.getElementById("sidebar_btn_note").addEventListener("click", showAllNotes);
+         document.getElementById("handle_label").addEventListener("click", displayHandleLabelModal);
+         document.getElementById("delete_note").addEventListener("click", handleDeleteNote);
+         document.body.addEventListener('click', e => {
+            if (!openOption.contains(e.target)) {
+               closeOptionModal();
+            }
+         });
+         document.body.addEventListener('click', e => {
+            if (!document.getElementById("note_option_cover").contains(e.target)) {
+               closeOptionLabelModal();
+            }
+         });
+      })
+      .catch(error => {
+         console.log(error);
+      })
+      .finally(() => {
+         setLoading(false);
+      })
 }
 
 mainNotes();

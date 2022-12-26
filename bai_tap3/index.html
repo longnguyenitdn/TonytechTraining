@@ -9,7 +9,52 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Document</title>
 </head>
+
 <body>
+   <div id="remove_label_confirm_wrap" class="remove-label-confirm-wrap hiden">
+      <div id="remove_label_wrap" class="remove-label-wrap"></div>
+      <div id="remove_label_confirm_modal" class="remove-confirm-modal bg-white ">
+         <div class="remove-confirm-modal-cover">
+            <input type="hidden" id="removeId">
+            <p class="text-black">We’ll delete this label and remove it from all of your Keep notes. Your notes won’t be deleted.</p>
+            <div class="remove-confirm-modal-btn">
+               <button id="remove_cancel_btn" class="btn-close button-icon text-black cursor">Cancel</button>
+               <button id="remove_btn" class="btn-close button-icon cursor text-blue">Delete</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div id="detail_edit_label_content_wrap" class="detail-edit-label-content-wrap hiden">
+      <div class="detail-edit-label-wrap" id="detail_edit_label_wrap"></div>
+      <div id="detail_edit_label_content" class="detail-edit-label-content">
+         <div class="label-edit-cover-top">
+            <div class="label-edit-top">
+               <p class="label-edit-header text-black">Edit labels</p>
+               <div class="label-edit-top-row flex-row align-center flex-around">
+                  <button id="btn_left_input_edit_label" class="btn-left-input-edit-label button-icon text-black cursor hiden"><i class="fa-solid fa-xmark"></i></button>
+                  <input id="input_new_label" class="input text-black" type="text" placeholder="Create new label...">
+                  <button id="btn_right_input_edit_label" class="btn-right-input-edit-label button-icon text-black cursor hiden"><i class="fa-solid fa-check"></i></button>
+               </div>
+               <div id="labels_list_edit" class="labels-list-edit align-center flex-around">
+               </div>
+            </div>
+         </div>
+         <div class="label-edit-cover-bot">
+            <div class="label-edit-bot">
+               <p class="exist-label hiden" id="exist_label">Label Existed!</p>
+               <button id="btn_done_edit_modal" class="btn-close button-icon text-black cursor">Done</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div id="loading_modal" class="loading-modal hiden">
+      <div id="loading_wrap" class="loading-wrap "></div>
+      <div id="loading" class="loading"><img src="images/loading-dog.gif" alt="loading"></div>
+   </div>
+   <div id="detail_edit_note_content_wrap" class="detail-edit-note-content-wrap hiden">
+      <div id="detail_edit_note_wrap" class="detail-edit-note-wrap"></div>
+      <div id="detail_edit_note_content" class="detail-edit-note-content"></div>
+   </div>
    <div class="cover-header cover">
       <div class="header-content flex-row flex-bet align-center max-width99">
          <div class="flex-row header-left align-center">
@@ -45,44 +90,6 @@
    </div>
    <div class="cover-body cover body-content-cover">
       <div class="flex-row">
-         <div id="loading_wrap" class="loading-wrap hiden"></div>
-         <div id="loading" class="loading hiden">
-            <img src="/Users/HoangLong/Working/TonytechTraining/bai_tap3/loading-dog.gif" alt="loading">
-         </div>
-         <div id="remove_label_wrap" class="remove-label-wrap hiden"></div>
-         <div id="remove_label_confirm_modal" class="remove-confirm-modal bg-white hiden">
-            <div class="remove-confirm-modal-cover">
-               <input type="hidden" id="removeId">
-               <p class="text-black">We’ll delete this label and remove it from all of your Keep notes. Your notes won’t be deleted.</p>
-               <div class="remove-confirm-modal-btn">
-                  <button id="remove_cancel_btn" class="btn-close button-icon text-black cursor">Cancel</button>
-                  <button id="remove_btn" class="btn-close button-icon cursor text-blue">Delete</button>
-               </div>
-            </div>
-         </div>
-         <div id="detail_edit_note_wrap" class="detail-edit-note-wrap hiden"></div>
-         <div id="detail_edit_note_content" class="detail-edit-note-content"></div>
-         <div class="detail-edit-label-wrap hiden" id="detail_edit_label_wrap"></div>
-         <div id="detail_edit_label_content" class="detail-edit-label-content hiden">
-            <div class="label-edit-cover-top">
-               <div class="label-edit-top">
-                  <p class="label-edit-header text-black">Edit labels</p>
-                  <div class="label-edit-top-row flex-row align-center flex-around">
-                     <button id="btn_left_input_edit_label" class="btn-left-input-edit-label button-icon text-black cursor hiden"><i class="fa-solid fa-xmark"></i></button>
-                     <input id="input_new_label" class="input text-black" type="text" placeholder="Create new label...">
-                     <button id="btn_right_input_edit_label" class="btn-right-input-edit-label button-icon text-black cursor hiden"><i class="fa-solid fa-check"></i></button>
-                  </div>
-                  <div id="labels_list_edit" class="labels-list-edit align-center flex-around">
-                  </div>
-               </div>
-            </div>
-            <div class="label-edit-cover-bot">
-               <div class="label-edit-bot">
-                  <p class="exist-label hiden" id="exist_label">Label Existed!</p>
-                  <button id="btn_done_edit_modal" class="btn-close button-icon text-black cursor">Done</button>
-               </div>
-            </div>
-         </div>
          <div id="sidebar_wrap" class="sidebar-wrap">
             <div id="sidebar" class="sidebar flex-col">
                <div id="sidebar_btn_note" class="flex-row sidebar-row sidebar-row-top align-center cursor active-menu active">
