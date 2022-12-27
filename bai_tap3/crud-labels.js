@@ -54,23 +54,29 @@ const displayCheckboxLabelList = () => {
    document.getElementById('btn_submit').addEventListener('click', handelAddLabelToCheckboxNote);
 }
 
-const handelAddLabelToCheckboxNote = () => {
+const handelAddLabelToCheckboxNote = async () => {
    let labelId = parseInt(document.getElementById('labelsAll').value);
-   checkboxListId.forEach(node => {
-      let link = `/notes/${node}`;
-      let method = 'PUT';
-      let obj = notes.find(item => item.id === node)
-      obj.noteLabelId = labelId;
-      handleLabelInNote(link,method,obj);
-      notes = notes.map(item => {
-         if (item.id === node) {
-            item.noteLabelId = labelId;
-         }
-         return item;
-      })
-   })
-   checkboxListId.length=0;
-   displayNotes();
+   setLoading(true);
+   try {
+      await Promise.all(checkboxListId.map(async (node) => {
+         let link = `/notes/${node}`;
+         let method = 'PUT';
+         let obj = notes.find(item => item.id === node)
+         obj.noteLabelId = labelId;
+         await handleLabelInNote(link, method, obj);
+         notes = notes.map(item => {
+            if (item.id === node) {
+               item.noteLabelId = labelId;
+            }
+            return item;
+         })
+      }))
+      checkboxListId.length = 0;
+      displayNotes();
+   } catch (error) {
+      console.log(error);
+   }
+   setLoading(false);
 }
 
 const filterLabelByTagName = e => {
@@ -111,13 +117,11 @@ const handleAddNewLabel = async () => {
 }
 
 const handleLabelInNote = async (link, method, obj) => {
-   setLoading(true);
    try {
       await myFetch(link, method, obj)
    } catch (error) {
       console.log(error);
    }
-   setLoading(false);
 }
 
 const handleRemoveLabel = async (id) => {
@@ -128,7 +132,7 @@ const handleRemoveLabel = async (id) => {
    try {
       await myFetch(linkLabel, methodLabel)
       labels = labels.filter(item => item.id !== id);
-      notes.forEach(node => {
+      await Promise.all(notes.map(async (node) => {
          if (node.noteLabelId === id) {
             let linkNote = `/notes/${node.id}`;
             let methodNote = 'PUT';
@@ -136,10 +140,11 @@ const handleRemoveLabel = async (id) => {
                "title": node.title,
                "content": node.content,
                "noteLabelId": null
-            }
-            handleLabelInNote(linkNote, methodNote, obj);
+            };
+            await handleLabelInNote(linkNote, methodNote, obj);
          }
-      })
+      }))
+
       notes = notes.map(item => {
          if (item.noteLabelId == id) {
             item.noteLabelId = null;

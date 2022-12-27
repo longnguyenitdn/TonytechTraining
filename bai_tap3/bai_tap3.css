@@ -136,7 +136,7 @@
 }
 .labelAll{
    position: absolute;
-   bottom: 195px;
+   bottom: 220px;
 }
 
 
@@ -531,7 +531,7 @@ body {
    align-items: flex-start;
    max-width: 100%;
    flex-wrap: wrap;
-   padding: 50px 0;
+   padding: 60px 0;
 }
 
 .detail-edit-note-content-wrap {
