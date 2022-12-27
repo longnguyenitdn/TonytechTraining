@@ -47,7 +47,6 @@ const handleAddNewNote = () => {
                   document.getElementById(`note${notes[0].id}`).classList.remove("delay");
                }, 300);
             }, 200);
-            closeDetailModal();
          })
          .catch(error => {
             console.log(error);
@@ -57,6 +56,7 @@ const handleAddNewNote = () => {
 
          })
    }
+   closeDetailModal();
 }
 
 
@@ -289,8 +289,29 @@ const displayNotesWithFilter = () => {
    return list;
 }
 
+const handleCheckBoxAll = id => {
+   const checkAllId = parseInt(id.slice(12));
+   let isExist = checkboxListId.some(node => {
+      if (checkAllId === node) {
+         return true;
+      }
+   })
+
+   if (isExist) {
+      checkboxListId = checkboxListId.filter(item => item !== checkAllId);
+      document.getElementById(`note_wrap${checkAllId}`).classList.remove("border-checkbox");
+   } else {
+      checkboxListId.push(checkAllId);
+      document.getElementById(`note_wrap${checkAllId}`).classList.add("border-checkbox");
+   }
+   if (checkboxListId.length === 0) {
+      document.getElementById('labelAllCheckbox').classList.add('hiden');
+   } else {
+      document.getElementById('labelAllCheckbox').classList.remove('hiden');
+   }
+}
+
 const displayNotes = () => {
-   setLoading(false);
    let list = displayNotesWithFilter();
    let noteString = "";
    if (list.length !== 0) {
@@ -298,7 +319,8 @@ const displayNotes = () => {
          let labelInNote = labels.find(item => item.id === list[i].noteLabelId);
          noteString += `<div class="notes-cover flex-row">
          <div id="note${list[i].id}" class="note" data-id="${list[i].id}">
-            <div class="note-wrap">
+            <div id='note_wrap${list[i].id}' class="note-wrap">
+            <button id='btn_checkAll${list[i].id}' class='btn-checkAll btn-bg cursor'><i class="fa-solid fa-check avoid-clicks"></i></button>
                <div class="note-title-wrap">
                   <div class="flex-row flex-bet">
                      <span id="note_title" class="note_title pad10">${list[i].title}</span>
@@ -325,7 +347,7 @@ const displayNotes = () => {
       </div>`;
       }
    } else {
-      noteString = '<p class="nothing">${NOTI_NOT_FOUND}</p>';
+      noteString = `<p class="nothing">${NOTI_NOT_FOUND}</p>`;
    }
    document.getElementById("display").innerHTML = noteString;
    document.querySelectorAll(".list-label .remove-label-btn").forEach(node => {
@@ -337,6 +359,11 @@ const displayNotes = () => {
    document.querySelectorAll(".btn-note-option").forEach(node => {
       node.addEventListener("click", openOptionModal)
    });
+   document.querySelectorAll('.btn-checkAll').forEach(node => {
+      node.addEventListener("click", e => {
+         handleCheckBoxAll(e.target.id)
+      });
+   })
 }
 
 const clickOutside = () => {

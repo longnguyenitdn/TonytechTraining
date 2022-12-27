@@ -68,9 +68,11 @@ const openRemoveConfirmModal = () => {
    removeLabeConfirmlWrap.classList.remove("hiden");
 }
 
+
 const displayLabelList = () => {
    displaySidebarLabel();
    displayEditLabelList();
+   displayCheckboxLabelList();
 }
 
 const clearEditLabelInput = () => {

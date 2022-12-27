@@ -123,6 +123,22 @@
    padding: 7px;
    margin: 7px;
 }
+.btn-submit{
+   border: none;
+   outline: none;
+   color: black;
+   font-size: 13px;
+   padding: 7px;
+   border-radius: 5px !important;
+}   
+.btn-submit:hover{
+   background-color: red;
+}
+.labelAll{
+   position: absolute;
+   bottom: 195px;
+}
+
 
 .pin-icon {
    margin: 7px;
@@ -281,11 +297,7 @@ body {
    display: block;
 }
 
-/* .sidebar:hover>.sidebar-row-top {
-   background-color: rgb(255, 235, 192);
-   border-top-right-radius: 30px;
-   border-bottom-right-radius: 30px;
-} */
+
 
 .active {
    background-color: rgb(255, 235, 192) !important;
@@ -361,8 +373,16 @@ body {
    padding-top: 20px;
    width: 100%;
    height: fit-content;
-
+   position: relative;
 }
+.body-take-note>button{
+  border: none;
+  margin-top: 20px;
+}
+.body-take-note>button:hover{
+   color: black;
+}
+
 
 
 .take-note {
@@ -441,7 +461,13 @@ body {
 
 /* -------------------------------------Note-------------------------------------- */
 .note-wrap {
+   position: relative;
    padding: 5px;
+}
+
+.note-wrap:hover .btn-checkAll {
+   display: inline-block;
+   background-color: #6e7279;
 }
 
 .note_title {
@@ -855,7 +881,30 @@ body {
    background-color: transparent;
    width: 100px;
    height: 100px;
-  
+
+}
+
+.btn-checkAll {
+   width: 25px;
+   height: 25px;
+   position: absolute;
+   top: -10px;
+   left: -10px;
+   background-color: transparent;
+   font-size: 15px;
+   border-radius: 50%;
+   padding: 0;
+   display: none;
+}
+
+.btn-checkAll>i {
+   background-color: transparent;
+   color: white;
+}
+
+.border-checkbox{
+   border: 2px solid rgb(54, 54, 54);
+   border-radius: 7px;
 }
 
 

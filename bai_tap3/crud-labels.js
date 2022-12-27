@@ -42,6 +42,36 @@ const displayEditLabelList = () => {
       })
    })
 }
+const displayCheckboxLabelList = () => {
+   let stringCheckboxLabel = `<label for="labelsAll">Choose a label:</label>
+   <select name="labelsAll" id="labelsAll">`;
+   for (i = 0; i < labels.length; i++) {
+      stringCheckboxLabel += `<option value="${labels[i].id}">${labels[i].name}</option>`;
+   }
+   stringCheckboxLabel += `</select>`;
+   stringCheckboxLabel += `<input id='btn_submit' class="btn-submit cursor btn-close" type="submit" value="Set Label">`;
+   document.getElementById('labelAllCheckbox').innerHTML = stringCheckboxLabel;
+   document.getElementById('btn_submit').addEventListener('click', handelAddLabelToCheckboxNote);
+}
+
+const handelAddLabelToCheckboxNote = () => {
+   let labelId = parseInt(document.getElementById('labelsAll').value);
+   checkboxListId.forEach(node => {
+      let link = `/notes/${node}`;
+      let method = 'PUT';
+      let obj = notes.find(item => item.id === node)
+      obj.noteLabelId = labelId;
+      handleLabelInNote(link,method,obj);
+      notes = notes.map(item => {
+         if (item.id === node) {
+            item.noteLabelId = labelId;
+         }
+         return item;
+      })
+   })
+   checkboxListId.length=0;
+   displayNotes();
+}
 
 const filterLabelByTagName = e => {
    isFilter = true;
@@ -80,9 +110,13 @@ const handleAddNewLabel = async () => {
    }
 }
 
-const handleClearLabelNote = async (link, method, obj) => {
+const handleLabelInNote = async (link, method, obj) => {
    setLoading(true);
-   await myFetch(link, method, obj)
+   try {
+      await myFetch(link, method, obj)
+   } catch (error) {
+      console.log(error);
+   }
    setLoading(false);
 }
 
@@ -103,7 +137,7 @@ const handleRemoveLabel = async (id) => {
                "content": node.content,
                "noteLabelId": null
             }
-            handleClearLabelNote(linkNote, methodNote, obj);
+            handleLabelInNote(linkNote, methodNote, obj);
          }
       })
       notes = notes.map(item => {
@@ -189,6 +223,7 @@ const mainLabels = async () => {
          handleRemoveLabel(parseInt(document.getElementById("removeId").value));
       });
       removeLabelWrap.addEventListener("click", closeRemoveConfirmModal);
+
 
    } catch (error) {
       console.log(error);

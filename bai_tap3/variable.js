@@ -24,5 +24,6 @@ let filterList = [];
 let isFilter = false;
 let labelIdSidebar = null;
 let oldLabelName = null;
+let checkboxListId = []; 
 const NOTI_NOT_FOUND = "Nothing to show!";
 

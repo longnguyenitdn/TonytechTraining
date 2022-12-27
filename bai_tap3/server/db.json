@@ -2,35 +2,31 @@
   "notes": [
     {
       "title": "1",
-      "content": "12",
-      "noteLabelId": null,
+      "content": "",
+      "noteLabelId": 2,
+      "id": 1
+    },
+    {
+      "title": "2",
+      "content": "",
+      "noteLabelId": 2,
       "id": 2
     },
     {
       "title": "1",
-      "content": "1",
+      "content": "",
       "noteLabelId": null,
       "id": 3
-    },
-    {
-      "title": "12",
-      "content": "12",
-      "noteLabelId": null,
-      "id": 4
     }
   ],
   "labels": [
     {
-      "name": "1",
-      "id": 2
+      "name": "long1",
+      "id": 1
     },
     {
       "name": "long2",
-      "id": 3
-    },
-    {
-      "name": "long",
-      "id": 4
+      "id": 2
     }
   ]
 }
