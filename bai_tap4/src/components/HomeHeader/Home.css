@@ -44,6 +44,7 @@
 .font-sz20 {
    font-size: 20px !important;
 }
+
 .font-sz23 {
    font-size: 23px !important;
 }
@@ -52,12 +53,16 @@
    font-size: 15px !important;
 }
 
+.font-sz17 {
+   font-size: 17px !important;
+}
+
 .max-width99 {
    max-width: 99% !important;
    margin: 0 auto;
 }
 
-.margin5{
+.margin5 {
    margin: 0 5px !important;
 }
 
@@ -131,18 +136,21 @@
    padding: 7px;
    margin: 7px;
 }
-.btn-submit{
+
+.btn-submit {
    border: none;
    outline: none;
    color: black;
    font-size: 13px;
    padding: 7px;
    border-radius: 5px !important;
-}   
-.btn-submit:hover{
+}
+
+.btn-submit:hover {
    background-color: red;
 }
-.labelAll{
+
+.labelAll {
    position: absolute;
    bottom: 220px;
 }
@@ -380,11 +388,13 @@ body {
    height: fit-content;
    position: relative;
 }
-.body-take-note>button{
-  border: none;
-  margin-top: 20px;
+
+.body-take-note>button {
+   border: none;
+   margin-top: 20px;
 }
-.body-take-note>button:hover{
+
+.body-take-note>button:hover {
    color: black;
 }
 
@@ -411,9 +421,11 @@ body {
 .take-note-icon {
    padding: 0 5px;
 }
-.take-note-icon>button{
+
+.take-note-icon>button {
    font-size: 18px !important;
 }
+
 .take-note-detail {
    background-color: white;
    box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
@@ -421,6 +433,7 @@ body {
    border: 1px solid rgb(206, 206, 206);
    overflow: hidden;
    width: 538px;
+   z-index: 10;
 }
 
 .take-note-detail>div>input {
@@ -568,16 +581,24 @@ body {
 }
 
 .note-option-cover {
-   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: transparent;
+   position: fixed;
+   z-index: 5;
 }
 
 .note-option {
+   position: fixed;
    width: auto;
    height: auto;
    border: none;
    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
    border-radius: 5px;
    padding: 5px 0;
+   z-index: 10;
 }
 
 .note-option>p {
@@ -890,6 +911,10 @@ body {
 
 }
 
+.color-white {
+   color: white;
+}
+
 .btn-checkAll {
    width: 25px;
    height: 25px;
@@ -908,14 +933,25 @@ body {
    color: white;
 }
 
-.border-checkbox{
+.border-checkbox {
    border: 2px solid rgb(54, 54, 54);
    border-radius: 7px;
 }
 
+.take-note-detail-modal {
+   position: fixed;
+   width: 100%;
+   height: 100%;
+   top: 0;
+   left: 0;
+   background-color: transparent;
+   opacity: 0.7;
+   z-index: 5;
+}
 
 
-/* Animation */
+
+/*-------- Animation--------- */
 .delay {
    animation: slide 0.3s;
 }
