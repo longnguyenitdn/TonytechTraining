@@ -5,7 +5,7 @@ class NoteOption extends React.Component {
       return (
          <div className="note-option-cover " onClick={this.props.handleClickOpenNoteOptionFunc} >
             <div className="note-option  bg-white " style={this.props.style}>
-               <p onClick={()=>this.props.handleDeleleNoteFunc(this.props.optionId)} >Delete note</p>
+               <p onClick={(e)=>this.props.handleDeleleNoteFunc(this.props.optionId,e)} >Delete note</p>
                <p id="handle_label">Add label</p>
                <p>Add drawing</p>
                <p>Make a copy</p>

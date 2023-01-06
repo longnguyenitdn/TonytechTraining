@@ -587,7 +587,7 @@ body {
    height: 100%;
    background-color: transparent;
    position: fixed;
-   z-index: 5;
+   z-index: 15;
 }
 
 .note-option {
@@ -598,7 +598,7 @@ body {
    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
    border-radius: 5px;
    padding: 5px 0;
-   z-index: 10;
+   z-index: 20;
 }
 
 .note-option>p {
@@ -947,6 +947,24 @@ body {
    background-color: transparent;
    opacity: 0.7;
    z-index: 5;
+}
+
+.take-note-detail-center {
+   position: fixed;
+   z-index: 21;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+}
+.take-note-detail-center-wrap{
+   position: fixed;
+   width: 100vw;
+   height: 100vh;
+   top: 0;
+   left: 0;
+   background-color: rgba(0, 0, 0, 0.8);
+   opacity: 0.7;
+   z-index: 20
 }
 
 

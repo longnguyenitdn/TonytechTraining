@@ -4,6 +4,7 @@ import { CiBullhorn } from 'react-icons/ci';
 import { HiOutlineUserPlus, HiOutlineFolderArrowDown, HiOutlineEllipsisHorizontalCircle } from 'react-icons/hi2';
 import { FiChevronsLeft, FiChevronsRight } from 'react-icons/fi';
 import { BsImages } from 'react-icons/bs';
+import { FaThumbtack } from 'react-icons/fa';
 import { IoColorPaletteOutline } from 'react-icons/io5';
 
 class TakeNoteDetail extends React.Component {
@@ -27,16 +28,16 @@ class TakeNoteDetail extends React.Component {
          alert("Missing Input Infomation!")
          return;
       } else {
-         let {id,title,content}=this.state
+         let { id, title, content } = this.state
          if (this.props.isEdit) {
-            
+
             this.props.handleEditNoteFunc({
                id,
                title,
                content
             })
          } else {
-            this.props.addNewNote({              
+            this.props.addNewNote({
                title,
                content
             })
@@ -51,7 +52,7 @@ class TakeNoteDetail extends React.Component {
    componentDidMount() {
       if (this.props.isEdit) {
          this.setState({
-            id:this.props.editNote.id,
+            id: this.props.editNote.id,
             title: this.props.editNote.title,
             content: this.props.editNote.content
          })
@@ -61,11 +62,11 @@ class TakeNoteDetail extends React.Component {
 
       return (
          <>
-            {this.props.isOpen === true && <div onClick={this.handleClickOutside} className="take-note-detail-modal"></div>}
-            <div id="input_note_detail" className="take-note-detail">
+            {this.props.isOpen === true && <div onClick={this.handleClickOutside} className={`take-note-detail-modal ${this.props.isEdit ? this.props.editModalWrapClass : ''}`}></div>}
+            <div id="input_note_detail" className={`take-note-detail ${this.props.isEdit ? this.props.editModalClass : ''}`}>
                <div className="flex-row flex-bet align-center">
                   <input onChange={(e) => this.handleChangeInputNoteTitle(e)} id="input_note_title" className="input-note-title input skip" type="text" placeholder="Title" value={this.state.title} />
-                  <button className="pin-icon button-icon cursor font-sz17"><i className="fa-solid fa-thumbtack"></i></button>
+                  <button className="pin-icon button-icon cursor font-sz17"><FaThumbtack/></button>
                </div>
                <div>
                   <input onChange={(e) => this.handleChangeInputNoteContent(e)} className="input-note-content input skip" type="text" placeholder="Take a note..." value={this.state.content} />

@@ -25,7 +25,11 @@ class HomeSidebarBody extends React.Component {
          left: 0
       },
       optionId: null,
-      statusLoading: false
+      statusLoading: false,
+      editModalClass: '',
+      editModalWrapClass: '',
+      delayClass: '',
+      delayNote: {}
    }
 
    componentDidMount() {
@@ -57,12 +61,23 @@ class HomeSidebarBody extends React.Component {
       if (item) {
          this.setState({
             isEdit: true,
-            editNote: item
+            editNote: item,
+            editModalClass: 'take-note-detail-center',
+            editModalWrapClass: 'take-note-detail-center-wrap',
+         })
+      } else {
+         this.setState({
+            isEdit: false
          })
       }
 
    }
-
+   handleNoteOption = () => {
+     
+      this.setState({
+         isOpenNoteOption: !this.state.isOpenNoteOption
+      })
+   }
    handleAddNewNote = (note) => {
       const link = '/notes';
       const option = 'POST';
@@ -71,8 +86,21 @@ class HomeSidebarBody extends React.Component {
          .then(data => {
             this.setState({
                // noteList: [note].concat(this.state.noteList)
-               noteList: [data, ...this.state.noteList]
+               noteList: [data, ...this.state.noteList],
+               delayNote: data
             })
+
+            setTimeout(() => {
+               this.setState({
+                  delayClass: 'delay'
+               })
+               setTimeout(() => {
+                  this.setState({
+                     delayClass: ''
+                  })
+               }, 300);
+            }, 200);
+
          })
          .catch(error => {
             console.log(error);
@@ -82,18 +110,20 @@ class HomeSidebarBody extends React.Component {
          })
    }
 
-   handleDeleleNote = (id) => {
+   handleDeleleNote = (id, e) => {
+      e.stopPropagation()
       const link = `/notes/${id}`;
       const option = 'DELETE';
       this.setLoading(true);
-
       myFetch(link, option)
          .then(() => {
             let currentList = this.state.noteList
             currentList = currentList.filter(item => item.id !== id)
             this.setState({
-               noteList: currentList
+               noteList: currentList,
+               optionId:null
             })
+            this.handleNoteOption()
          })
          .catch(error => {
             console.log(error);
@@ -107,7 +137,6 @@ class HomeSidebarBody extends React.Component {
       let link = `/notes/${note.id}`;
       let method = 'PUT';
       this.setLoading(true);
-
       myFetch(link, method, note)
          .then(() => {
             let currentList = this.state.noteList
@@ -132,15 +161,17 @@ class HomeSidebarBody extends React.Component {
          })
    }
 
-   handleClickOpenNoteOption = (id) => {
+   handleClickOpenNoteOption = (id = null, e) => {
+     
+      this.handleNoteOption()
       this.setState({
-         isOpenNoteOption: !this.state.isOpenNoteOption,
          position: {
             top: window.event.clientY + 10 + 'px',
             left: window.event.clientX - 20 + 'px'
          },
          optionId: id
       })
+      e?.stopPropagation()
    }
 
 
@@ -156,13 +187,13 @@ class HomeSidebarBody extends React.Component {
                   <div id="body_content" className="body-content flex-row flex-center">
                      <div className="body-take-note flex-col skip">
                         {isOpen === false && <TakeNote isOpenFunc={this.handleShowHideOpenDetailModal} />}
-                        {isOpen === true && <TakeNoteDetail handleEditNoteFunc={this.handleEditNote} editNote={this.state.editNote} isEdit={this.state.isEdit} addNewNote={this.handleAddNewNote} isOpen={this.state.isOpen} isOpenFunc={this.handleShowHideOpenDetailModal} noteState={this.state.noteList} />}
+                        {isOpen === true && <TakeNoteDetail editModalWrapClass={this.state.editModalWrapClass} editModalClass={this.state.editModalClass} handleEditNoteFunc={this.handleEditNote} editNote={this.state.editNote} isEdit={this.state.isEdit} addNewNote={this.handleAddNewNote} isOpen={this.state.isOpen} isOpenFunc={this.handleShowHideOpenDetailModal} noteState={this.state.noteList} />}
                         <div id="detail_note" className="detail-note"></div>
                         <div className="labelAll hiden" id="labelAllCheckbox"></div>
                         <div className="display flex-row" id="display">
                            {this.state.noteList.map(item => {
                               return (
-                                 <div key={item.id} className="notes-cover flex-row" onClick={() => this.handleShowHideOpenDetailModal(item)}>
+                                 <div key={item.id} className={`notes-cover flex-row  ${item.id === this.state.delayNote.id ? this.state.delayClass : ''}`} onClick={() => this.handleShowHideOpenDetailModal(item)}>
                                     <div className="note"  >
                                        <div className="note-wrap">
                                           <button className='btn-checkAll btn-bg cursor'><AiOutlineCheck fill='white' className='color-white' /></button>
@@ -181,7 +212,7 @@ class HomeSidebarBody extends React.Component {
                                              <button className="button-icon cursor font-sz15 hiden display-note-icon"><BsPalette /></button>
                                              <button className="button-icon cursor font-sz15 hiden display-note-icon"><BsImages /></button>
                                              <button className="button-icon cursor font-sz15 hiden display-note-icon"><BsBoxArrowDown /></button>
-                                             <button onClick={() => this.handleClickOpenNoteOption(item.id)} className="hiden btn-note-option button-icon cursor font-sz15 void-clicks display-note-icon"><HiOutlineEllipsisVertical /></button>
+                                             <button onClick={(e) => this.handleClickOpenNoteOption(item.id, e)} className="hiden btn-note-option button-icon cursor font-sz15 void-clicks display-note-icon"><HiOutlineEllipsisVertical /></button>
                                           </div>
                                        </div>
                                     </div>
