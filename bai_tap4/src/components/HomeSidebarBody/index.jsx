@@ -112,6 +112,7 @@ class HomeSidebarBody extends React.Component {
 
    handleDeleleNote = (id, e) => {
       e.stopPropagation()
+
       const link = `/notes/${id}`;
       const option = 'DELETE';
       this.setLoading(true);
@@ -123,6 +124,7 @@ class HomeSidebarBody extends React.Component {
                noteList: currentList,
                optionId:null
             })
+
             this.handleNoteOption()
          })
          .catch(error => {
