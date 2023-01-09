@@ -1,5 +1,4 @@
 import React from "react"
-import '../HomeHeader/Home.css'
 import { CiBullhorn } from 'react-icons/ci';
 import { HiOutlineUserPlus, HiOutlineFolderArrowDown, HiOutlineEllipsisHorizontalCircle } from 'react-icons/hi2';
 import { FiChevronsLeft, FiChevronsRight } from 'react-icons/fi';

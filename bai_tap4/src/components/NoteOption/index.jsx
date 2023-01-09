@@ -1,5 +1,5 @@
 import React from "react";
-import '../HomeHeader/Home.css'
+
 class NoteOption extends React.Component {
    render() {
       return (

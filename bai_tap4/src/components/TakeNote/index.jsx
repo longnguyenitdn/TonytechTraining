@@ -1,4 +1,4 @@
-import '../HomeHeader/Home.css'
+
 import React from 'react'
 import { BiPaint } from 'react-icons/bi';
 import { BsCheck2Square, BsImages } from 'react-icons/bs';

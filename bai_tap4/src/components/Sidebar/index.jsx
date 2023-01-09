@@ -1,5 +1,4 @@
 import React from "react"
-import "../HomeHeader/Home.css"
 import { FaRegLightbulb, FaPencilAlt } from 'react-icons/fa';
 import { BsBell, BsTrash } from 'react-icons/bs';
 import { AiOutlineCloudDownload } from 'react-icons/ai';
@@ -23,7 +22,7 @@ class Sidebar extends React.Component {
                   <button className="button-icon sidebar-btn cursor avoid-clicks"><FaPencilAlt /></button>
                   <p className="sidebar-text hiden avoid-clicks">Edit labels</p>
                </div>
-               <LabelSidebar/>
+               <LabelSidebar labelList={this.props.labelList}/>
                <div id="sidebar_btn_archive" className="flex-row sidebar-row align-center cursor active-menu">
                   <button className="button-icon sidebar-btn cursor avoid-clicks"><AiOutlineCloudDownload /></button>
                   <p className="sidebar-text hiden avoid-clicks">Archive</p>

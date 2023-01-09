@@ -1,4 +1,4 @@
-import '../HomeHeader/Home.css'
+
 import React from 'react'
 import { BsPalette, BsImages, BsBoxArrowDown } from 'react-icons/bs';
 import { CiBullhorn } from 'react-icons/ci';
@@ -13,7 +13,7 @@ import { myFetch } from '../../utils'
 import LoadingModal from '../LoadingModal';
 
 
-class HomeSidebarBody extends React.Component {
+class Body extends React.Component {
    state = {
       editNote: null,
       isEdit: false,
@@ -231,4 +231,4 @@ class HomeSidebarBody extends React.Component {
       )
    }
 }
-export default HomeSidebarBody
+export default Body

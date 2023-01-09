@@ -1,5 +1,4 @@
 import React from "react";
-import '../HomeHeader/Home.css'
 class LoadingModal extends React.Component {
    render() {
       return (

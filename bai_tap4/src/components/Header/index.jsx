@@ -1,5 +1,4 @@
 import React from "react";
-import './Home.css';
 import { FaBars } from 'react-icons/fa';
 import { HiMagnifyingGlass, HiXMark } from 'react-icons/hi2';
 import { GrRotateRight } from 'react-icons/gr';
@@ -9,7 +8,7 @@ import { IoEllipsisVerticalCircle } from 'react-icons/io5';
 import { BiUserCircle } from 'react-icons/bi';
 
 
-class HomeHeader extends React.Component {
+class Header extends React.Component {
    render() {
       return (
          <div className="cover-header cover">
@@ -48,4 +47,4 @@ class HomeHeader extends React.Component {
       )
    }
 }
-export default HomeHeader;
+export default Header;
