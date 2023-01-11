@@ -8,6 +8,7 @@ class Home extends React.Component {
    state = {
       labelList: [
          {
+            id:1,
             name:"long"
          }
       ]

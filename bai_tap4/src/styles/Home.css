@@ -276,6 +276,8 @@ body {
 /* ---------------------------------------sidebar------------------------------------- */
 .sidebar-wrap {
    z-index: 10;
+   position: fixed;
+   margin-top: 63px;
 }
 
 .sidebar {
@@ -285,7 +287,6 @@ body {
    width: 70px;
    transition: width 0.2s;
    overflow: none;
-   position: fixed;
    height: calc(100vh - 63px);
 }
 
@@ -956,7 +957,8 @@ body {
    left: 50%;
    transform: translate(-50%, -50%);
 }
-.take-note-detail-center-wrap{
+
+.take-note-detail-center-wrap {
    position: fixed;
    width: 100vw;
    height: 100vh;

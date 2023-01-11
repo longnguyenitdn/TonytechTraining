@@ -7,47 +7,13 @@ import { FaThumbtack } from 'react-icons/fa';
 import { IoColorPaletteOutline } from 'react-icons/io5';
 
 class TakeNoteDetail extends React.Component {
+
    state = {
       id: null,
       title: '',
       content: ''
    }
-   handleChangeInputNoteTitle = (e) => {
-      this.setState({
-         title: e.target.value
-      })
-   }
-   handleChangeInputNoteContent = (e) => {
-      this.setState({
-         content: e.target.value
-      })
-   }
-   handleClickOutside = () => {
-      if (!this.state.title || !this.state.content) {
-         alert("Missing Input Infomation!")
-         return;
-      } else {
-         let { id, title, content } = this.state
-         if (this.props.isEdit) {
-
-            this.props.handleEditNoteFunc({
-               id,
-               title,
-               content
-            })
-         } else {
-            this.props.addNewNote({
-               title,
-               content
-            })
-         }
-         this.setState({
-            title: '',
-            content: ''
-         })
-         this.props.isOpenFunc();
-      }
-   }
+   wrapperRef = React.createRef()
    componentDidMount() {
       if (this.props.isEdit) {
          this.setState({
@@ -56,16 +22,60 @@ class TakeNoteDetail extends React.Component {
             content: this.props.editNote.content
          })
       }
+      document.addEventListener('click', this.handleClickOutside)
    }
-   render() {
 
+   componentWillUnmount() {
+      // important
+      document.removeEventListener('click', this.handleClickOutside)
+   }
+   handleChangeInputNoteTitle = (e) => {
+      this.setState({
+         title: e.target.value
+      })
+   }
+
+   handleChangeInputNoteContent = (e) => {
+      this.setState({
+         content: e.target.value
+      })
+   }
+
+   handleClickOutside = (e) => {
+      if (!this.wrapperRef.current.contains(e.target)) {
+         if (!this.state.title || !this.state.content) {
+            alert("Missing Input Infomation!")
+            return;
+         } else {
+            let { id, title, content } = this.state
+            if (this.props.isEdit) {
+               this.props.handleEditNoteFunc({
+                  id,
+                  title,
+                  content
+               })  
+            } else {
+               this.props.handleAddNewNoteFunc({
+                  title,
+                  content
+               })
+            }
+            this.props.handleShowHideOpenDetailModalFunc()
+            this.setState({
+               title: '',
+               content: ''
+            })
+         }
+      }
+   }
+
+   render() {
       return (
          <>
-            {this.props.isOpen === true && <div onClick={this.handleClickOutside} className={`take-note-detail-modal ${this.props.isEdit ? this.props.editModalWrapClass : ''}`}></div>}
-            <div id="input_note_detail" className={`take-note-detail ${this.props.isEdit ? this.props.editModalClass : ''}`}>
+            <div ref={this.wrapperRef} id="input_note_detail" className={`take-note-detail ${this.props.isEdit? this.props.editModalClass:''}`}>
                <div className="flex-row flex-bet align-center">
                   <input onChange={(e) => this.handleChangeInputNoteTitle(e)} id="input_note_title" className="input-note-title input skip" type="text" placeholder="Title" value={this.state.title} />
-                  <button className="pin-icon button-icon cursor font-sz17"><FaThumbtack/></button>
+                  <button className="pin-icon button-icon cursor font-sz17"><FaThumbtack /></button>
                </div>
                <div>
                   <input onChange={(e) => this.handleChangeInputNoteContent(e)} className="input-note-content input skip" type="text" placeholder="Take a note..." value={this.state.content} />
@@ -82,10 +92,11 @@ class TakeNoteDetail extends React.Component {
                      <button className="button-icon cursor font-sz15"><FiChevronsLeft className="font-sz20" /></button>
                      <button className="button-icon cursor font-sz15"><FiChevronsRight className="font-sz20" /></button>
                   </div>
-                  <div><button onClick={this.props.isOpenFunc} id="close_detail_modal" className="btn-close button-icon cursor font-sz15">Close</button></div>
+                  <div>
+                     <button onClick={(e)=>this.props.handleShowHideOpenDetailModalFunc(e)} id="close_detail_modal" className="btn-close button-icon cursor font-sz15">Close</button>
+                     </div>
                </div>
             </div>
-
          </>
       )
    }

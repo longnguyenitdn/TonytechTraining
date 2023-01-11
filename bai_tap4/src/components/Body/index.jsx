@@ -1,14 +1,10 @@
 
 import React from 'react'
-import { BsPalette, BsImages, BsBoxArrowDown } from 'react-icons/bs';
-import { CiBullhorn } from 'react-icons/ci';
-import { TbUserPlus } from 'react-icons/tb';
-import { HiOutlineEllipsisVertical } from 'react-icons/hi2';
-import { AiOutlineCheck } from 'react-icons/ai';
-import TakeNoteDetail from '../TakeNoteDetail';
+import Note from '../Note';
 import TakeNote from '../TakeNote';
+import AddNote from '../AddNote';
+import EditNote from '../EditNote';
 import NoteOption from '../NoteOption';
-import Sidebar from '../Sidebar';
 import { myFetch } from '../../utils'
 import LoadingModal from '../LoadingModal';
 
@@ -17,7 +13,7 @@ class Body extends React.Component {
    state = {
       editNote: null,
       isEdit: false,
-      isOpen: false,
+      isAdd: false,
       noteList: [],
       isOpenNoteOption: false,
       position: {
@@ -26,8 +22,6 @@ class Body extends React.Component {
       },
       optionId: null,
       statusLoading: false,
-      editModalClass: '',
-      editModalWrapClass: '',
       delayClass: '',
       delayNote: {}
    }
@@ -54,26 +48,25 @@ class Body extends React.Component {
       })
    }
 
-   handleShowHideOpenDetailModal = (item = null) => {
+   handleShowHideOpenDetailModal = (e, item = null) => {
+      e?.stopPropagation()
       this.setState({
-         isOpen: !this.state.isOpen
+         isAdd: !this.state.isAdd
       })
       if (item) {
          this.setState({
             isEdit: true,
             editNote: item,
-            editModalClass: 'take-note-detail-center',
-            editModalWrapClass: 'take-note-detail-center-wrap',
+            isAdd:!this.state.isAdd
          })
       } else {
          this.setState({
             isEdit: false
          })
       }
-
    }
    handleNoteOption = () => {
-     
+
       this.setState({
          isOpenNoteOption: !this.state.isOpenNoteOption
       })
@@ -111,7 +104,7 @@ class Body extends React.Component {
    }
 
    handleDeleleNote = (id, e) => {
-      e.stopPropagation()
+      e?.stopPropagation()
 
       const link = `/notes/${id}`;
       const option = 'DELETE';
@@ -122,7 +115,7 @@ class Body extends React.Component {
             currentList = currentList.filter(item => item.id !== id)
             this.setState({
                noteList: currentList,
-               optionId:null
+               optionId: null
             })
 
             this.handleNoteOption()
@@ -164,7 +157,6 @@ class Body extends React.Component {
    }
 
    handleClickOpenNoteOption = (id = null, e) => {
-     
       this.handleNoteOption()
       this.setState({
          position: {
@@ -178,50 +170,22 @@ class Body extends React.Component {
 
 
    render() {
-      let { isOpen } = this.state
+      let { isAdd } = this.state
       return (
          <>
+            {this.state.isEdit===true && <EditNote handleShowHideOpenDetailModalFunc={this.handleShowHideOpenDetailModal}  handleEditNoteFunc={this.handleEditNote} editNote={this.state.editNote} isEdit={this.state.isEdit} />}
             <div hidden={this.state.statusLoading === false}><LoadingModal /></div>
             {this.state.isOpenNoteOption === true && <NoteOption optionId={this.state.optionId} handleDeleleNoteFunc={this.handleDeleleNote} style={this.state.position} handleClickOpenNoteOptionFunc={this.handleClickOpenNoteOption} />}
             <div className="cover-body cover body-content-cover">
                <div className="flex-row">
-                  <Sidebar />
                   <div id="body_content" className="body-content flex-row flex-center">
                      <div className="body-take-note flex-col skip">
-                        {isOpen === false && <TakeNote isOpenFunc={this.handleShowHideOpenDetailModal} />}
-                        {isOpen === true && <TakeNoteDetail editModalWrapClass={this.state.editModalWrapClass} editModalClass={this.state.editModalClass} handleEditNoteFunc={this.handleEditNote} editNote={this.state.editNote} isEdit={this.state.isEdit} addNewNote={this.handleAddNewNote} isOpen={this.state.isOpen} isOpenFunc={this.handleShowHideOpenDetailModal} noteState={this.state.noteList} />}
+                        {isAdd === false && <TakeNote  handleShowHideOpenDetailModalFunc={this.handleShowHideOpenDetailModal} />}
+                        {isAdd === true && <AddNote  handleShowHideOpenDetailModalFunc={this.handleShowHideOpenDetailModal} handleAddNewNoteFunc={this.handleAddNewNote} isAdd={this.state.isAdd} />}
                         <div id="detail_note" className="detail-note"></div>
                         <div className="labelAll hiden" id="labelAllCheckbox"></div>
                         <div className="display flex-row" id="display">
-                           {this.state.noteList.map(item => {
-                              return (
-                                 <div key={item.id} className={`notes-cover flex-row  ${item.id === this.state.delayNote.id ? this.state.delayClass : ''}`} onClick={() => this.handleShowHideOpenDetailModal(item)}>
-                                    <div className="note"  >
-                                       <div className="note-wrap">
-                                          <button className='btn-checkAll btn-bg cursor'><AiOutlineCheck fill='white' className='color-white' /></button>
-                                          <div className="note-title-wrap">
-                                             <div className="flex-row flex-bet">
-                                                <span className="note_title pad10">{item.title}</span>
-                                                <button className="button-icon cursor font-sz15 hiden display-note-icon note-pin-icon"><i className="fa-solid fa-thumbtack"></i></button>
-                                             </div>
-                                             <div className="note-content-cover">
-                                                <p className="note_content pad10">{item.content}</p>
-                                             </div>
-                                          </div>
-                                          <div className="note-icon flex-row flex-bet">
-                                             <button className="button-icon cursor font-sz15 hiden display-note-icon"><CiBullhorn /></button>
-                                             <button className="button-icon cursor font-sz15 hiden display-note-icon"><TbUserPlus /></button>
-                                             <button className="button-icon cursor font-sz15 hiden display-note-icon"><BsPalette /></button>
-                                             <button className="button-icon cursor font-sz15 hiden display-note-icon"><BsImages /></button>
-                                             <button className="button-icon cursor font-sz15 hiden display-note-icon"><BsBoxArrowDown /></button>
-                                             <button onClick={(e) => this.handleClickOpenNoteOption(item.id, e)} className="hiden btn-note-option button-icon cursor font-sz15 void-clicks display-note-icon"><HiOutlineEllipsisVertical /></button>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
-                              )
-                           })
-                           }
+                           <Note noteList={this.state.noteList} delayClass={this.state.delayClass} delayNote={this.state.delayNote} handleClickOpenNoteOptionFunc={this.handleClickOpenNoteOption} handleShowHideOpenDetailModalFunc={this.handleShowHideOpenDetailModal} />
                         </div>
                      </div>
                   </div>
