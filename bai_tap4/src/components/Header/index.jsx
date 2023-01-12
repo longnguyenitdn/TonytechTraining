@@ -6,6 +6,7 @@ import { BsCardChecklist } from 'react-icons/bs';
 import { RxGear } from 'react-icons/rx';
 import { IoEllipsisVerticalCircle } from 'react-icons/io5';
 import { BiUserCircle } from 'react-icons/bi';
+import HeaderIcon from '../HeaderIcon'
 
 
 class Header extends React.Component {
@@ -31,15 +32,15 @@ class Header extends React.Component {
                      </div>
                   </div>
                   <div className="header-tool flex-row">
-                     <button className="cursor btn-bg margin5"><GrRotateRight className="font-sz20" /></button>
-                     <button className="cursor btn-bg margin5"><BsCardChecklist className="font-sz20" /></button>
-                     <button className="cursor btn-bg margin5"><RxGear className="font-sz20" /></button>
+                     <HeaderIcon><GrRotateRight /></HeaderIcon>
+                     <HeaderIcon><BsCardChecklist /></HeaderIcon>
+                     <HeaderIcon><RxGear /></HeaderIcon>
                   </div>
                </div>
                <div>
                   <div className="header-gg flex-row">
-                     <button className="cursor btn-bg margin5"><IoEllipsisVerticalCircle className="font-sz20" /></button>
-                     <button className="cursor btn-bg margin5"><BiUserCircle className="font-sz20" /></button>
+                     <HeaderIcon><IoEllipsisVerticalCircle /></HeaderIcon>
+                     <HeaderIcon><BiUserCircle /></HeaderIcon>
                   </div>
                </div>
             </div>

@@ -21,13 +21,12 @@ class Body extends React.Component {
          left: 0
       },
       optionId: null,
-      statusLoading: false,
       delayClass: '',
       delayNote: {}
    }
 
    componentDidMount() {
-      this.setLoading(true);
+      this.props.setLoading(true);
       myFetch('/notes', 'GET')
          .then(data => {
             this.setState({
@@ -38,15 +37,11 @@ class Body extends React.Component {
             console.log(error);
          })
          .finally(() => {
-            this.setLoading(false);
+            this.props.setLoading(false);
          })
    }
 
-   setLoading = (status) => {
-      this.setState({
-         statusLoading: status
-      })
-   }
+   
 
    handleShowHideOpenDetailModal = (e, item = null) => {
       e?.stopPropagation()
@@ -71,7 +66,7 @@ class Body extends React.Component {
    handleAddNewNote = (note) => {
       const link = '/notes';
       const option = 'POST';
-      this.setLoading(true);
+      this.props.setLoading(true);
       myFetch(link, option, note)
          .then(data => {
             this.setState({
@@ -96,7 +91,7 @@ class Body extends React.Component {
             console.log(error);
          })
          .finally(() => {
-            this.setLoading(false);
+            this.props.setLoading(false);
          })
    }
 
@@ -105,7 +100,7 @@ class Body extends React.Component {
 
       const link = `/notes/${id}`;
       const option = 'DELETE';
-      this.setLoading(true);
+      this.props.setLoading(true);
       myFetch(link, option)
          .then(() => {
             let currentList = this.state.noteList
@@ -121,14 +116,14 @@ class Body extends React.Component {
             console.log(error);
          })
          .finally(() => {
-            this.setLoading(false);
+            this.props.setLoading(false);
          })
    }
 
    handleEditNote = (note) => {
       let link = `/notes/${note.id}`;
       let method = 'PUT';
-      this.setLoading(true);
+      this.props.setLoading(true);
       myFetch(link, method, note)
          .then(() => {
             let currentList = this.state.noteList
@@ -149,7 +144,7 @@ class Body extends React.Component {
             console.log(error);
          })
          .finally(() => {
-            this.setLoading(false);
+            this.props.setLoading(false);
          })
    }
 
@@ -171,7 +166,7 @@ class Body extends React.Component {
       return (
          <>
             {this.state.isEdit===true && <EditNote handleShowHideOpenDetailModalFunc={this.handleShowHideOpenDetailModal}  handleEditNoteFunc={this.handleEditNote} editNote={this.state.editNote} isEdit={this.state.isEdit} />}
-            <div hidden={this.state.statusLoading === false}><LoadingModal /></div>
+            <div hidden={this.props.statusLoading === false}><LoadingModal /></div>
             {this.state.isOpenNoteOption === true && <NoteOption optionId={this.state.optionId} handleDeleleNoteFunc={this.handleDeleleNote} style={this.state.position} handleClickOpenNoteOptionFunc={this.handleClickOpenNoteOption} />}
             <div className="cover-body cover body-content-cover">
                <div className="flex-row">

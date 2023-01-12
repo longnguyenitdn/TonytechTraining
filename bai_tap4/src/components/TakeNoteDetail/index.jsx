@@ -5,7 +5,7 @@ import { FiChevronsLeft, FiChevronsRight } from 'react-icons/fi';
 import { BsImages } from 'react-icons/bs';
 import { FaThumbtack } from 'react-icons/fa';
 import { IoColorPaletteOutline } from 'react-icons/io5';
-
+import TakeNoteDetailIcon from '../TakeNoteDetailIcon'
 class TakeNoteDetail extends React.Component {
 
    state = {
@@ -85,14 +85,14 @@ class TakeNoteDetail extends React.Component {
                </div>
                <div className="flex-row flex-bet align-center">
                   <div className="button-icon-wrap flex-row flex-bet align-center">
-                     <button className="button-icon cursor font-sz15"><CiBullhorn className="font-sz20" /></button>
-                     <button className="button-icon cursor font-sz15"><HiOutlineUserPlus className="font-sz20" /></button>
-                     <button className="button-icon cursor font-sz15"><IoColorPaletteOutline className="font-sz20" /></button>
-                     <button className="button-icon cursor font-sz15"><BsImages className="font-sz20" /></button>
-                     <button className="button-icon cursor font-sz15"><HiOutlineFolderArrowDown className="font-sz20" /></button>
-                     <button className="option-btn button-icon cursor font-sz15"><HiOutlineEllipsisHorizontalCircle className="font-sz20" /></button>
-                     <button className="button-icon cursor font-sz15"><FiChevronsLeft className="font-sz20" /></button>
-                     <button className="button-icon cursor font-sz15"><FiChevronsRight className="font-sz20" /></button>
+                     <TakeNoteDetailIcon><CiBullhorn  /></TakeNoteDetailIcon>
+                     <TakeNoteDetailIcon><HiOutlineUserPlus  /></TakeNoteDetailIcon>
+                     <TakeNoteDetailIcon><IoColorPaletteOutline  /></TakeNoteDetailIcon>
+                     <TakeNoteDetailIcon><BsImages  /></TakeNoteDetailIcon>
+                     <TakeNoteDetailIcon><HiOutlineFolderArrowDown  /></TakeNoteDetailIcon>
+                     <TakeNoteDetailIcon><HiOutlineEllipsisHorizontalCircle  /></TakeNoteDetailIcon>
+                     <TakeNoteDetailIcon><FiChevronsLeft  /></TakeNoteDetailIcon>
+                     <TakeNoteDetailIcon><FiChevronsRight  /></TakeNoteDetailIcon>
                   </div>
                   <div>
                      <button onClick={(e)=>this.props.handleShowHideOpenDetailModalFunc(e,this.props.editNote)} id="close_detail_modal" className="btn-close button-icon cursor font-sz15">Close</button>

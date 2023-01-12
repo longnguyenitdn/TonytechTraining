@@ -4,6 +4,7 @@ import { CiBullhorn } from 'react-icons/ci';
 import { TbUserPlus } from 'react-icons/tb';
 import { HiOutlineEllipsisVertical } from 'react-icons/hi2';
 import { AiOutlineCheck } from 'react-icons/ai';
+import { FaThumbtack } from 'react-icons/fa';
 import NoteBtnIcon from '../NoteBtnIcon'
 class Note extends React.Component {
    render() {
@@ -18,7 +19,7 @@ class Note extends React.Component {
                            <div className="note-title-wrap">
                               <div className="flex-row flex-bet">
                                  <span className="note_title pad10">{item.title}</span>
-                                 <button className="button-icon cursor font-sz15 hiden display-note-icon note-pin-icon"><i className="fa-solid fa-thumbtack"></i></button>
+                                 <button className="button-icon cursor font-sz15 hiden display-note-icon note-pin-icon"><FaThumbtack/></button>
                               </div>
                               <div className="note-content-cover">
                                  <p className="note_content pad10">{item.content}</p>

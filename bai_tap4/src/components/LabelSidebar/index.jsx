@@ -1,8 +1,6 @@
 import React from "react";
 
 import { BsFillTagsFill } from 'react-icons/bs';
-
-
 class LabelSidebar extends React.Component {
    render() {
       return (

@@ -10,7 +10,4 @@ const myFetch = async (link,option,obj) => {
    });
    return await res.json();
 }
-
-
-
 export {myFetch}
