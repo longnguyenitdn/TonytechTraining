@@ -50,20 +50,17 @@ class Body extends React.Component {
 
    handleShowHideOpenDetailModal = (e, item = null) => {
       e?.stopPropagation()
+      
       this.setState({
          isAdd: !this.state.isAdd
       })
       if (item) {
          this.setState({
-            isEdit: true,
+            isEdit: !this.state.isEdit,
             editNote: item,
-            isAdd:!this.state.isAdd
+            isAdd:false
          })
-      } else {
-         this.setState({
-            isEdit: false
-         })
-      }
+      } 
    }
    handleNoteOption = () => {
 

@@ -52,15 +52,17 @@ class TakeNoteDetail extends React.Component {
                this.props.handleEditNoteFunc({
                   id,
                   title,
-                  content
+                  content,
+                  isEdit:false
                })  
             } else {
                this.props.handleAddNewNoteFunc({
                   title,
-                  content
+                  content,
+                  isAdd:false
                })
             }
-            this.props.handleShowHideOpenDetailModalFunc()
+            
             this.setState({
                title: '',
                content: ''
@@ -93,7 +95,7 @@ class TakeNoteDetail extends React.Component {
                      <button className="button-icon cursor font-sz15"><FiChevronsRight className="font-sz20" /></button>
                   </div>
                   <div>
-                     <button onClick={(e)=>this.props.handleShowHideOpenDetailModalFunc(e)} id="close_detail_modal" className="btn-close button-icon cursor font-sz15">Close</button>
+                     <button onClick={(e)=>this.props.handleShowHideOpenDetailModalFunc(e,this.props.editNote)} id="close_detail_modal" className="btn-close button-icon cursor font-sz15">Close</button>
                      </div>
                </div>
             </div>
