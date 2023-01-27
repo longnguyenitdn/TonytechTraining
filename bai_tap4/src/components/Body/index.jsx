@@ -136,6 +136,7 @@ class Body extends React.Component {
   };
 
   handleClickOpenNoteOption = (id = null, e) => {
+    e?.stopPropagation();
     this.handleNoteOption();
     this.setState({
       position: {
@@ -144,7 +145,6 @@ class Body extends React.Component {
       },
       optionId: id,
     });
-    e?.stopPropagation();
   };
 
   render() {

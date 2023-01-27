@@ -11,9 +11,11 @@ class Notes extends React.Component {
               item={item}
               delayClass={this.props.delayClass}
               delayNote={this.props.delayNote}
-              handleClickOpenNoteOptionFunc={this.handleClickOpenNoteOption}
+              handleClickOpenNoteOptionFunc={
+                this.props.handleClickOpenNoteOptionFunc
+              }
               handleShowHideOpenDetailModalFunc={
-                this.handleShowHideOpenDetailModal
+                this.props.handleShowHideOpenDetailModalFunc
               }
             />
           );

@@ -3,22 +3,22 @@ class DeleteModalConfirm extends React.Component {
   render() {
     return (
       <>
-        <div id="remove_label_wrap" class="remove-label-wrap"></div>
+        <div id="remove_label_wrap" className="remove-label-wrap"></div>
         <div
           id="remove_label_confirm_modal"
-          class="remove-confirm-modal bg-white "
+          className="remove-confirm-modal bg-white "
         >
-          <div class="remove-confirm-modal-cover">
+          <div className="remove-confirm-modal-cover">
             <input type="hidden" id="removeId" />
-            <p class="text-black">
+            <p className="text-black">
               We’ll delete this label and remove it from all of your Keep notes.
               Your notes won’t be deleted.
             </p>
-            <div class="remove-confirm-modal-btn">
+            <div className="remove-confirm-modal-btn">
               <button
                 onClick={() => this.props.handleShowHideDeleteConfirmFunc()}
                 id="remove_cancel_btn"
-                class="btn-close button-icon text-black cursor"
+                className="btn-close button-icon text-black cursor"
               >
                 Cancel
               </button>
@@ -27,7 +27,7 @@ class DeleteModalConfirm extends React.Component {
                   this.props.handleDeleteLabelFunc(this.props.deleteLabelId)
                 }
                 id="remove_btn"
-                class="btn-close button-icon cursor text-blue"
+                className="btn-close button-icon cursor text-blue"
               >
                 Delete
               </button>

@@ -12,11 +12,6 @@
       "id": 7
     },
     {
-      "title": "1234",
-      "content": "12314",
-      "id": 8
-    },
-    {
       "id": 9,
       "title": "21",
       "content": "21",
@@ -55,8 +50,8 @@
   ],
   "labels": [
     {
-      "name": "Long1",
-      "id": 1
+      "id": 1,
+      "name": "Long1"
     }
   ]
 }
