@@ -6,46 +6,27 @@ import LabelSidebar from "../LabelSidebar";
 import SidebarIcon from "../SidebarIcon";
 import SidebarText from "../SidebarText";
 import SidebarEditLabelModal from "../SidebarEditLabelModal";
-import DeleteModalConfirm from "../DeleteModalConfirm";
 
 class Sidebar extends React.Component {
   state = {
-    isEditLabel: false,
+    isEditLabelModal: false,
   };
   handleShowHideEditLabelModal = (id) => {
     this.setState({
-      isEditLabel: !this.state.isEditLabel,
+      isEditLabelModal: !this.state.isEditLabelModal,
     });
   };
 
   render() {
     return (
       <>
-        {this.props.deleteConfirm === true && (
-          <DeleteModalConfirm
-            deleteLabelId={this.props.deleteLabelId}
-            handleShowHideDeleteConfirmFunc={
-              this.props.handleShowHideDeleteConfirmFunc
-            }
-            handleDeleteLabelFunc={this.props.handleDeleteLabelFunc}
-          />
-        )}
-        {this.state.isEditLabel === true && (
+        {this.state.isEditLabelModal === true && (
           <SidebarEditLabelModal
-            handleShowHideDeleteConfirmFunc={
-              this.props.handleShowHideDeleteConfirmFunc
-            }
-            deleteConfirm={this.props.deleteConfirm}
-            isEditLabel={this.props.isEditLabel}
-            handleShowEditBtnFunc={this.props.handleShowEditBtnFunc}
-            isExistLabel={this.props.isExistLabel}
-            handleEditLabelFunc={this.props.handleEditLabelFunc}
+            setLabelListFunc={this.props.setLabelListFunc}
             labelList={this.props.labelList}
             handleShowHideEditLabelModalFunc={this.handleShowHideEditLabelModal}
             setLoading={this.props.setLoading}
             statusLoading={this.props.statusLoading}
-            handleAddNewLabelFunc={this.props.handleAddNewLabelFunc}
-            handleDeleteLabelFunc={this.props.handleDeleteLabelFunc}
           />
         )}
         <div id="sidebar_wrap" className="sidebar-wrap">

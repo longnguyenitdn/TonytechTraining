@@ -1,6 +1,6 @@
 import React from "react";
 import { CiEraser, CiShoppingTag } from "react-icons/ci";
-import { GiCheckMark } from "react-icons/gi";
+import { VscCheckAll } from "react-icons/vsc";
 
 class LabelEditList extends React.Component {
   state = {
@@ -9,6 +9,7 @@ class LabelEditList extends React.Component {
       name: "",
     },
   };
+
   handleChangeLabelName = (e) => {
     this.setState({
       editLabel: {
@@ -59,7 +60,7 @@ class LabelEditList extends React.Component {
                     }
                     className="edit-label-name button-icon cursor"
                   >
-                    <GiCheckMark fill="red" />
+                    <VscCheckAll fill="green" />
                   </button>
                 )}
             </div>

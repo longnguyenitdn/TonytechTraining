@@ -103,7 +103,6 @@
 
 .cursor:hover {
    background-color: rgb(241, 243, 244);
-   ;
 }
 
 .input {
@@ -806,6 +805,7 @@ body {
    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
    border-radius: 5px;
    background-color: white;
+   z-index: 5;
 }
 
 .handle-label .handle-label-cover {

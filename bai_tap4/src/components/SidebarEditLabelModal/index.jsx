@@ -2,13 +2,18 @@ import React from "react";
 import { HiXMark } from "react-icons/hi2";
 import { FcCheckmark } from "react-icons/fc";
 import LabelEditList from "../LabelEditList";
+import { addNewLabel, editLabel, deleteLabel } from "../../api/label";
+import DeleteModalConfirm from "../DeleteModalConfirm";
 
 class SidebarEditLabelModal extends React.Component {
   state = {
+    isEditLabel: false,
     isExistLabel: false,
     label: {
       name: "",
     },
+    deleteLabelId: null,
+    deleteConfirm: false,
   };
 
   clearInputLabelValue = () => {
@@ -16,6 +21,7 @@ class SidebarEditLabelModal extends React.Component {
       label: {
         name: "",
       },
+      isExistLabel: false,
     });
   };
 
@@ -42,21 +48,120 @@ class SidebarEditLabelModal extends React.Component {
         );
       }
       if (!isExist) {
-        this.props.handleAddNewLabelFunc(this.state.label);
-        this.handleShowHideExistedLabel();
+        this.handleAddNewLabel(this.state.label);
+        this.setState({
+          isExistLabel: false,
+        });
+        this.clearInputLabelValue();
       } else {
         this.handleShowHideExistedLabel();
       }
-      this.clearInputLabelValue();
     }
+  };
+
+  handleAddNewLabel = (label) => {
+    this.props.setLoading(true);
+    addNewLabel(label)
+      .then((data) => {
+        this.props.setLabelListFunc([data, ...this.props.labelList]);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        this.props.setLoading(false);
+      });
+  };
+
+  handleDeleteLabel = (id) => {
+    this.props.setLoading(true);
+    deleteLabel(id)
+      .then(() => {
+        let currentList = this.props.labelList;
+        currentList = currentList.filter((item) => item.id !== id);
+        this.props.setLabelListFunc(currentList);
+        this.setState({
+          deleteConfirm: false,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        this.props.setLoading(false);
+      });
+  };
+
+  handleEditLabel = (label) => {
+    let isExist = false;
+    isExist = this.props.labelList.some((item) => {
+      if (label.name === item.name) {
+        if (item.id !== label.id) {
+          this.setState({
+            isExistLabel: true,
+          });
+          return true;
+        }
+        return true;
+      }
+      return false;
+    });
+
+    if (!isExist) {
+      this.props.setLoading(true);
+      editLabel(label)
+        .then(() => {
+          let currentList = this.props.labelList;
+          currentList = currentList.map((item) => {
+            if (item.id === label.id) {
+              item.name = label.name;
+            }
+            return item;
+          });
+          this.setState({
+            labelList: currentList,
+            isExistLabel: false,
+            isEditLabel: false,
+          });
+        })
+
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          this.props.setLoading(false);
+        });
+    }
+  };
+
+  handleShowHideDeleteConfirm = (id) => {
+    this.setState({
+      deleteConfirm: !this.state.deleteConfirm,
+      deleteLabelId: id,
+    });
+  };
+
+  handleShowEditBtn = () => {
+    this.setState({
+      isEditLabel: true,
+    });
   };
 
   render() {
     return (
       <>
+        {this.state.deleteConfirm === true && (
+          <DeleteModalConfirm
+            deleteLabelId={this.state.deleteLabelId}
+            setLabelListFunc={this.props.setLabelListFunc}
+            handleShowHideDeleteConfirmFunc={this.handleShowHideDeleteConfirm}
+            handleDeleteLabelFunc={this.handleDeleteLabel}
+          />
+        )}
         <div
           className="detail-edit-label-wrap"
           id="detail_edit_label_wrap"
+          onClick={() => this.props.handleShowHideEditLabelModalFunc()}
         ></div>
         <div
           id="detail_edit_label_content"
@@ -88,21 +193,21 @@ class SidebarEditLabelModal extends React.Component {
               </div>
               <div className="labels-list-edit align-center flex-around">
                 <LabelEditList
-                  handleShowHideDeleteConfirmFunc={
-                    this.props.handleShowHideDeleteConfirmFunc
-                  }
-                  isEditLabel={this.props.isEditLabel}
-                  handleShowEditBtnFunc={this.props.handleShowEditBtnFunc}
-                  handleEditLabelFunc={this.props.handleEditLabelFunc}
+                  isEditLabel={this.state.isEditLabel}
                   labelList={this.props.labelList}
-                  handleDeleteLabelFunc={this.props.handleDeleteLabelFunc}
+                  handleShowHideDeleteConfirmFunc={
+                    this.handleShowHideDeleteConfirm
+                  }
+                  handleShowEditBtnFunc={this.handleShowEditBtn}
+                  handleEditLabelFunc={this.handleEditLabel}
+                  handleDeleteLabelFunc={this.handleDeleteLabel}
                 />
               </div>
             </div>
           </div>
           <div className="label-edit-cover-bot">
             <div className="label-edit-bot">
-              {this.props.isExistLabel === true && (
+              {this.state.isExistLabel === true && (
                 <p className="exist-label" id="exist_label">
                   Label Existed!
                 </p>

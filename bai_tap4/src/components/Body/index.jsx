@@ -6,6 +6,7 @@ import EditNote from "../EditNote";
 import NoteOption from "../NoteOption";
 import { addNewNote, editNote, deleteNote, getNote } from "../../api/note";
 import LoadingModal from "../LoadingModal";
+import LabelNote from "../LabelNote";
 
 class Body extends React.Component {
   state = {
@@ -18,6 +19,7 @@ class Body extends React.Component {
       top: 0,
       left: 0,
     },
+    isOpenLabelNote: false,
     optionId: null,
     delayClass: "",
     delayNote: {},
@@ -38,6 +40,19 @@ class Body extends React.Component {
         this.props.setLoading(false);
       });
   }
+  setNoteList = (newList) => {
+    this.setState({
+      noteList: newList,
+    });
+  };
+
+  handleShowHideLabelNote = (e) => {
+    e.stopPropagation();
+    this.setState({
+      isOpenNoteOption: false,
+      isOpenLabelNote: !this.state.isOpenLabelNote,
+    });
+  };
 
   handleShowHideOpenDetailModal = (e, item = null) => {
     e?.stopPropagation();
@@ -170,6 +185,14 @@ class Body extends React.Component {
             handleDeleleNoteFunc={this.handleDeleleNote}
             style={this.state.position}
             handleClickOpenNoteOptionFunc={this.handleClickOpenNoteOption}
+            handleShowHideLabelNoteFunc={this.handleShowHideLabelNote}
+          />
+        )}
+        {this.state.isOpenLabelNote === true && (
+          <LabelNote
+            labelList={this.props.labelList}
+            style={this.state.position}
+            handleShowHideLabelNoteFunc={this.handleShowHideLabelNote}
           />
         )}
         <div className="cover-body cover body-content-cover">

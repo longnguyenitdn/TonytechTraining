@@ -10,6 +10,7 @@ import { BsImages } from "react-icons/bs";
 import { FaThumbtack } from "react-icons/fa";
 import { IoColorPaletteOutline } from "react-icons/io5";
 import TakeNoteDetailIcon from "../TakeNoteDetailIcon";
+import { addNewNote } from "../../api/note";
 class TakeNoteDetail extends React.Component {
   state = {
     id: null,
@@ -44,6 +45,36 @@ class TakeNoteDetail extends React.Component {
     });
   };
 
+  handleAddNewNote = (note) => {
+    this.props.setLoading(true);
+    addNewNote(note)
+      .then((data) => {
+        this.setState({
+          // noteList: [note].concat(this.state.noteList)
+          noteList: [data, ...this.state.noteList],
+          delayNote: data,
+          isAdd: false,
+        });
+
+        setTimeout(() => {
+          this.setState({
+            delayClass: "delay",
+          });
+          setTimeout(() => {
+            this.setState({
+              delayClass: "",
+            });
+          }, 300);
+        }, 200);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        this.props.setLoading(false);
+      });
+  };
+
   handleClickOutside = (e) => {
     if (!this.wrapperRef.current.contains(e.target)) {
       if (!this.state.title || !this.state.content) {
@@ -56,13 +87,11 @@ class TakeNoteDetail extends React.Component {
             id,
             title,
             content,
-            isEdit: false,
           });
         } else {
           this.props.handleAddNewNoteFunc({
             title,
             content,
-            isAdd: false,
           });
         }
 
