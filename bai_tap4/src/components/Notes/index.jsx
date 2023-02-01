@@ -9,14 +9,18 @@ class Notes extends React.Component {
             <Note
               key={item.id}
               item={item}
+              editNote={this.props.editNote}
+              optionId={this.props.optionId}
+              noteList={this.props.noteList}
+              labelList={this.props.labelList}
               delayClass={this.props.delayClass}
               delayNote={this.props.delayNote}
-              handleClickOpenNoteOptionFunc={
-                this.props.handleClickOpenNoteOptionFunc
-              }
+              setNoteList={this.props.setNoteList}
+              handleNoteOption={this.props.handleNoteOption}
               handleShowHideOpenDetailModalFunc={
                 this.props.handleShowHideOpenDetailModalFunc
               }
+              setLoading={this.props.setLoading}
             />
           );
         })}

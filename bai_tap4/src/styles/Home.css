@@ -37,6 +37,13 @@
    background-color: transparent !important;
 }
 
+.cancel{
+   position: absolute;
+   right: 0;
+   bottom: 2px;
+   cursor: pointer;
+}
+
 .marg10 {
    margin: 10px;
 }
@@ -446,6 +453,7 @@ body {
 
 /* Notes */
 .notes-cover {
+   position: relative;
    padding: 10px 10px;
 }
 
@@ -581,12 +589,10 @@ body {
 }
 
 .note-option-cover {
-   top: 0;
-   left: 0;
-   width: 100%;
-   height: 100%;
+   bottom: 40px;
+   right: 40px;
    background-color: transparent;
-   position: fixed;
+   position: absolute;
    z-index: 15;
 }
 
@@ -798,6 +804,8 @@ body {
 }
 
 .handle-label {
+   bottom: 40px;
+   right: 40px;
    width: 200px;
    height: auto;
    position: absolute;
@@ -868,7 +876,7 @@ body {
 
 }
 
-.list-label:hover button {
+.list-label:hover .cancel {
    display: inline-block;
 }
 

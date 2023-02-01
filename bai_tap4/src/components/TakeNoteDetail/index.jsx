@@ -10,12 +10,13 @@ import { BsImages } from "react-icons/bs";
 import { FaThumbtack } from "react-icons/fa";
 import { IoColorPaletteOutline } from "react-icons/io5";
 import TakeNoteDetailIcon from "../TakeNoteDetailIcon";
-import { addNewNote } from "../../api/note";
+import { addNewNote, editNote } from "../../api/note";
 class TakeNoteDetail extends React.Component {
   state = {
     id: null,
     title: "",
     content: "",
+    labelNoteId: null,
   };
   wrapperRef = React.createRef();
   componentDidMount() {
@@ -24,6 +25,7 @@ class TakeNoteDetail extends React.Component {
         id: this.props.editNote.id,
         title: this.props.editNote.title,
         content: this.props.editNote.content,
+        labelNoteId: this.props.editNote.labelNoteId,
       });
     }
     document.addEventListener("click", this.handleClickOutside);
@@ -49,23 +51,42 @@ class TakeNoteDetail extends React.Component {
     this.props.setLoading(true);
     addNewNote(note)
       .then((data) => {
-        this.setState({
-          // noteList: [note].concat(this.state.noteList)
-          noteList: [data, ...this.state.noteList],
-          delayNote: data,
-          isAdd: false,
-        });
+        this.props.setNoteList([data, ...this.props.noteList]);
+        // noteList: [note].concat(this.state.noteList)
+        this.props.handleDelayNote(data);
+        this.props.handleIsAdd();
 
         setTimeout(() => {
-          this.setState({
-            delayClass: "delay",
-          });
+          this.props.handleDelayClass("delay");
           setTimeout(() => {
-            this.setState({
-              delayClass: "",
-            });
+            this.props.handleDelayClass("");
           }, 300);
         }, 200);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        this.props.setLoading(false);
+      });
+  };
+
+  handleEditNote = (note) => {
+    this.props.setLoading(true);
+    editNote(note)
+      .then((note) => {
+        let currentList = this.props.noteList;
+        currentList = currentList.map((item) => {
+          if (item.id === note.id) {
+            item.title = note.title;
+            item.content = note.content;
+            item.labelNoteId = note.labelNoteId;
+          }
+          return item;
+        });
+        this.props.setNoteList(currentList);
+
+        this.props.handleIsEdit();
       })
       .catch((error) => {
         console.log(error);
@@ -81,17 +102,18 @@ class TakeNoteDetail extends React.Component {
         alert("Missing Input Infomation!");
         return;
       } else {
-        let { id, title, content } = this.state;
+        let { id, title, content, labelNoteId } = this.state;
         if (this.props.isEdit) {
-          this.props.handleEditNoteFunc({
+          this.handleEditNote({
             id,
             title,
             content,
           });
         } else {
-          this.props.handleAddNewNoteFunc({
+          this.handleAddNewNote({
             title,
             content,
+            labelNoteId,
           });
         }
 

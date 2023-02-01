@@ -1,4 +1,4 @@
-import "../../styles/Home.css";
+import "../../styles/home.css";
 import React from "react";
 import Sidebar from "../../components/Sidebar";
 import Header from "../../components/Header";

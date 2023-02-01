@@ -3,23 +3,15 @@ import Notes from "../Notes";
 import TakeNote from "../TakeNote";
 import AddNote from "../AddNote";
 import EditNote from "../EditNote";
-import NoteOption from "../NoteOption";
-import { addNewNote, editNote, deleteNote, getNote } from "../../api/note";
+import { getNote } from "../../api/note";
 import LoadingModal from "../LoadingModal";
-import LabelNote from "../LabelNote";
 
 class Body extends React.Component {
   state = {
-    editNote: null,
     isEdit: false,
+    editNote: null,
     isAdd: false,
     noteList: [],
-    isOpenNoteOption: false,
-    position: {
-      top: 0,
-      left: 0,
-    },
-    isOpenLabelNote: false,
     optionId: null,
     delayClass: "",
     delayNote: {},
@@ -46,118 +38,49 @@ class Body extends React.Component {
     });
   };
 
-  handleShowHideLabelNote = (e) => {
-    e.stopPropagation();
+  handleBeforeEditNote = (note) => {
     this.setState({
-      isOpenNoteOption: false,
-      isOpenLabelNote: !this.state.isOpenLabelNote,
+      editNote: note,
+    });
+  };
+  handleIsAdd = () => {
+    this.setState({
+      isAdd: !this.state.isAdd,
+    });
+  };
+  handleIsEdit = () => {
+    this.setState({
+      isEdit: !this.state.isEdit,
+    });
+  };
+
+  handleDelayClass = (newClass) => {
+    this.setState({
+      delayClass: newClass,
+    });
+  };
+
+  handleDelayNote = (note) => {
+    this.setState({
+      delayNote: note,
     });
   };
 
   handleShowHideOpenDetailModal = (e, item = null) => {
     e?.stopPropagation();
 
-    this.setState({
-      isAdd: !this.state.isAdd,
-    });
+    this.handleIsAdd();
     if (item) {
+      this.handleIsEdit();
       this.setState({
-        isEdit: !this.state.isEdit,
         editNote: item,
         isAdd: false,
       });
     }
   };
 
-  handleNoteOption = (note) => {
+  handleNoteOption = (id) => {
     this.setState({
-      isOpenNoteOption: !this.state.isOpenNoteOption,
-    });
-  };
-
-  handleAddNewNote = (note) => {
-    this.props.setLoading(true);
-    addNewNote(note)
-      .then((data) => {
-        this.setState({
-          // noteList: [note].concat(this.state.noteList)
-          noteList: [data, ...this.state.noteList],
-          delayNote: data,
-          isAdd: false,
-        });
-
-        setTimeout(() => {
-          this.setState({
-            delayClass: "delay",
-          });
-          setTimeout(() => {
-            this.setState({
-              delayClass: "",
-            });
-          }, 300);
-        }, 200);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        this.props.setLoading(false);
-      });
-  };
-
-  handleDeleleNote = (id, e) => {
-    e?.stopPropagation();
-    deleteNote(id)
-      .then(() => {
-        let currentList = this.state.noteList;
-        currentList = currentList.filter((item) => item.id !== id);
-        this.setState({
-          noteList: currentList,
-          optionId: null,
-        });
-        this.handleNoteOption();
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        this.props.setLoading(false);
-      });
-  };
-
-  handleEditNote = (note) => {
-    this.props.setLoading(true);
-    editNote(note)
-      .then((note) => {
-        let currentList = this.state.noteList;
-        currentList = currentList.map((item) => {
-          if (item.id === note.id) {
-            item.title = note.title;
-            item.content = note.content;
-          }
-          return item;
-        });
-        this.setState({
-          noteList: currentList,
-          isEdit: false,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        this.props.setLoading(false);
-      });
-  };
-
-  handleClickOpenNoteOption = (id = null, e) => {
-    e?.stopPropagation();
-    this.handleNoteOption();
-    this.setState({
-      position: {
-        top: window.event.clientY + 10 + "px",
-        left: window.event.clientX - 20 + "px",
-      },
       optionId: id,
     });
   };
@@ -168,33 +91,23 @@ class Body extends React.Component {
       <>
         {this.state.isEdit === true && (
           <EditNote
+            noteList={this.state.noteList}
+            setNoteList={this.setNoteList}
             handleShowHideOpenDetailModalFunc={
               this.handleShowHideOpenDetailModal
             }
             handleEditNoteFunc={this.handleEditNote}
+            handleEditNote={this.handleEditNote}
             editNote={this.state.editNote}
             isEdit={this.state.isEdit}
+            setLoading={this.props.setLoading}
+            handleIsEdit={this.handleIsEdit}
           />
         )}
         <div hidden={this.props.statusLoading === false}>
           <LoadingModal />
         </div>
-        {this.state.isOpenNoteOption === true && (
-          <NoteOption
-            optionId={this.state.optionId}
-            handleDeleleNoteFunc={this.handleDeleleNote}
-            style={this.state.position}
-            handleClickOpenNoteOptionFunc={this.handleClickOpenNoteOption}
-            handleShowHideLabelNoteFunc={this.handleShowHideLabelNote}
-          />
-        )}
-        {this.state.isOpenLabelNote === true && (
-          <LabelNote
-            labelList={this.props.labelList}
-            style={this.state.position}
-            handleShowHideLabelNoteFunc={this.handleShowHideLabelNote}
-          />
-        )}
+
         <div className="cover-body cover body-content-cover">
           <div className="flex-row">
             <div
@@ -214,23 +127,30 @@ class Body extends React.Component {
                     handleShowHideOpenDetailModalFunc={
                       this.handleShowHideOpenDetailModal
                     }
-                    handleAddNewNoteFunc={this.handleAddNewNote}
-                    isAdd={this.state.isAdd}
+                    noteList={this.state.noteList}
+                    setNoteList={this.setNoteList}
+                    handleIsAdd={this.handleIsAdd}
+                    setLoading={this.props.setLoading}
+                    handleDelayClass={this.handleDelayClass}
+                    handleDelayNote={this.handleDelayNote}
                   />
                 )}
                 <div id="detail_note" className="detail-note"></div>
                 <div className="labelAll hiden" id="labelAllCheckbox"></div>
                 <div className="display flex-row" id="display">
                   <Notes
+                    labelList={this.props.labelList}
+                    optionId={this.state.optionId}
                     noteList={this.state.noteList}
                     delayClass={this.state.delayClass}
                     delayNote={this.state.delayNote}
-                    handleClickOpenNoteOptionFunc={
-                      this.handleClickOpenNoteOption
-                    }
+                    editNote={this.state.editNote}
+                    setNoteList={this.setNoteList}
+                    handleNoteOption={this.handleNoteOption}
                     handleShowHideOpenDetailModalFunc={
                       this.handleShowHideOpenDetailModal
                     }
+                    setLoading={this.props.setLoading}
                   />
                 </div>
               </div>
