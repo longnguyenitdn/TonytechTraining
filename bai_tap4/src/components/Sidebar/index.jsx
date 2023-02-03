@@ -33,7 +33,12 @@ class Sidebar extends React.Component {
           <div id="sidebar" className="sidebar flex-col">
             <div
               id="sidebar_btn_note"
-              className="flex-row sidebar-row sidebar-row-top align-center cursor active-menu active"
+              className={`flex-row sidebar-row sidebar-row-top align-center cursor active-menu ${
+                this.props.activeId === "sidebar_btn_note" ? "active" : ""
+              }`}
+              onClick={(e) => {
+                this.props.handleActiveSidebarMenu(e);
+              }}
             >
               <SidebarIcon>
                 <FaRegLightbulb />
@@ -42,7 +47,12 @@ class Sidebar extends React.Component {
             </div>
             <div
               id="sidebar_btn_reminder"
-              className="flex-row sidebar-row align-center cursor active-menu"
+              className={`flex-row sidebar-row sidebar-row-top align-center cursor active-menu ${
+                this.props.activeId === "sidebar_btn_reminder" ? "active" : ""
+              }`}
+              onClick={(e) => {
+                this.props.handleActiveSidebarMenu(e);
+              }}
             >
               <SidebarIcon>
                 <BsBell />
@@ -51,7 +61,7 @@ class Sidebar extends React.Component {
             </div>
             <div id="labels" className="sidebar-labels flex-col"></div>
             <div
-              onClick={this.handleShowHideEditLabelModal}
+              onClick={() => this.handleShowHideEditLabelModal()}
               className="flex-row sidebar-row align-center cursor active-menu"
             >
               <SidebarIcon>
@@ -59,10 +69,19 @@ class Sidebar extends React.Component {
               </SidebarIcon>
               <SidebarText>Edit labels</SidebarText>
             </div>
-            <LabelSidebar labelList={this.props.labelList} />
+            <LabelSidebar
+              labelList={this.props.labelList}
+              activeId={this.props.activeId}
+              handleActiveSidebarMenu={this.props.handleActiveSidebarMenu}
+            />
             <div
               id="sidebar_btn_archive"
-              className="flex-row sidebar-row align-center cursor active-menu"
+              className={`flex-row sidebar-row sidebar-row-top align-center cursor active-menu ${
+                this.props.activeId === "sidebar_btn_archive" ? "active" : ""
+              }`}
+              onClick={(e) => {
+                this.props.handleActiveSidebarMenu(e);
+              }}
             >
               <SidebarIcon>
                 <AiOutlineCloudDownload />
@@ -71,7 +90,12 @@ class Sidebar extends React.Component {
             </div>
             <div
               id="sidebar_btn_trash"
-              className="flex-row sidebar-row align-center cursor active-menu"
+              className={`flex-row sidebar-row sidebar-row-top align-center cursor active-menu ${
+                this.props.activeId === "sidebar_btn_trash" ? "active" : ""
+              }`}
+              onClick={(e) => {
+                this.props.handleActiveSidebarMenu(e);
+              }}
             >
               <SidebarIcon>
                 <BsTrash />

@@ -9,6 +9,7 @@ import NoteBtnIcon from "../NoteBtnIcon";
 import NoteOption from "../NoteOption";
 import LabelAssignInNote from "../LabelAssignInNote";
 import LabelNote from "../LabelNote";
+import { editNote } from "../../api/note";
 
 class Note extends React.Component {
   state = {
@@ -16,8 +17,36 @@ class Note extends React.Component {
     isOpenLabelNote: false,
   };
 
+  handleRemoveLabelFromNote = (e, note) => {
+    e.stopPropagation();
+    let obj = {
+      ...note,
+      labelNoteId: null,
+    };
+
+    this.props.setLoading(true);
+
+    editNote(obj)
+      .then((data) => {
+        let currentList = this.props.noteList;
+        currentList = currentList.map((item) => {
+          if (item.id === data.id) {
+            item.labelNoteId = data.labelNoteId;
+          }
+          return item;
+        });
+        this.props.setNoteList(currentList);
+      })
+
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        this.props.setLoading(false);
+      });
+  };
+
   handleShowHideLabelNote = (e) => {
-    console.log("open");
     e.stopPropagation();
     this.setState({
       isOpenNoteOption: false,
@@ -32,9 +61,27 @@ class Note extends React.Component {
     });
     this.props.handleNoteOption(id);
   };
+  handleBtnCheckAll = (e, noteId) => {
+    e.stopPropagation();
+    let currentList = this.props.checkboxListId;
+
+    let isExist = currentList.some((item) => item === noteId);
+
+    if (isExist) {
+      currentList = currentList.filter((item) => item !== noteId);
+    } else {
+      currentList.push(noteId);
+    }
+
+    if (currentList.length !== 0) {
+      this.props.showCheckboxAll();
+    } else {
+      this.props.hideCheckboxAll();
+    }
+    this.props.handleCheckboxListId(currentList);
+  };
   render() {
     const item = this.props.item;
-
     return (
       <div
         className={`notes-cover flex-row  ${
@@ -42,10 +89,21 @@ class Note extends React.Component {
         }`}
         onClick={(e) => this.props.handleShowHideOpenDetailModalFunc(e, item)}
       >
-        <div className="note">
+        <div
+          className={`note ${
+            this.props.checkboxListId.includes(item.id) ? "checked" : ""
+          }`}
+        >
           <div className="note-wrap">
-            <button className="btn-checkAll btn-bg cursor">
-              <AiOutlineCheck fill="white" className="color-white" />
+            <button
+              className="btn-checkAll btn-bg cursor"
+              id={item.id}
+              onClick={(e) => this.handleBtnCheckAll(e, item.id)}
+            >
+              <AiOutlineCheck
+                fill="white"
+                className="color-white avoid-clicks"
+              />
             </button>
             <div className="note-title-wrap">
               <div className="flex-row flex-bet">
@@ -59,8 +117,10 @@ class Note extends React.Component {
               </div>
               {item.labelNoteId !== null && (
                 <LabelAssignInNote
+                  item={item}
                   labelNoteId={item.labelNoteId}
                   labelList={this.props.labelList}
+                  handleRemoveLabelFromNote={this.handleRemoveLabelFromNote}
                 />
               )}
             </div>
@@ -102,8 +162,13 @@ class Note extends React.Component {
           {this.state.isOpenLabelNote === true && (
             <LabelNote
               labelList={this.props.labelList}
-              style={this.state.position}
               handleShowHideLabelNoteFunc={this.handleShowHideLabelNote}
+              note={item}
+              setLoading={this.props.setLoading}
+              setNoteList={this.props.setNoteList}
+              noteList={this.props.noteList}
+              handleRemoveLabelFromNote={this.handleRemoveLabelFromNote}
+              isChecked={this.state.isChecked}
             />
           )}
         </div>

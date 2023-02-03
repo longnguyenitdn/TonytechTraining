@@ -10,10 +10,16 @@ class Home extends React.Component {
     isExistLabel: false,
     statusLoading: false,
     labelList: [],
+    activeId: null,
   };
   setLoading = (status) => {
     this.setState({
       statusLoading: status,
+    });
+  };
+  handleActiveSidebarMenu = (e) => {
+    this.setState({
+      activeId: e.target.id,
     });
   };
 
@@ -48,11 +54,14 @@ class Home extends React.Component {
           setLabelListFunc={this.setLabelList}
           setLoading={this.setLoading}
           statusLoading={this.state.statusLoading}
+          handleActiveSidebarMenu={this.handleActiveSidebarMenu}
+          activeId={this.state.activeId}
         />
         <Body
           setLoading={this.setLoading}
           statusLoading={this.state.statusLoading}
           labelList={this.state.labelList}
+          activeId={this.state.activeId}
         />
       </>
     );

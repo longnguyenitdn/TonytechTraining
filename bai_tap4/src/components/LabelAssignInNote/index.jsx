@@ -10,7 +10,12 @@ class LabelAssignInNote extends React.Component {
       <>
         <div className="list-label ">
           <p>{labelNote ? labelNote.name : ""}</p>
-          <FcCancel className="cancel font-sz20 hiden" />
+          <FcCancel
+            className="cancel font-sz20 hiden"
+            onClick={(e) =>
+              this.props.handleRemoveLabelFromNote(e, this.props.item)
+            }
+          />
         </div>
       </>
     );

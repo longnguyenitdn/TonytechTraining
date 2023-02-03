@@ -158,9 +158,11 @@
 
 .labelAll {
    position: absolute;
-   bottom: 220px;
+   bottom: -55px;
 }
-
+.checked{
+   border: 3px solid rgb(206, 206, 206) !important;
+}
 
 .pin-icon {
    margin: 7px;
@@ -484,7 +486,9 @@ body {
    background: rgb(241, 243, 244);
 }
 
-
+.detail-note {
+  position: relative;
+}
 
 /* -------------------------------------Note-------------------------------------- */
 .note-wrap {
@@ -589,15 +593,14 @@ body {
 }
 
 .note-option-cover {
-   bottom: 40px;
-   right: 40px;
+   bottom: -170px;
+   right: -130px;
    background-color: transparent;
    position: absolute;
    z-index: 15;
 }
 
 .note-option {
-   position: fixed;
    width: auto;
    height: auto;
    border: none;
@@ -804,8 +807,8 @@ body {
 }
 
 .handle-label {
-   bottom: 40px;
-   right: 40px;
+   bottom: -100px;
+   right: -160px;
    width: 200px;
    height: auto;
    position: absolute;
@@ -842,7 +845,8 @@ body {
 
 .handle-label-row>label {
    padding: 0 40px;
-   width: 100%;
+   width: 200px;
+   padding-left: 10px;
 }
 
 
@@ -945,6 +949,9 @@ body {
 .border-checkbox {
    border: 2px solid rgb(54, 54, 54);
    border-radius: 7px;
+}
+.checkbox-label{
+   margin-right: 15px;
 }
 
 .take-note-detail-modal {
@@ -1141,9 +1148,7 @@ body {
       margin-right: 35px !important;
    }
 
-   .detail-note {
-      width: inherit;
-   }
+   
 
    .option-btn {
       display: none;

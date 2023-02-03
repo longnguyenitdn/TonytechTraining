@@ -5,6 +5,7 @@ import AddNote from "../AddNote";
 import EditNote from "../EditNote";
 import { getNote } from "../../api/note";
 import LoadingModal from "../LoadingModal";
+import CheckboxAllLabel from "../CheckboxAllLabel";
 
 class Body extends React.Component {
   state = {
@@ -15,6 +16,8 @@ class Body extends React.Component {
     optionId: null,
     delayClass: "",
     delayNote: {},
+    isCheckboxAll: false,
+    checkboxListId: [],
   };
 
   componentDidMount() {
@@ -35,6 +38,16 @@ class Body extends React.Component {
   setNoteList = (newList) => {
     this.setState({
       noteList: newList,
+    });
+  };
+  showCheckboxAll = () => {
+    this.setState({
+      isCheckboxAll: true,
+    });
+  };
+  hideCheckboxAll = () => {
+    this.setState({
+      isCheckboxAll: false,
     });
   };
 
@@ -78,10 +91,20 @@ class Body extends React.Component {
       });
     }
   };
-
+  clearCheckboxListId = () => {
+    this.setState({
+      checkboxListId: [],
+    });
+    this.hideCheckboxAll();
+  };
   handleNoteOption = (id) => {
     this.setState({
       optionId: id,
+    });
+  };
+  handleCheckboxListId = (list) => {
+    this.setState({
+      checkboxListId: list,
     });
   };
 
@@ -89,21 +112,6 @@ class Body extends React.Component {
     let { isAdd } = this.state;
     return (
       <>
-        {this.state.isEdit === true && (
-          <EditNote
-            noteList={this.state.noteList}
-            setNoteList={this.setNoteList}
-            handleShowHideOpenDetailModalFunc={
-              this.handleShowHideOpenDetailModal
-            }
-            handleEditNoteFunc={this.handleEditNote}
-            handleEditNote={this.handleEditNote}
-            editNote={this.state.editNote}
-            isEdit={this.state.isEdit}
-            setLoading={this.props.setLoading}
-            handleIsEdit={this.handleIsEdit}
-          />
-        )}
         <div hidden={this.props.statusLoading === false}>
           <LoadingModal />
         </div>
@@ -115,28 +123,57 @@ class Body extends React.Component {
               className="body-content flex-row flex-center"
             >
               <div className="body-take-note flex-col skip">
-                {isAdd === false && (
-                  <TakeNote
-                    handleShowHideOpenDetailModalFunc={
-                      this.handleShowHideOpenDetailModal
-                    }
-                  />
-                )}
-                {isAdd === true && (
-                  <AddNote
-                    handleShowHideOpenDetailModalFunc={
-                      this.handleShowHideOpenDetailModal
-                    }
-                    noteList={this.state.noteList}
-                    setNoteList={this.setNoteList}
-                    handleIsAdd={this.handleIsAdd}
-                    setLoading={this.props.setLoading}
-                    handleDelayClass={this.handleDelayClass}
-                    handleDelayNote={this.handleDelayNote}
-                  />
-                )}
-                <div id="detail_note" className="detail-note"></div>
-                <div className="labelAll hiden" id="labelAllCheckbox"></div>
+                <div className="detail-note">
+                  {isAdd === false && (
+                    <TakeNote
+                      handleShowHideOpenDetailModalFunc={
+                        this.handleShowHideOpenDetailModal
+                      }
+                    />
+                  )}
+                  {isAdd === true && (
+                    <AddNote
+                      handleShowHideOpenDetailModalFunc={
+                        this.handleShowHideOpenDetailModal
+                      }
+                      noteList={this.state.noteList}
+                      setNoteList={this.setNoteList}
+                      handleIsAdd={this.handleIsAdd}
+                      setLoading={this.props.setLoading}
+                      handleDelayClass={this.handleDelayClass}
+                      handleDelayNote={this.handleDelayNote}
+                    />
+                  )}
+                  {this.state.isEdit === true && (
+                    <EditNote
+                      noteList={this.state.noteList}
+                      setNoteList={this.setNoteList}
+                      handleShowHideOpenDetailModalFunc={
+                        this.handleShowHideOpenDetailModal
+                      }
+                      handleEditNoteFunc={this.handleEditNote}
+                      handleEditNote={this.handleEditNote}
+                      editNote={this.state.editNote}
+                      isEdit={this.state.isEdit}
+                      setLoading={this.props.setLoading}
+                      handleIsEdit={this.handleIsEdit}
+                    />
+                  )}
+                  <div className="labelAll">
+                    {this.state.isCheckboxAll === true && (
+                      <CheckboxAllLabel
+                        labelList={this.props.labelList}
+                        isCheckboxAll={this.state.isCheckboxAll}
+                        noteList={this.state.noteList}
+                        setNoteList={this.setNoteList}
+                        setLoading={this.props.setLoading}
+                        checkboxListId={this.state.checkboxListId}
+                        clearCheckboxListId={this.clearCheckboxListId}
+                      />
+                    )}
+                  </div>
+                </div>
+
                 <div className="display flex-row" id="display">
                   <Notes
                     labelList={this.props.labelList}
@@ -151,6 +188,11 @@ class Body extends React.Component {
                       this.handleShowHideOpenDetailModal
                     }
                     setLoading={this.props.setLoading}
+                    activeId={this.props.activeId}
+                    showCheckboxAll={this.showCheckboxAll}
+                    hideCheckboxAll={this.hideCheckboxAll}
+                    checkboxListId={this.state.checkboxListId}
+                    handleCheckboxListId={this.handleCheckboxListId}
                   />
                 </div>
               </div>
