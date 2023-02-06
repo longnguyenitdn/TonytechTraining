@@ -4,8 +4,11 @@ import Sidebar from "../../components/Sidebar";
 import Header from "../../components/Header";
 import Body from "../../components/Body";
 import { getLabel } from "../../api/label";
+import UserContext from "../../context/UserContext";
 
 class Home extends React.Component {
+  static contextType = UserContext;
+
   state = {
     isExistLabel: false,
     statusLoading: false,
