@@ -1,41 +1,44 @@
 import React from "react";
+import { NoteContext } from "../../Contexts/NoteProvider";
+import { LabelContext } from "../../Contexts/LabelProvider";
+
 import Note from "../Note";
+import NothingToShow from "../NothingToShow";
 class Notes extends React.Component {
   render() {
-    let filterNoteList = [];
-    filterNoteList = this.props.noteList.filter(
-      (item) => String(item.labelNoteId) === this.props.activeId
-    );
-    if (filterNoteList.length === 0) {
-      filterNoteList = this.props.noteList;
-    }
     return (
-      <>
-        {filterNoteList.map((item) => {
-          return (
-            <Note
-              key={item.id}
-              item={item}
-              editNote={this.props.editNote}
-              optionId={this.props.optionId}
-              noteList={this.props.noteList}
-              labelList={this.props.labelList}
-              delayClass={this.props.delayClass}
-              delayNote={this.props.delayNote}
-              setNoteList={this.props.setNoteList}
-              handleNoteOption={this.props.handleNoteOption}
-              handleShowHideOpenDetailModalFunc={
-                this.props.handleShowHideOpenDetailModalFunc
+      <LabelContext.Consumer>
+        {(labelProvider) => (
+          <NoteContext.Consumer>
+            {(noteProvider) => {
+              let filterNoteList = noteProvider.state.noteList;
+              if (labelProvider.state.activeId !== null) {
+                filterNoteList = filterNoteList.filter(
+                  (item) =>
+                    String(item.labelNoteId) ===
+                    String(labelProvider.state.activeId)
+                );
+                if (labelProvider.state.activeId === "sidebar_btn_note") {
+                  filterNoteList = noteProvider.state.noteList;
+                }
               }
-              setLoading={this.props.setLoading}
-              showCheckboxAll={this.props.showCheckboxAll}
-              hideCheckboxAll={this.props.hideCheckboxAll}
-              checkboxListId={this.props.checkboxListId}
-              handleCheckboxListId={this.props.handleCheckboxListId}
-            />
-          );
-        })}
-      </>
+              return filterNoteList.length > 0 ? (
+                filterNoteList.map((item) => {
+                  return (
+                    <Note
+                      key={item.id}
+                      item={item}
+                      noteProvider={noteProvider}
+                    />
+                  );
+                })
+              ) : (
+                <NothingToShow />
+              );
+            }}
+          </NoteContext.Consumer>
+        )}
+      </LabelContext.Consumer>
     );
   }
 }

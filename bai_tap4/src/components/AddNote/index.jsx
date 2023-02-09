@@ -1,20 +1,13 @@
 import React from "react";
+import { NoteContext } from "../../Contexts/NoteProvider";
 import TakeNoteDetail from "../TakeNoteDetail";
 
 class AddNote extends React.Component {
   render() {
     return (
-      <TakeNoteDetail
-        handleShowHideOpenDetailModalFunc={
-          this.props.handleShowHideOpenDetailModalFunc
-        }
-        noteList={this.props.noteList}
-        setNoteList={this.props.setNoteList}
-        handleIsAdd={this.props.handleIsAdd}
-        setLoading={this.props.setLoading}
-        handleDelayClass={this.props.handleDelayClass}
-        handleDelayNote={this.props.handleDelayNote}
-      />
+      <NoteContext.Consumer>
+        {(noteProvider) => <TakeNoteDetail noteProvider={noteProvider} />}
+      </NoteContext.Consumer>
     );
   }
 }

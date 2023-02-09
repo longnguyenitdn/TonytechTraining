@@ -3,70 +3,31 @@ import React from "react";
 import Sidebar from "../../components/Sidebar";
 import Header from "../../components/Header";
 import Body from "../../components/Body";
-import { getLabel } from "../../api/label";
-import UserContext from "../../context/UserContext";
+import { NoteContext } from "../../Contexts/NoteProvider";
+import EditNote from "../../components/EditNote";
+import LoadingModal from "../../components/LoadingModal";
+import { LoadingContext } from "../../Contexts/LoadingProvider";
 
 class Home extends React.Component {
-  static contextType = UserContext;
-
-  state = {
-    isExistLabel: false,
-    statusLoading: false,
-    labelList: [],
-    activeId: null,
-  };
-  setLoading = (status) => {
-    this.setState({
-      statusLoading: status,
-    });
-  };
-  handleActiveSidebarMenu = (e) => {
-    this.setState({
-      activeId: e.target.id,
-    });
-  };
-
-  componentDidMount() {
-    this.setLoading(true);
-    getLabel()
-      .then((data) => {
-        this.setState({
-          labelList: data,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        this.setLoading(false);
-      });
-  }
-
-  setLabelList = (newList) => {
-    this.setState({
-      labelList: newList,
-    });
-  };
-
   render() {
     return (
-      <>
-        <Header />
-        <Sidebar
-          labelList={this.state.labelList}
-          setLabelListFunc={this.setLabelList}
-          setLoading={this.setLoading}
-          statusLoading={this.state.statusLoading}
-          handleActiveSidebarMenu={this.handleActiveSidebarMenu}
-          activeId={this.state.activeId}
-        />
-        <Body
-          setLoading={this.setLoading}
-          statusLoading={this.state.statusLoading}
-          labelList={this.state.labelList}
-          activeId={this.state.activeId}
-        />
-      </>
+      <LoadingContext.Consumer>
+        {(loadingProvider) => (
+          <NoteContext.Consumer>
+            {(noteProvider) => (
+              <>
+                <div hidden={loadingProvider.state.statusLoading === false}>
+                  <LoadingModal />
+                </div>
+                <Header />
+                <Sidebar />
+                <Body />
+                {noteProvider.state.isEdit === true && <EditNote />}
+              </>
+            )}
+          </NoteContext.Consumer>
+        )}
+      </LoadingContext.Consumer>
     );
   }
 }

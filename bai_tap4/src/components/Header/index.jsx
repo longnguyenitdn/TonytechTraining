@@ -7,7 +7,6 @@ import { RxGear } from "react-icons/rx";
 import { IoEllipsisVerticalCircle } from "react-icons/io5";
 import { BiUserCircle } from "react-icons/bi";
 import HeaderIcon from "../HeaderIcon";
-import { UserConsumer } from "../../context/UserContext";
 
 class Header extends React.Component {
   render() {
@@ -16,21 +15,12 @@ class Header extends React.Component {
         <div className="header-content flex-row flex-bet align-center max-width99">
           <div className="flex-row header-left align-center">
             <div className="flex-row flex-around align-center">
-              <UserConsumer>
-                {(context) => {
-                  return (
-                    <button className="header-icon cursor btn-bg">
-                      {context.name}
-                    </button>
-                  );
-                }}
-              </UserConsumer>
-              {/* <button
+              <button
                 id="header_menu_icon"
                 className="header-icon cursor btn-bg"
               >
                 <FaBars className="font-sz20" />
-              </button> */}
+              </button>
               <img
                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Google_Keep_icon_%282020%29.svg/768px-Google_Keep_icon_%282020%29.svg.png"
                 alt="Fail"

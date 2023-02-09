@@ -1,12 +1,17 @@
 import "./App.css";
 import Home from "./home";
-import { UserProvider } from "../context/UserContext";
+import NoteProvider from "../Contexts/NoteProvider";
+import LabelProvider from "../Contexts/LabelProvider";
+import LoadingProvider from "../Contexts/LoadingProvider";
 function App() {
-  const person = { name: "long", age: 32 };
   return (
-    <UserProvider value={person}>
-      <Home />
-    </UserProvider>
+    <LoadingProvider>
+      <LabelProvider>
+        <NoteProvider>
+          <Home />
+        </NoteProvider>
+      </LabelProvider>
+    </LoadingProvider>
   );
 }
 export default App;

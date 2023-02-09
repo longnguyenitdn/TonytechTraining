@@ -1,7 +1,9 @@
 import React from "react";
 import { deleteNote } from "../../api/note";
+import { LoadingContext } from "../../Contexts/LoadingProvider";
 
 class NoteOption extends React.Component {
+  static contextType = LoadingContext;
   wrapperRef = React.createRef();
   componentDidMount() {
     document.addEventListener("click", this.handleClickOutsideNoteOption);
@@ -18,26 +20,34 @@ class NoteOption extends React.Component {
   };
 
   handleDeleleNote = (id, e) => {
+    let loadingProvider = this.context;
     e?.stopPropagation();
+    loadingProvider.setLoading(true);
+
     deleteNote(id)
       .then(() => {
-        let currentList = this.props.noteList;
+        let currentList = this.props.provider.state.noteList;
         currentList = currentList.filter((item) => item.id !== id);
-        this.props.setNoteList(currentList);
-        this.props.handleNoteOption(null);
+        this.props.provider.setNoteList(currentList);
+        this.props.provider.handleNoteOption(null);
+        this.props.handleShowHideLabelNoteFunc(e);
       })
       .catch((error) => {
         console.log(error);
       })
       .finally(() => {
-        this.props.setLoading(false);
+        loadingProvider.setLoading(false);
       });
   };
   render() {
     return (
       <div className="note-option-cover" ref={this.wrapperRef}>
-        <div className="note-option  bg-white " style={this.props.style}>
-          <p onClick={(e) => this.handleDeleleNote(this.props.noteId, e)}>
+        <div className="note-option  bg-white ">
+          <p
+            onClick={(e) =>
+              this.handleDeleleNote(this.props.provider.state.optionId, e)
+            }
+          >
             Delete note
           </p>
           <p

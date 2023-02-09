@@ -1,8 +1,10 @@
 import React from "react";
 import CheckboxLabel from "../CheckboxLabel";
 import { editNote } from "../../api/note";
+import { LoadingContext } from "../../Contexts/LoadingProvider";
 
 class CheckboxAllLabel extends React.Component {
+  static contextType = LoadingContext;
   state = {
     labelId: null,
   };
@@ -12,15 +14,18 @@ class CheckboxAllLabel extends React.Component {
     });
   };
   handleAddLabelToCheckedNote = () => {
+    let loadingProvider = this.context;
     Promise.all(
-      this.props.checkboxListId.map((note) => {
-        let obj = this.props.noteList.find((item) => item.id === note);
+      this.props.noteProvider.state.checkboxListId.map((note) => {
+        let obj = this.props.noteProvider.state.noteList.find(
+          (item) => item.id === note
+        );
         obj.labelNoteId = this.state.labelId;
-        this.props.setLoading(true);
+        loadingProvider.setLoading(true);
 
         editNote(obj)
           .then((data) => {
-            let currentList = this.props.noteList;
+            let currentList = this.props.noteProvider.state.noteList;
             currentList = currentList.map((item) => {
               if (item.id === data.id) {
                 item.title = data.title;
@@ -29,18 +34,18 @@ class CheckboxAllLabel extends React.Component {
               }
               return item;
             });
-            this.props.setNoteList(currentList);
+            this.props.noteProvider.setNoteList(currentList);
           })
 
           .catch((error) => {
             console.log(error);
           })
           .finally(() => {
-            this.props.setLoading(false);
+            loadingProvider.setLoading(false);
           });
         return note;
       })
-    ).then(this.props.clearCheckboxListId());
+    ).then(this.props.noteProvider.clearCheckboxListId());
   };
   render() {
     return (
@@ -52,10 +57,8 @@ class CheckboxAllLabel extends React.Component {
           id="labelsAll"
           onChange={(e) => this.handleLabelId(e)}
         >
-          <option value="" selected>
-            Choose here
-          </option>
-          {this.props.labelList.map((item) => {
+          <option defaultValue="">None Label</option>
+          {this.props.labelProvider.state.labelList.map((item) => {
             return (
               <CheckboxLabel
                 item={item}

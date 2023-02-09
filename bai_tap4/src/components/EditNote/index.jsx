@@ -1,4 +1,5 @@
 import React from "react";
+import { NoteContext } from "../../Contexts/NoteProvider";
 import TakeNoteDetail from "../TakeNoteDetail";
 
 class EditNote extends React.Component {
@@ -8,23 +9,17 @@ class EditNote extends React.Component {
   };
   render() {
     return (
-      <>
-        <div className={this.state.editModalWrapClass}></div>
-        <TakeNoteDetail
-          noteList={this.props.noteList}
-          setNoteList={this.props.setNoteList}
-          handleShowHideOpenDetailModalFunc={
-            this.props.handleShowHideOpenDetailModalFunc
-          }
-          handleEditNoteFunc={this.props.handleEditNoteFunc}
-          editModalClass={this.state.editModalClass}
-          handleEditNote={this.props.handleEditNote}
-          editNote={this.props.editNote}
-          isEdit={this.props.isEdit}
-          setLoading={this.props.setLoading}
-          handleIsEdit={this.props.handleIsEdit}
-        />
-      </>
+      <NoteContext.Consumer>
+        {(noteProvider) => (
+          <>
+            <div className={this.state.editModalWrapClass}></div>
+            <TakeNoteDetail
+              editModalClass={this.state.editModalClass}
+              noteProvider={noteProvider}
+            />
+          </>
+        )}
+      </NoteContext.Consumer>
     );
   }
 }

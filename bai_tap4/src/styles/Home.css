@@ -452,6 +452,13 @@ body {
    font-size: 17px;
    padding: 0 10px;
 }
+.nothing{
+   width: 100%;
+   height: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
 
 /* Notes */
 .notes-cover {
@@ -717,7 +724,7 @@ body {
    display: none;
 }
 
-.labels-row:hover .button-icon .fa-tag {
+.labels-row:hover .button-icon .fa-tag { 
    display: none;
 }
 

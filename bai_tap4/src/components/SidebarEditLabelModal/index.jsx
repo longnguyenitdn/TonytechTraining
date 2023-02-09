@@ -4,8 +4,10 @@ import { FcCheckmark } from "react-icons/fc";
 import LabelEditList from "../LabelEditList";
 import { addNewLabel, editLabel, deleteLabel } from "../../api/label";
 import DeleteModalConfirm from "../DeleteModalConfirm";
+import { LoadingContext } from "../../Contexts/LoadingProvider";
 
 class SidebarEditLabelModal extends React.Component {
+  static contextType = LoadingContext;
   state = {
     isEditLabel: false,
     isExistLabel: false,
@@ -40,10 +42,11 @@ class SidebarEditLabelModal extends React.Component {
   };
 
   handleBeforeAddNewLabel = () => {
+    let provider = this.props.labelProvider;
     let isExist = false;
     if (this.state.label.name !== "") {
-      if (this.props.labelList.length !== 0) {
-        isExist = this.props.labelList.some(
+      if (provider.state.labelList.length !== 0) {
+        isExist = provider.state.labelList.some(
           (node) => node.name === this.state.label.name
         );
       }
@@ -60,26 +63,31 @@ class SidebarEditLabelModal extends React.Component {
   };
 
   handleAddNewLabel = (label) => {
-    this.props.setLoading(true);
+    let loadingProvider = this.context;
+    loadingProvider.setLoading(true);
     addNewLabel(label)
       .then((data) => {
-        this.props.setLabelListFunc([data, ...this.props.labelList]);
+        this.props.labelProvider.setLabelList([
+          data,
+          ...this.props.labelProvider.state.labelList,
+        ]);
       })
       .catch((error) => {
         console.log(error);
       })
       .finally(() => {
-        this.props.setLoading(false);
+        loadingProvider.setLoading(false);
       });
   };
 
   handleDeleteLabel = (id) => {
-    this.props.setLoading(true);
+    let loadingProvider = this.context;
+    loadingProvider.setLoading(true);
     deleteLabel(id)
       .then(() => {
-        let currentList = this.props.labelList;
+        let currentList = this.props.labelProvider.state.labelList;
         currentList = currentList.filter((item) => item.id !== id);
-        this.props.setLabelListFunc(currentList);
+        this.props.labelProvider.setLabelList(currentList);
         this.setState({
           deleteConfirm: false,
         });
@@ -88,13 +96,14 @@ class SidebarEditLabelModal extends React.Component {
         console.log(error);
       })
       .finally(() => {
-        this.props.setLoading(false);
+        loadingProvider.setLoading(false);
       });
   };
 
   handleEditLabel = (label) => {
+    let loadingProvider = this.context;
     let isExist = false;
-    isExist = this.props.labelList.some((item) => {
+    isExist = this.props.labelProvider.state.labelList.some((item) => {
       if (label.name === item.name) {
         if (item.id !== label.id) {
           this.setState({
@@ -108,10 +117,10 @@ class SidebarEditLabelModal extends React.Component {
     });
 
     if (!isExist) {
-      this.props.setLoading(true);
+      loadingProvider.setLoading(true);
       editLabel(label)
         .then(() => {
-          let currentList = this.props.labelList;
+          let currentList = this.props.labelProvider.state.labelList;
           currentList = currentList.map((item) => {
             if (item.id === label.id) {
               item.name = label.name;
@@ -129,7 +138,7 @@ class SidebarEditLabelModal extends React.Component {
           console.log(error);
         })
         .finally(() => {
-          this.props.setLoading(false);
+          loadingProvider.setLoading(false);
         });
     }
   };
@@ -153,7 +162,6 @@ class SidebarEditLabelModal extends React.Component {
         {this.state.deleteConfirm === true && (
           <DeleteModalConfirm
             deleteLabelId={this.state.deleteLabelId}
-            setLabelListFunc={this.props.setLabelListFunc}
             handleShowHideDeleteConfirmFunc={this.handleShowHideDeleteConfirm}
             handleDeleteLabelFunc={this.handleDeleteLabel}
           />
@@ -194,7 +202,6 @@ class SidebarEditLabelModal extends React.Component {
               <div className="labels-list-edit align-center flex-around">
                 <LabelEditList
                   isEditLabel={this.state.isEditLabel}
-                  labelList={this.props.labelList}
                   handleShowHideDeleteConfirmFunc={
                     this.handleShowHideDeleteConfirm
                   }

@@ -1,17 +1,20 @@
 import React from "react";
 import { editNote } from "../../api/note";
+import { LoadingContext } from "../../Contexts/LoadingProvider";
 
 class LabelInNote extends React.Component {
+  static contextType = LoadingContext;
   handleAddLabelToNote = (e, note) => {
+    let loadingProvider = this.context;
     let obj = {
       ...note,
       labelNoteId: parseInt(e.target.id),
     };
-    this.props.setLoading(true);
+    loadingProvider.setLoading(true);
 
     editNote(obj)
       .then((data) => {
-        let currentList = this.props.noteList;
+        let currentList = this.props.noteProvider.state.noteList;
         currentList = currentList.map((item) => {
           if (item.id === data.id) {
             item.title = data.title;
@@ -20,16 +23,17 @@ class LabelInNote extends React.Component {
           }
           return item;
         });
-        this.props.setNoteList(currentList);
+        this.props.noteProvider.setNoteList(currentList);
       })
 
       .catch((error) => {
         console.log(error);
       })
       .finally(() => {
-        this.props.setLoading(false);
+        loadingProvider.setLoading(false);
       });
   };
+
   handleCheckboxLabelList = (e, note) => {
     e.stopPropagation();
 

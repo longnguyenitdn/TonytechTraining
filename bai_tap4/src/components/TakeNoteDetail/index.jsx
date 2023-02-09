@@ -11,7 +11,9 @@ import { FaThumbtack } from "react-icons/fa";
 import { IoColorPaletteOutline } from "react-icons/io5";
 import TakeNoteDetailIcon from "../TakeNoteDetailIcon";
 import { addNewNote, editNote } from "../../api/note";
+import { LoadingContext } from "../../Contexts/LoadingProvider";
 class TakeNoteDetail extends React.Component {
+  static contextType = LoadingContext;
   state = {
     id: null,
     title: "",
@@ -20,12 +22,13 @@ class TakeNoteDetail extends React.Component {
   };
   wrapperRef = React.createRef();
   componentDidMount() {
-    if (this.props.isEdit) {
+    let newState = this.props.noteProvider.state;
+    if (newState.isEdit) {
       this.setState({
-        id: this.props.editNote.id,
-        title: this.props.editNote.title,
-        content: this.props.editNote.content,
-        labelNoteId: this.props.editNote.labelNoteId,
+        id: newState.editNote.id,
+        title: newState.editNote.title,
+        content: newState.editNote.content,
+        labelNoteId: newState.editNote.labelNoteId,
       });
     }
     document.addEventListener("click", this.handleClickOutside);
@@ -48,18 +51,22 @@ class TakeNoteDetail extends React.Component {
   };
 
   handleAddNewNote = (note) => {
-    this.props.setLoading(true);
+    let loadingProvider = this.context;
+    loadingProvider.setLoading(true);
     addNewNote(note)
       .then((data) => {
-        this.props.setNoteList([data, ...this.props.noteList]);
+        this.props.noteProvider.setNoteList([
+          data,
+          ...this.props.noteProvider.state.noteList,
+        ]);
         // noteList: [note].concat(this.state.noteList)
-        this.props.handleDelayNote(data);
-        this.props.handleIsAdd();
+        this.props.noteProvider.handleDelayNote(data);
+        this.props.noteProvider.handleIsAdd();
 
         setTimeout(() => {
-          this.props.handleDelayClass("delay");
+          this.props.noteProvider.handleDelayClass("delay");
           setTimeout(() => {
-            this.props.handleDelayClass("");
+            this.props.noteProvider.handleDelayClass("");
           }, 300);
         }, 200);
       })
@@ -67,15 +74,16 @@ class TakeNoteDetail extends React.Component {
         console.log(error);
       })
       .finally(() => {
-        this.props.setLoading(false);
+        loadingProvider.setLoading(false);
       });
   };
 
   handleEditNote = (note) => {
-    this.props.setLoading(true);
+    let loadingProvider = this.context;
+    loadingProvider.setLoading(true);
     editNote(note)
       .then((note) => {
-        let currentList = this.props.noteList;
+        let currentList = this.props.noteProvider.state.noteList;
         currentList = currentList.map((item) => {
           if (item.id === note.id) {
             item.title = note.title;
@@ -84,15 +92,15 @@ class TakeNoteDetail extends React.Component {
           }
           return item;
         });
-        this.props.setNoteList(currentList);
+        this.props.noteProvider.setNoteList(currentList);
 
-        this.props.handleIsEdit();
+        this.props.noteProvider.handleIsEdit();
       })
       .catch((error) => {
         console.log(error);
       })
       .finally(() => {
-        this.props.setLoading(false);
+        loadingProvider.setLoading(false);
       });
   };
 
@@ -103,11 +111,12 @@ class TakeNoteDetail extends React.Component {
         return;
       } else {
         let { id, title, content, labelNoteId } = this.state;
-        if (this.props.isEdit) {
+        if (this.props.noteProvider.state.isEdit) {
           this.handleEditNote({
             id,
             title,
             content,
+            labelNoteId,
           });
         } else {
           this.handleAddNewNote({
@@ -132,7 +141,9 @@ class TakeNoteDetail extends React.Component {
           ref={this.wrapperRef}
           id="input_note_detail"
           className={`take-note-detail ${
-            this.props.isEdit ? this.props.editModalClass : ""
+            this.props.noteProvider.state.isEdit
+              ? this.props.editModalClass
+              : ""
           }`}
         >
           <div className="flex-row flex-bet align-center">
@@ -193,9 +204,9 @@ class TakeNoteDetail extends React.Component {
             <div>
               <button
                 onClick={(e) =>
-                  this.props.handleShowHideOpenDetailModalFunc(
+                  this.props.noteProvider.handleShowHideOpenDetailModal(
                     e,
-                    this.props.editNote
+                    this.props.noteProvider.state.editNote
                   )
                 }
                 id="close_detail_modal"

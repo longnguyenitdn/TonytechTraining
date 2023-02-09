@@ -1,4 +1,5 @@
 import React from "react";
+import { LabelContext } from "../../Contexts/LabelProvider";
 import LabelInNote from "../LabelInNote";
 class LabelNote extends React.Component {
   state = {
@@ -29,38 +30,41 @@ class LabelNote extends React.Component {
   };
   render() {
     return (
-      <div
-        className="handle-label"
-        style={this.props.style}
-        ref={this.wrapperRef}
-        onClick={(e) => this.stopClick(e)}
-      >
-        <div className="handle-label-cover">
-          <h5 className="text-black">Label note</h5>
-          <input
-            className="input text-black"
-            type="text"
-            placeholder="Enter label name"
-          />
-        </div>
-        <div className="handle-label-list flex-col">
-          {this.props.labelList.map((item) => {
-            return (
-              <LabelInNote
-                key={item.id}
-                label={item}
-                note={this.props.note}
-                setLoading={this.props.setLoading}
-                setNoteList={this.props.setNoteList}
-                noteList={this.props.noteList}
-                handleRemoveLabelFromNote={this.props.handleRemoveLabelFromNote}
-                handleLabelId={this.handleLabelId}
-                labelId={this.state.labelId}
+      <LabelContext.Consumer>
+        {(labelProvider) => (
+          <div
+            className="handle-label"
+            ref={this.wrapperRef}
+            onClick={(e) => this.stopClick(e)}
+          >
+            <div className="handle-label-cover">
+              <h5 className="text-black">Label note</h5>
+              <input
+                className="input text-black"
+                type="text"
+                placeholder="Enter label name"
               />
-            );
-          })}
-        </div>
-      </div>
+            </div>
+            <div className="handle-label-list flex-col">
+              {labelProvider.state.labelList.map((item) => {
+                return (
+                  <LabelInNote
+                    noteProvider={this.props.noteProvider}
+                    key={item.id}
+                    label={item}
+                    note={this.props.note}
+                    handleRemoveLabelFromNote={
+                      this.props.handleRemoveLabelFromNote
+                    }
+                    handleLabelId={this.handleLabelId}
+                    labelId={this.state.labelId}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </LabelContext.Consumer>
     );
   }
 }
