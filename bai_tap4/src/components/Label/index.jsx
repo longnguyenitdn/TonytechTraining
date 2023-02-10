@@ -1,6 +1,6 @@
 import React from "react";
 import { BsFillTagsFill } from "react-icons/bs";
-import { LabelContext } from "../../Contexts/LabelProvider";
+import { LabelContext } from "../../contexts/LabelProvider";
 
 class Label extends React.Component {
   render() {

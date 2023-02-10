@@ -3,10 +3,10 @@ import React from "react";
 import Sidebar from "../../components/Sidebar";
 import Header from "../../components/Header";
 import Body from "../../components/Body";
-import { NoteContext } from "../../Contexts/NoteProvider";
+import { NoteContext } from "../../contexts/NoteProvider";
 import EditNote from "../../components/EditNote";
 import LoadingModal from "../../components/LoadingModal";
-import { LoadingContext } from "../../Contexts/LoadingProvider";
+import { LoadingContext } from "../../contexts/LoadingProvider";
 
 class Home extends React.Component {
   render() {

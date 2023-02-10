@@ -1,5 +1,5 @@
 import React from "react";
-import { LabelContext } from "../../Contexts/LabelProvider";
+import { LabelContext } from "../../contexts/LabelProvider";
 import Label from "../Label";
 class LabelSidebar extends React.Component {
   render() {

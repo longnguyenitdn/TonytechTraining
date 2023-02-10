@@ -4,7 +4,7 @@ import { FcCheckmark } from "react-icons/fc";
 import LabelEditList from "../LabelEditList";
 import { addNewLabel, editLabel, deleteLabel } from "../../api/label";
 import DeleteModalConfirm from "../DeleteModalConfirm";
-import { LoadingContext } from "../../Contexts/LoadingProvider";
+import { LoadingContext } from "../../contexts/LoadingProvider";
 
 class SidebarEditLabelModal extends React.Component {
   static contextType = LoadingContext;

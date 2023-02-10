@@ -1,6 +1,6 @@
 import React from "react";
-import { NoteContext } from "../../Contexts/NoteProvider";
-import { LabelContext } from "../../Contexts/LabelProvider";
+import { NoteContext } from "../../contexts/NoteProvider";
+import { LabelContext } from "../../contexts/LabelProvider";
 
 import Note from "../Note";
 import NothingToShow from "../NothingToShow";
