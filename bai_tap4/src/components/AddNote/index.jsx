@@ -1,5 +1,5 @@
 import React from "react";
-import { NoteContext } from "../../contexts/NoteProvider";
+import { NoteContext } from "../../Contexts/NoteProvider";
 import TakeNoteDetail from "../TakeNoteDetail";
 
 class AddNote extends React.Component {

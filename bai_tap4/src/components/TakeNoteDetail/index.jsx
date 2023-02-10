@@ -11,7 +11,7 @@ import { FaThumbtack } from "react-icons/fa";
 import { IoColorPaletteOutline } from "react-icons/io5";
 import TakeNoteDetailIcon from "../TakeNoteDetailIcon";
 import { addNewNote, editNote } from "../../api/note";
-import { LoadingContext } from "../../contexts/LoadingProvider";
+import { LoadingContext } from "../../Contexts/LoadingProvider";
 class TakeNoteDetail extends React.Component {
   static contextType = LoadingContext;
   state = {

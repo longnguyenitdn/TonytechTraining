@@ -10,8 +10,8 @@ import NoteOption from "../NoteOption";
 import LabelAssignInNote from "../LabelAssignInNote";
 import LabelNote from "../LabelNote";
 import { editNote } from "../../api/note";
-import { NoteContext } from "../../contexts/NoteProvider";
-import { LoadingContext } from "../../contexts/LoadingProvider";
+import { NoteContext } from "../../Contexts/NoteProvider";
+import { LoadingContext } from "../../Contexts/LoadingProvider";
 
 class Note extends React.Component {
   static contextType = LoadingContext;

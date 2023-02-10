@@ -1,6 +1,6 @@
 import React from "react";
 import { FcCancel } from "react-icons/fc";
-import { LabelContext } from "../../contexts/LabelProvider";
+import { LabelContext } from "../../Contexts/LabelProvider";
 
 class LabelAssignInNote extends React.Component {
   render() {

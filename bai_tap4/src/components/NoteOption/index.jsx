@@ -1,6 +1,6 @@
 import React from "react";
 import { deleteNote } from "../../api/note";
-import { LoadingContext } from "../../contexts/LoadingProvider";
+import { LoadingContext } from "../../Contexts/LoadingProvider";
 
 class NoteOption extends React.Component {
   static contextType = LoadingContext;

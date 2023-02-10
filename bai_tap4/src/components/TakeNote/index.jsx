@@ -1,7 +1,7 @@
 import React from "react";
 import { BiPaint } from "react-icons/bi";
 import { BsCheck2Square, BsImages } from "react-icons/bs";
-import { NoteContext } from "../../contexts/NoteProvider";
+import { NoteContext } from "../../Contexts/NoteProvider";
 import TakeNoteBtnIcon from "../TakeNoteBtnIcon";
 
 class TakeNote extends React.Component {

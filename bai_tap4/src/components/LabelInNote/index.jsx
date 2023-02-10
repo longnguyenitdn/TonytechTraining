@@ -1,6 +1,6 @@
 import React from "react";
 import { editNote } from "../../api/note";
-import { LoadingContext } from "../../contexts/LoadingProvider";
+import { LoadingContext } from "../../Contexts/LoadingProvider";
 
 class LabelInNote extends React.Component {
   static contextType = LoadingContext;

@@ -6,9 +6,9 @@ import LabelSidebar from "../LabelSidebar";
 import SidebarIcon from "../SidebarIcon";
 import SidebarText from "../SidebarText";
 import SidebarEditLabelModal from "../SidebarEditLabelModal";
-import { LabelContext } from "../../contexts/LabelProvider";
+import { LabelContext } from "../../Contexts/LabelProvider";
 import { useContext, useState } from "react";
-import { NoteContext } from "../../contexts/NoteProvider";
+import { NoteContext } from "../../Contexts/NoteProvider";
 const Sidebar = () => {
   const labelProvider = useContext(LabelContext);
   const [isEditLabelModal, setIsEditLabelModal] = useState(false);

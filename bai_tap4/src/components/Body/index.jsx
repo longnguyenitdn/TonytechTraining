@@ -4,8 +4,8 @@ import TakeNote from "../TakeNote";
 import AddNote from "../AddNote";
 
 import CheckboxAllLabel from "../CheckboxAllLabel";
-import { NoteContext } from "../../contexts/NoteProvider";
-import { LabelContext } from "../../contexts/LabelProvider";
+import { NoteContext } from "../../Contexts/NoteProvider";
+import { LabelContext } from "../../Contexts/LabelProvider";
 
 class Body extends React.Component {
   render() {

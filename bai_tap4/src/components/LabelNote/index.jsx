@@ -1,5 +1,5 @@
 import React from "react";
-import { LabelContext } from "../../contexts/LabelProvider";
+import { LabelContext } from "../../Contexts/LabelProvider";
 import LabelInNote from "../LabelInNote";
 class LabelNote extends React.Component {
   state = {

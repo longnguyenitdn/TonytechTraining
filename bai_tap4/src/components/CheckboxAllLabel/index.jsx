@@ -1,7 +1,7 @@
 import React from "react";
 import CheckboxLabel from "../CheckboxLabel";
 import { editNote } from "../../api/note";
-import { LoadingContext } from "../../contexts/LoadingProvider";
+import { LoadingContext } from "../../Contexts/LoadingProvider";
 
 class CheckboxAllLabel extends React.Component {
   static contextType = LoadingContext;

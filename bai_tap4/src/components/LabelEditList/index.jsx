@@ -1,7 +1,7 @@
 import React from "react";
 import { CiEraser, CiShoppingTag } from "react-icons/ci";
 import { VscCheckAll } from "react-icons/vsc";
-import { LabelContext } from "../../contexts/LabelProvider";
+import { LabelContext } from "../../Contexts/LabelProvider";
 
 class LabelEditList extends React.Component {
   state = {
