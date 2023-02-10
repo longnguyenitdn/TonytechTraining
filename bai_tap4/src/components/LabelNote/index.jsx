@@ -1,5 +1,5 @@
 import React from "react";
-import { LabelContext } from "../../Contexts/LabelProvider";
+import { LabelContext } from "../../contexts/LabelProvider";
 import LabelInNote from "../LabelInNote";
 class LabelNote extends React.Component {
   state = {
@@ -15,14 +15,14 @@ class LabelNote extends React.Component {
     document.removeEventListener("click", this.handleClickOutsideLabelNote);
   }
 
-  handleLabelId = (id) => {
+  setLabelId = (id) => {
     this.setState({
       labelId: id,
     });
   };
   handleClickOutsideLabelNote = (e) => {
     if (!this.wrapperRef.current.contains(e.target)) {
-      this.props.handleShowHideLabelNoteFunc(e);
+      this.props.toggleShowHideLabelNote(e);
     }
   };
   stopClick = (e) => {
@@ -56,7 +56,7 @@ class LabelNote extends React.Component {
                     handleRemoveLabelFromNote={
                       this.props.handleRemoveLabelFromNote
                     }
-                    handleLabelId={this.handleLabelId}
+                    setLabelId={this.setLabelId}
                     labelId={this.state.labelId}
                   />
                 );

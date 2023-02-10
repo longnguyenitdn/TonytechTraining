@@ -4,7 +4,7 @@ import { FcCheckmark } from "react-icons/fc";
 import LabelEditList from "../LabelEditList";
 import { addNewLabel, editLabel, deleteLabel } from "../../api/label";
 import DeleteModalConfirm from "../DeleteModalConfirm";
-import { LoadingContext } from "../../Contexts/LoadingProvider";
+import { LoadingContext } from "../../contexts/LoadingProvider";
 
 class SidebarEditLabelModal extends React.Component {
   static contextType = LoadingContext;
@@ -27,7 +27,7 @@ class SidebarEditLabelModal extends React.Component {
     });
   };
 
-  handleChangeInputLabelContent = (e) => {
+  setInputLabelContent = (e) => {
     this.setState({
       label: {
         name: e.target.value,
@@ -35,18 +35,18 @@ class SidebarEditLabelModal extends React.Component {
     });
   };
 
-  handleShowHideExistedLabel = () => {
+  toggleShowHideExistedLabel = () => {
     this.setState({
       isExistLabel: !this.state.isExistLabel,
     });
   };
 
-  handleBeforeAddNewLabel = () => {
+  checkBeforeAddNewLabel = () => {
     let provider = this.props.labelProvider;
     let isExist = false;
     if (this.state.label.name !== "") {
-      if (provider.state.labelList.length !== 0) {
-        isExist = provider.state.labelList.some(
+      if (provider.labelList.length !== 0) {
+        isExist = provider.labelList.some(
           (node) => node.name === this.state.label.name
         );
       }
@@ -57,7 +57,7 @@ class SidebarEditLabelModal extends React.Component {
         });
         this.clearInputLabelValue();
       } else {
-        this.handleShowHideExistedLabel();
+        this.toggleShowHideExistedLabel();
       }
     }
   };
@@ -69,7 +69,7 @@ class SidebarEditLabelModal extends React.Component {
       .then((data) => {
         this.props.labelProvider.setLabelList([
           data,
-          ...this.props.labelProvider.state.labelList,
+          ...this.props.labelProvider.labelList,
         ]);
       })
       .catch((error) => {
@@ -85,7 +85,7 @@ class SidebarEditLabelModal extends React.Component {
     loadingProvider.setLoading(true);
     deleteLabel(id)
       .then(() => {
-        let currentList = this.props.labelProvider.state.labelList;
+        let currentList = this.props.labelProvider.labelList;
         currentList = currentList.filter((item) => item.id !== id);
         this.props.labelProvider.setLabelList(currentList);
         this.setState({
@@ -103,7 +103,7 @@ class SidebarEditLabelModal extends React.Component {
   handleEditLabel = (label) => {
     let loadingProvider = this.context;
     let isExist = false;
-    isExist = this.props.labelProvider.state.labelList.some((item) => {
+    isExist = this.props.labelProvider.labelList.some((item) => {
       if (label.name === item.name) {
         if (item.id !== label.id) {
           this.setState({
@@ -120,7 +120,7 @@ class SidebarEditLabelModal extends React.Component {
       loadingProvider.setLoading(true);
       editLabel(label)
         .then(() => {
-          let currentList = this.props.labelProvider.state.labelList;
+          let currentList = this.props.labelProvider.labelList;
           currentList = currentList.map((item) => {
             if (item.id === label.id) {
               item.name = label.name;
@@ -143,14 +143,14 @@ class SidebarEditLabelModal extends React.Component {
     }
   };
 
-  handleShowHideDeleteConfirm = (id) => {
+  toggleShowHideDeleteConfirm = (id) => {
     this.setState({
       deleteConfirm: !this.state.deleteConfirm,
       deleteLabelId: id,
     });
   };
 
-  handleShowEditBtn = () => {
+  showEditBtn = () => {
     this.setState({
       isEditLabel: true,
     });
@@ -162,14 +162,14 @@ class SidebarEditLabelModal extends React.Component {
         {this.state.deleteConfirm === true && (
           <DeleteModalConfirm
             deleteLabelId={this.state.deleteLabelId}
-            handleShowHideDeleteConfirmFunc={this.handleShowHideDeleteConfirm}
+            toggleShowHideDeleteConfirm={this.toggleShowHideDeleteConfirm}
             handleDeleteLabelFunc={this.handleDeleteLabel}
           />
         )}
         <div
           className="detail-edit-label-wrap"
           id="detail_edit_label_wrap"
-          onClick={() => this.props.handleShowHideEditLabelModalFunc()}
+          onClick={() => this.props.setShowHideEditLabelModal()}
         ></div>
         <div
           id="detail_edit_label_content"
@@ -186,14 +186,14 @@ class SidebarEditLabelModal extends React.Component {
                   <HiXMark fill="red" />
                 </button>
                 <input
-                  onChange={(e) => this.handleChangeInputLabelContent(e)}
+                  onChange={(e) => this.setInputLabelContent(e)}
                   className="input text-black"
                   type="text"
                   placeholder="Create new label..."
                   value={this.state.label.name}
                 />
                 <button
-                  onClick={() => this.handleBeforeAddNewLabel()}
+                  onClick={() => this.checkBeforeAddNewLabel()}
                   className="btn-right-input-edit-label button-icon text-black cursor "
                 >
                   <FcCheckmark />
@@ -202,10 +202,8 @@ class SidebarEditLabelModal extends React.Component {
               <div className="labels-list-edit align-center flex-around">
                 <LabelEditList
                   isEditLabel={this.state.isEditLabel}
-                  handleShowHideDeleteConfirmFunc={
-                    this.handleShowHideDeleteConfirm
-                  }
-                  handleShowEditBtnFunc={this.handleShowEditBtn}
+                  toggleShowHideDeleteConfirm={this.toggleShowHideDeleteConfirm}
+                  showEditBtn={this.showEditBtn}
                   handleEditLabelFunc={this.handleEditLabel}
                   handleDeleteLabelFunc={this.handleDeleteLabel}
                 />
@@ -220,7 +218,7 @@ class SidebarEditLabelModal extends React.Component {
                 </p>
               )}
               <button
-                onClick={() => this.props.handleShowHideEditLabelModalFunc()}
+                onClick={() => this.props.setShowHideEditLabelModal()}
                 className="btn-close button-icon text-black cursor"
               >
                 Done

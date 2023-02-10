@@ -1,7 +1,7 @@
 import React from "react";
 import { BiPaint } from "react-icons/bi";
 import { BsCheck2Square, BsImages } from "react-icons/bs";
-import { NoteContext } from "../../Contexts/NoteProvider";
+import { NoteContext } from "../../contexts/NoteProvider";
 import TakeNoteBtnIcon from "../TakeNoteBtnIcon";
 
 class TakeNote extends React.Component {
@@ -11,7 +11,7 @@ class TakeNote extends React.Component {
         {(provider) => (
           <div id="input_note_cover" className="take-note flex-row flex-bet">
             <input
-              onClick={(e) => provider.handleShowHideOpenDetailModal(e)}
+              onClick={(e) => provider.setOpenDetailModal(e)}
               className="input-take-note skip"
               type="text"
               placeholder="Take a note..."

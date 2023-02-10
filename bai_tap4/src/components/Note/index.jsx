@@ -10,8 +10,8 @@ import NoteOption from "../NoteOption";
 import LabelAssignInNote from "../LabelAssignInNote";
 import LabelNote from "../LabelNote";
 import { editNote } from "../../api/note";
-import { NoteContext } from "../../Contexts/NoteProvider";
-import { LoadingContext } from "../../Contexts/LoadingProvider";
+import { NoteContext } from "../../contexts/NoteProvider";
+import { LoadingContext } from "../../contexts/LoadingProvider";
 
 class Note extends React.Component {
   static contextType = LoadingContext;
@@ -32,7 +32,7 @@ class Note extends React.Component {
 
     editNote(obj)
       .then((data) => {
-        let currentList = this.props.noteProvider.state.noteList;
+        let currentList = this.props.noteProvider.noteList;
         currentList = currentList.map((item) => {
           if (item.id === data.id) {
             item.labelNoteId = data.labelNoteId;
@@ -50,7 +50,7 @@ class Note extends React.Component {
       });
   };
 
-  handleShowHideLabelNote = (e) => {
+  toggleShowHideLabelNote = (e) => {
     e.stopPropagation();
     this.setState({
       isOpenNoteOption: false,
@@ -58,16 +58,16 @@ class Note extends React.Component {
     });
   };
 
-  handleClickOpenNoteOption = (e, id) => {
+  onClickOpenNoteOption = (e, id) => {
     e?.stopPropagation();
     this.setState({
       isOpenNoteOption: !this.state.isOpenNoteOption,
     });
-    this.props.noteProvider.handleNoteOption(id);
+    this.props.noteProvider.setNoteOption(id);
   };
-  handleBtnCheckAll = (e, noteId) => {
+  setBtnCheckAll = (e, noteId) => {
     e.stopPropagation();
-    let currentList = this.props.noteProvider.state.checkboxListId;
+    let currentList = this.props.noteProvider.checkboxListId;
 
     let isExist = currentList.some((item) => item === noteId);
 
@@ -78,11 +78,11 @@ class Note extends React.Component {
     }
 
     if (currentList.length !== 0) {
-      this.props.noteProvider.showCheckboxAll();
+      this.props.noteProvider.setCheckboxAll(true);
     } else {
-      this.props.noteProvider.hideCheckboxAll();
+      this.props.noteProvider.setCheckboxAll(false);
     }
-    this.props.noteProvider.handleCheckboxListId(currentList);
+    this.props.noteProvider.setCheckboxListId(currentList);
   };
   render() {
     const item = this.props.item;
@@ -92,24 +92,20 @@ class Note extends React.Component {
           return (
             <div
               className={`notes-cover flex-row  ${
-                item.id === provider.state.delayNote.id
-                  ? provider.state.delayClass
-                  : ""
+                item.id === provider.delayNote.id ? provider.delayClass : ""
               }`}
-              onClick={(e) => provider.handleShowHideOpenDetailModal(e, item)}
+              onClick={(e) => provider.setOpenDetailModal(e, item)}
             >
               <div
                 className={`note ${
-                  provider.state.checkboxListId.includes(item.id)
-                    ? "checked"
-                    : ""
+                  provider.checkboxListId.includes(item.id) ? "checked" : ""
                 }`}
               >
                 <div className="note-wrap">
                   <button
                     className="btn-checkAll btn-bg cursor"
                     id={item.id}
-                    onClick={(e) => this.handleBtnCheckAll(e, item.id)}
+                    onClick={(e) => this.setBtnCheckAll(e, item.id)}
                   >
                     <AiOutlineCheck
                       fill="white"
@@ -152,9 +148,7 @@ class Note extends React.Component {
                       <BsBoxArrowDown />
                     </NoteBtnIcon>
                     <button
-                      onClick={(e) =>
-                        this.handleClickOpenNoteOption(e, item.id)
-                      }
+                      onClick={(e) => this.onClickOpenNoteOption(e, item.id)}
                       className="hiden btn-note-option button-icon cursor font-sz15 void-clicks display-note-icon"
                     >
                       <HiOutlineEllipsisVertical />
@@ -165,16 +159,14 @@ class Note extends React.Component {
                   <NoteOption
                     provider={provider}
                     noteId={item.id}
-                    handleClickOpenNoteOptionFunc={
-                      this.handleClickOpenNoteOption
-                    }
-                    handleShowHideLabelNoteFunc={this.handleShowHideLabelNote}
+                    onClickOpenNoteOption={this.onClickOpenNoteOption}
+                    toggleShowHideLabelNote={this.toggleShowHideLabelNote}
                   />
                 )}
                 {this.state.isOpenLabelNote === true && (
                   <LabelNote
                     noteProvider={provider}
-                    handleShowHideLabelNoteFunc={this.handleShowHideLabelNote}
+                    toggleShowHideLabelNote={this.toggleShowHideLabelNote}
                     note={item}
                     handleRemoveLabelFromNote={this.handleRemoveLabelFromNote}
                     isChecked={this.state.isChecked}

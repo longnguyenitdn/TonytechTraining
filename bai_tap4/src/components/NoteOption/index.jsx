@@ -1,6 +1,6 @@
 import React from "react";
 import { deleteNote } from "../../api/note";
-import { LoadingContext } from "../../Contexts/LoadingProvider";
+import { LoadingContext } from "../../contexts/LoadingProvider";
 
 class NoteOption extends React.Component {
   static contextType = LoadingContext;
@@ -15,7 +15,7 @@ class NoteOption extends React.Component {
   }
   handleClickOutsideNoteOption = (e) => {
     if (!this.wrapperRef.current.contains(e.target)) {
-      this.props.handleClickOpenNoteOptionFunc(e);
+      this.props.onClickOpenNoteOption(e);
     }
   };
 
@@ -29,8 +29,8 @@ class NoteOption extends React.Component {
         let currentList = this.props.provider.state.noteList;
         currentList = currentList.filter((item) => item.id !== id);
         this.props.provider.setNoteList(currentList);
-        this.props.provider.handleNoteOption(null);
-        this.props.handleShowHideLabelNoteFunc(e);
+        this.props.provider.setNoteOption(null);
+        this.props.toggleShowHideLabelNote(e);
       })
       .catch((error) => {
         console.log(error);
@@ -52,7 +52,7 @@ class NoteOption extends React.Component {
           </p>
           <p
             id="handle_label"
-            onClick={(e) => this.props.handleShowHideLabelNoteFunc(e)}
+            onClick={(e) => this.props.toggleShowHideLabelNote(e)}
           >
             Add label
           </p>

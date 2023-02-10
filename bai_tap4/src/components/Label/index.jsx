@@ -1,6 +1,6 @@
 import React from "react";
 import { BsFillTagsFill } from "react-icons/bs";
-import { LabelContext } from "../../Contexts/LabelProvider";
+import { LabelContext } from "../../contexts/LabelProvider";
 
 class Label extends React.Component {
   render() {
@@ -13,10 +13,10 @@ class Label extends React.Component {
             <div
               id={label.id}
               className={`flex-row sidebar-row sidebar-row-top align-center cursor active-menu ${
-                provider.state.activeId === String(label.id) ? "active" : ""
+                provider.activeId === String(label.id) ? "active" : ""
               }`}
               onClick={(e) => {
-                provider.handleActiveSidebarMenu(e);
+                provider.setActiveSidebarMenu(e);
               }}
             >
               <button className=" button-icon sidebar-btn cursor avoid-clicks">

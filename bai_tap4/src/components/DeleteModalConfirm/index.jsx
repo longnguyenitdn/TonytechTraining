@@ -16,7 +16,7 @@ class DeleteModalConfirm extends React.Component {
             </p>
             <div className="remove-confirm-modal-btn">
               <button
-                onClick={() => this.props.handleShowHideDeleteConfirmFunc()}
+                onClick={() => this.props.toggleShowHideDeleteConfirm()}
                 id="remove_cancel_btn"
                 className="btn-close button-icon text-black cursor"
               >

@@ -1,14 +1,14 @@
 import React from "react";
 import CheckboxLabel from "../CheckboxLabel";
 import { editNote } from "../../api/note";
-import { LoadingContext } from "../../Contexts/LoadingProvider";
+import { LoadingContext } from "../../contexts/LoadingProvider";
 
 class CheckboxAllLabel extends React.Component {
   static contextType = LoadingContext;
   state = {
     labelId: null,
   };
-  handleLabelId = (e) => {
+  setLabelId = (e) => {
     this.setState({
       labelId: parseInt(e.target.value),
     });
@@ -16,8 +16,8 @@ class CheckboxAllLabel extends React.Component {
   handleAddLabelToCheckedNote = () => {
     let loadingProvider = this.context;
     Promise.all(
-      this.props.noteProvider.state.checkboxListId.map((note) => {
-        let obj = this.props.noteProvider.state.noteList.find(
+      this.props.noteProvider.checkboxListId.map((note) => {
+        let obj = this.props.noteProvider.noteList.find(
           (item) => item.id === note
         );
         obj.labelNoteId = this.state.labelId;
@@ -25,7 +25,7 @@ class CheckboxAllLabel extends React.Component {
 
         editNote(obj)
           .then((data) => {
-            let currentList = this.props.noteProvider.state.noteList;
+            let currentList = this.props.noteProvider.noteList;
             currentList = currentList.map((item) => {
               if (item.id === data.id) {
                 item.title = data.title;
@@ -55,15 +55,15 @@ class CheckboxAllLabel extends React.Component {
         <select
           name="labelsAll"
           id="labelsAll"
-          onChange={(e) => this.handleLabelId(e)}
+          onChange={(e) => this.setLabelId(e)}
         >
           <option defaultValue="">None Label</option>
-          {this.props.labelProvider.state.labelList.map((item) => {
+          {this.props.labelProvider.labelList.map((item) => {
             return (
               <CheckboxLabel
                 item={item}
                 key={item.id}
-                handleLabelId={this.handleLabelId}
+                setLabelId={this.setLabelId}
               />
             );
           })}

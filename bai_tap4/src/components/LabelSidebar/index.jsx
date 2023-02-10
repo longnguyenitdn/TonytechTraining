@@ -1,12 +1,12 @@
 import React from "react";
-import { LabelContext } from "../../Contexts/LabelProvider";
+import { LabelContext } from "../../contexts/LabelProvider";
 import Label from "../Label";
 class LabelSidebar extends React.Component {
   render() {
     return (
       <LabelContext.Consumer>
         {(provider) =>
-          provider.state.labelList.map((item) => {
+          provider.labelList.map((item) => {
             return <Label key={item.id} item={item} />;
           })
         }

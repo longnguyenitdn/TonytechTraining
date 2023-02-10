@@ -4,25 +4,15 @@ import TakeNote from "../TakeNote";
 import AddNote from "../AddNote";
 
 import CheckboxAllLabel from "../CheckboxAllLabel";
-import { NoteContext } from "../../Contexts/NoteProvider";
-import { LabelContext } from "../../Contexts/LabelProvider";
+import { NoteContext } from "../../contexts/NoteProvider";
+import { LabelContext } from "../../contexts/LabelProvider";
 
 class Body extends React.Component {
-  handleShowData = () => {
-    this.setState({
-      isData: true,
-    });
-  };
-  handleHideData = () => {
-    this.setState({
-      isData: false,
-    });
-  };
   render() {
     return (
       <NoteContext.Consumer>
         {(noteProvider) => {
-          let { isAdd } = noteProvider.state;
+          let { isAdd } = noteProvider;
           return (
             <>
               <div className="cover-body cover body-content-cover">
@@ -36,12 +26,20 @@ class Body extends React.Component {
                         {isAdd === false && <TakeNote />}
                         {isAdd === true && <AddNote />}
                         <div className="labelAll">
-                          {noteProvider.state.isCheckboxAll === true && (
+                          {noteProvider.isCheckboxAll === true && (
                             <LabelContext.Consumer>
                               {(labelProvider) => (
                                 <CheckboxAllLabel
-                                  labelProvider={labelProvider}
-                                  noteProvider={noteProvider}
+                                  labelProvider={{
+                                    labelList: labelProvider.labelList,
+                                  }}
+                                  noteProvider={{
+                                    noteList: noteProvider.noteList,
+                                    checkboxListId: noteProvider.checkboxListId,
+                                    clearCheckboxListId:
+                                      noteProvider.clearCheckboxListId,
+                                    setNoteList: noteProvider.setNoteList,
+                                  }}
                                 />
                               )}
                             </LabelContext.Consumer>
@@ -50,10 +48,7 @@ class Body extends React.Component {
                       </div>
 
                       <div className="display flex-row" id="display">
-                        <Notes
-                          handleShowData={this.handleShowData}
-                          handleHideData={this.handleHideData}
-                        />
+                        <Notes />
                       </div>
                     </div>
                   </div>

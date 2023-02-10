@@ -1,8 +1,8 @@
 import "./App.css";
 import Home from "./home";
-import NoteProvider from "../Contexts/NoteProvider";
-import LabelProvider from "../Contexts/LabelProvider";
-import LoadingProvider from "../Contexts/LoadingProvider";
+import NoteProvider from "../contexts/NoteProvider";
+import LabelProvider from "../contexts/LabelProvider";
+import LoadingProvider from "../contexts/LoadingProvider";
 function App() {
   return (
     <LoadingProvider>

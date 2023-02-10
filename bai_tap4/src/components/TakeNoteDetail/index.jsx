@@ -11,7 +11,7 @@ import { FaThumbtack } from "react-icons/fa";
 import { IoColorPaletteOutline } from "react-icons/io5";
 import TakeNoteDetailIcon from "../TakeNoteDetailIcon";
 import { addNewNote, editNote } from "../../api/note";
-import { LoadingContext } from "../../Contexts/LoadingProvider";
+import { LoadingContext } from "../../contexts/LoadingProvider";
 class TakeNoteDetail extends React.Component {
   static contextType = LoadingContext;
   state = {
@@ -60,13 +60,13 @@ class TakeNoteDetail extends React.Component {
           ...this.props.noteProvider.state.noteList,
         ]);
         // noteList: [note].concat(this.state.noteList)
-        this.props.noteProvider.handleDelayNote(data);
-        this.props.noteProvider.handleIsAdd();
+        this.props.noteProvider.setDelayNote(data);
+        this.props.noteProvider.toggleIsAdd();
 
         setTimeout(() => {
-          this.props.noteProvider.handleDelayClass("delay");
+          this.props.noteProvider.setDelayClass("delay");
           setTimeout(() => {
-            this.props.noteProvider.handleDelayClass("");
+            this.props.noteProvider.setDelayClass("");
           }, 300);
         }, 200);
       })
@@ -94,7 +94,7 @@ class TakeNoteDetail extends React.Component {
         });
         this.props.noteProvider.setNoteList(currentList);
 
-        this.props.noteProvider.handleIsEdit();
+        this.props.noteProvider.toggleIsEdit();
       })
       .catch((error) => {
         console.log(error);
@@ -204,7 +204,7 @@ class TakeNoteDetail extends React.Component {
             <div>
               <button
                 onClick={(e) =>
-                  this.props.noteProvider.handleShowHideOpenDetailModal(
+                  this.props.noteProvider.setOpenDetailModal(
                     e,
                     this.props.noteProvider.state.editNote
                   )

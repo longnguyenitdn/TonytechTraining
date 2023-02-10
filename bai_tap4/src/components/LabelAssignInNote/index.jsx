@@ -1,6 +1,6 @@
 import React from "react";
 import { FcCancel } from "react-icons/fc";
-import { LabelContext } from "../../Contexts/LabelProvider";
+import { LabelContext } from "../../contexts/LabelProvider";
 
 class LabelAssignInNote extends React.Component {
   render() {
@@ -8,7 +8,7 @@ class LabelAssignInNote extends React.Component {
     return (
       <LabelContext.Consumer>
         {(provider) => {
-          const labelNote = provider.state.labelList.find(
+          const labelNote = provider.labelList.find(
             (item) => item.id === labelNoteId
           );
           return (

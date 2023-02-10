@@ -1,7 +1,7 @@
 import React from "react";
 import { CiEraser, CiShoppingTag } from "react-icons/ci";
 import { VscCheckAll } from "react-icons/vsc";
-import { LabelContext } from "../../Contexts/LabelProvider";
+import { LabelContext } from "../../contexts/LabelProvider";
 
 class LabelEditList extends React.Component {
   state = {
@@ -18,7 +18,7 @@ class LabelEditList extends React.Component {
   };
 
   getEditLabelId = (id) => {
-    this.props.handleShowEditBtnFunc();
+    this.props.showEditBtn();
     this.setState({
       editLabel: {
         id: id,
@@ -39,7 +39,7 @@ class LabelEditList extends React.Component {
                 >
                   <button
                     onClick={() =>
-                      this.props.handleShowHideDeleteConfirmFunc(label.id)
+                      this.props.toggleShowHideDeleteConfirm(label.id)
                     }
                     className="button-icon cursor"
                   >

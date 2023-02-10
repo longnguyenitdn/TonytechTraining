@@ -1,6 +1,6 @@
 import React from "react";
 import { editNote } from "../../api/note";
-import { LoadingContext } from "../../Contexts/LoadingProvider";
+import { LoadingContext } from "../../contexts/LoadingProvider";
 
 class LabelInNote extends React.Component {
   static contextType = LoadingContext;
@@ -38,11 +38,8 @@ class LabelInNote extends React.Component {
     e.stopPropagation();
 
     if (e.target.checked) {
-      // this.props.handleLabelId(e.target.id);
       this.handleAddLabelToNote(e, note);
     } else {
-      // this.props.handleLabelId(null);
-
       this.props.handleRemoveLabelFromNote(e, note);
     }
   };
