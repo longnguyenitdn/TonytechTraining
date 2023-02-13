@@ -22,7 +22,7 @@ class TakeNoteDetail extends React.Component {
   };
   wrapperRef = React.createRef();
   componentDidMount() {
-    let newState = this.props.noteProvider.state;
+    let newState = this.props.noteProvider;
     if (newState.isEdit) {
       this.setState({
         id: newState.editNote.id,
@@ -52,16 +52,16 @@ class TakeNoteDetail extends React.Component {
 
   handleAddNewNote = (note) => {
     let loadingProvider = this.context;
-    loadingProvider.setLoading(true);
+    loadingProvider.setStatusLoading(true);
     addNewNote(note)
       .then((data) => {
         this.props.noteProvider.setNoteList([
           data,
-          ...this.props.noteProvider.state.noteList,
+          ...this.props.noteProvider.noteList,
         ]);
         // noteList: [note].concat(this.state.noteList)
         this.props.noteProvider.setDelayNote(data);
-        this.props.noteProvider.toggleIsAdd();
+        this.props.noteProvider.setIsAdd(false);
 
         setTimeout(() => {
           this.props.noteProvider.setDelayClass("delay");
@@ -74,16 +74,16 @@ class TakeNoteDetail extends React.Component {
         console.log(error);
       })
       .finally(() => {
-        loadingProvider.setLoading(false);
+        loadingProvider.setStatusLoading(false);
       });
   };
 
   handleEditNote = (note) => {
     let loadingProvider = this.context;
-    loadingProvider.setLoading(true);
+    loadingProvider.setStatusLoading(true);
     editNote(note)
       .then((note) => {
-        let currentList = this.props.noteProvider.state.noteList;
+        let currentList = this.props.noteProvider.noteList;
         currentList = currentList.map((item) => {
           if (item.id === note.id) {
             item.title = note.title;
@@ -94,13 +94,13 @@ class TakeNoteDetail extends React.Component {
         });
         this.props.noteProvider.setNoteList(currentList);
 
-        this.props.noteProvider.toggleIsEdit();
+        this.props.noteProvider.setIsEdit();
       })
       .catch((error) => {
         console.log(error);
       })
       .finally(() => {
-        loadingProvider.setLoading(false);
+        loadingProvider.setStatusLoading(false);
       });
   };
 
@@ -111,7 +111,7 @@ class TakeNoteDetail extends React.Component {
         return;
       } else {
         let { id, title, content, labelNoteId } = this.state;
-        if (this.props.noteProvider.state.isEdit) {
+        if (this.props.noteProvider.isEdit) {
           this.handleEditNote({
             id,
             title,
@@ -141,9 +141,7 @@ class TakeNoteDetail extends React.Component {
           ref={this.wrapperRef}
           id="input_note_detail"
           className={`take-note-detail ${
-            this.props.noteProvider.state.isEdit
-              ? this.props.editModalClass
-              : ""
+            this.props.noteProvider.isEdit ? this.props.editModalClass : ""
           }`}
         >
           <div className="flex-row flex-bet align-center">
@@ -206,7 +204,7 @@ class TakeNoteDetail extends React.Component {
                 onClick={(e) =>
                   this.props.noteProvider.setOpenDetailModal(
                     e,
-                    this.props.noteProvider.state.editNote
+                    this.props.noteProvider.editNote
                   )
                 }
                 id="close_detail_modal"

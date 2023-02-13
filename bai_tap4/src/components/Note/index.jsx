@@ -63,7 +63,7 @@ class Note extends React.Component {
     this.setState({
       isOpenNoteOption: !this.state.isOpenNoteOption,
     });
-    this.props.noteProvider.setNoteOption(id);
+    this.props.noteProvider.setOptionId(id);
   };
   setBtnCheckAll = (e, noteId) => {
     e.stopPropagation();

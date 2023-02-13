@@ -30,7 +30,7 @@ class Notes extends React.Component {
                       noteProvider={{
                         noteList: noteProvider.noteList,
                         setNoteList: noteProvider.setNoteList,
-                        setNoteOption: noteProvider.setNoteOption,
+                        setOptionId: noteProvider.setOptionId,
                         checkboxListId: noteProvider.checkboxListId,
                         setCheckboxAll: noteProvider.setCheckboxAll,
                         setCheckboxListId: noteProvider.setCheckboxListId,

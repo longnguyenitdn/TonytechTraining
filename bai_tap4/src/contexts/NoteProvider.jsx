@@ -47,6 +47,9 @@ const NoteProvider = (props) => {
   return (
     <NoteContext.Provider
       value={{
+        editNote: editNote,
+        isEdit: isEdit,
+        isAdd: isAdd,
         checkboxListId: checkboxListId,
         delayClass: delayClass,
         delayNote: delayNote,
