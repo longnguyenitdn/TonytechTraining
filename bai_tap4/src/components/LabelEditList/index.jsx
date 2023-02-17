@@ -31,7 +31,7 @@ class LabelEditList extends React.Component {
       <LabelContext.Consumer>
         {(provider) => (
           <>
-            {provider.state.labelList.map((label) => {
+            {provider.labelList.map((label) => {
               return (
                 <div
                   key={label.id}

@@ -16,7 +16,7 @@ class Label extends React.Component {
                 provider.activeId === String(label.id) ? "active" : ""
               }`}
               onClick={(e) => {
-                provider.setActiveSidebarMenu(e);
+                provider.setactiveId(e.target.id);
               }}
             >
               <button className=" button-icon sidebar-btn cursor avoid-clicks">

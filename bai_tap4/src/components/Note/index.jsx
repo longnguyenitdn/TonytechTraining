@@ -28,7 +28,7 @@ class Note extends React.Component {
       labelNoteId: null,
     };
 
-    loadingProvider.setLoading(true);
+    loadingProvider.setStatusLoading(true);
 
     editNote(obj)
       .then((data) => {
@@ -46,7 +46,7 @@ class Note extends React.Component {
         console.log(error);
       })
       .finally(() => {
-        loadingProvider.setLoading(false);
+        loadingProvider.setStatusLoading(false);
       });
   };
 
@@ -65,9 +65,10 @@ class Note extends React.Component {
     });
     this.props.noteProvider.setOptionId(id);
   };
+
   setBtnCheckAll = (e, noteId) => {
     e.stopPropagation();
-    let currentList = this.props.noteProvider.checkboxListId;
+    let currentList = this.props.checkboxListId;
 
     let isExist = currentList.some((item) => item === noteId);
 
@@ -77,12 +78,7 @@ class Note extends React.Component {
       currentList.push(noteId);
     }
 
-    if (currentList.length !== 0) {
-      this.props.noteProvider.setCheckboxAll(true);
-    } else {
-      this.props.noteProvider.setCheckboxAll(false);
-    }
-    this.props.noteProvider.setCheckboxListId(currentList);
+    this.props.setCheckboxListId(currentList);
   };
   render() {
     const item = this.props.item;
@@ -98,13 +94,12 @@ class Note extends React.Component {
             >
               <div
                 className={`note ${
-                  provider.checkboxListId.includes(item.id) ? "checked" : ""
+                  this.props.checkboxListId.includes(item.id) ? "checked" : ""
                 }`}
               >
                 <div className="note-wrap">
                   <button
                     className="btn-checkAll btn-bg cursor"
-                    id={item.id}
                     onClick={(e) => this.setBtnCheckAll(e, item.id)}
                   >
                     <AiOutlineCheck
@@ -159,6 +154,8 @@ class Note extends React.Component {
                   <NoteOption
                     provider={provider}
                     noteId={item.id}
+                    checkboxListId={this.props.checkboxListId}
+                    setCheckboxListId={this.props.setCheckboxListId}
                     onClickOpenNoteOption={this.onClickOpenNoteOption}
                     toggleShowHideLabelNote={this.toggleShowHideLabelNote}
                   />

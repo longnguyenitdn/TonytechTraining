@@ -1,0 +1,20 @@
+.add-new{
+   padding: 20px;
+   label{
+      color: white;
+      padding: 10px 0;
+      font-size: 20px;
+      font-weight: bold;
+   }
+   input{
+      background-color: transparent;
+      border: 1px solid #F17B77;
+      width: 300px;
+   }
+}
+.btn-add-new-house{
+   border-radius: 5px;
+   color: white;
+   background-color:#F17B77;
+   border: none;
+}

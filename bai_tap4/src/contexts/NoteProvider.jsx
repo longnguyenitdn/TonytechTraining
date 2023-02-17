@@ -2,7 +2,6 @@ import React from "react";
 import { useEffect } from "react";
 import { useState, createContext, useContext } from "react";
 import { getNote } from "../api/note";
-import Home from "../pages/home";
 import { LoadingContext } from "./LoadingProvider";
 export const NoteContext = createContext();
 const NoteProvider = (props) => {
@@ -14,8 +13,6 @@ const NoteProvider = (props) => {
   const [optionId, setOptionId] = useState(null);
   const [delayClass, setDelayClass] = useState("");
   const [delayNote, setDelayNote] = useState({});
-  const [isCheckboxAll, setIsCheckboxAll] = useState(false);
-  const [checkboxListId, setCheckboxListId] = useState([]);
 
   useEffect(() => {
     loadingProvider.setStatusLoading(true);
@@ -29,7 +26,8 @@ const NoteProvider = (props) => {
       .finally(() => {
         loadingProvider.setStatusLoading(false);
       });
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const setOpenDetailModal = (e, item = null) => {
     e?.stopPropagation();
 
@@ -40,9 +38,6 @@ const NoteProvider = (props) => {
       setIsAdd(false);
     }
   };
-  const clearCheckboxListId = () => {
-    setCheckboxListId([]);
-  };
 
   return (
     <NoteContext.Provider
@@ -50,21 +45,17 @@ const NoteProvider = (props) => {
         editNote: editNote,
         isEdit: isEdit,
         isAdd: isAdd,
-        checkboxListId: checkboxListId,
         delayClass: delayClass,
         delayNote: delayNote,
         noteList: noteList,
-        isEdit: isEdit,
+        optionId: optionId,
         setNoteList: setNoteList,
-        setIsCheckboxAll: setIsCheckboxAll,
         setIsAdd: setIsAdd,
         setIsEdit: setIsEdit,
         setDelayClass: setDelayClass,
         setDelayNote: setDelayNote,
         setOpenDetailModal: setOpenDetailModal,
-        clearCheckboxListId: clearCheckboxListId,
         setOptionId: setOptionId,
-        setCheckboxListId: setCheckboxListId,
       }}
     >
       {props.children}

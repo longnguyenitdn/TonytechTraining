@@ -1,0 +1,32 @@
+.body-container{
+   height: calc(100vh - 53px);
+   background-color: #64A587;
+   h3{
+      margin: 0;
+      padding:10px 0 0 0;
+      color: #446B50;
+   }
+}
+.body-content{
+   
+   height: fit-content;
+   flex-wrap: wrap;
+   margin: 10px 0;
+}
+.body-content-cover{
+   overflow: hidden;
+
+   margin: 0 10px;
+   position: relative;
+   border: 3px solid #F17B77;
+   border-radius: 10px;
+   height: 92%;
+  
+}
+.btn-add-house{
+   position: absolute;
+   right: 20px;
+   bottom: 20px;
+   font-size: 40px;
+   fill: #F17B77;
+}

@@ -8,6 +8,14 @@ import { NoteContext } from "../../contexts/NoteProvider";
 import { LabelContext } from "../../contexts/LabelProvider";
 
 class Body extends React.Component {
+  state = {
+    checkboxListId: [],
+  };
+  setCheckboxListId = (list) => {
+    this.setState({
+      checkboxListId: list,
+    });
+  };
   render() {
     return (
       <NoteContext.Consumer>
@@ -25,30 +33,31 @@ class Body extends React.Component {
                       <div className="detail-note">
                         {isAdd === false && <TakeNote />}
                         {isAdd === true && <AddNote />}
-                        <div className="labelAll">
-                          {noteProvider.isCheckboxAll === true && (
-                            <LabelContext.Consumer>
-                              {(labelProvider) => (
-                                <CheckboxAllLabel
-                                  labelProvider={{
-                                    labelList: labelProvider.labelList,
-                                  }}
-                                  noteProvider={{
-                                    noteList: noteProvider.noteList,
-                                    checkboxListId: noteProvider.checkboxListId,
-                                    clearCheckboxListId:
-                                      noteProvider.clearCheckboxListId,
-                                    setNoteList: noteProvider.setNoteList,
-                                  }}
-                                />
-                              )}
-                            </LabelContext.Consumer>
-                          )}
-                        </div>
                       </div>
-
+                      <div className="labelAll">
+                        {this.state.checkboxListId.length !== 0 && (
+                          <LabelContext.Consumer>
+                            {(labelProvider) => (
+                              <CheckboxAllLabel
+                                labelProvider={{
+                                  labelList: labelProvider.labelList,
+                                }}
+                                checkboxListId={this.state.checkboxListId}
+                                setCheckboxListId={this.setCheckboxListId}
+                                noteProvider={{
+                                  noteList: noteProvider.noteList,
+                                  setNoteList: noteProvider.setNoteList,
+                                }}
+                              />
+                            )}
+                          </LabelContext.Consumer>
+                        )}
+                      </div>
                       <div className="display flex-row" id="display">
-                        <Notes />
+                        <Notes
+                          checkboxListId={this.state.checkboxListId}
+                          setCheckboxListId={this.setCheckboxListId}
+                        />
                       </div>
                     </div>
                   </div>

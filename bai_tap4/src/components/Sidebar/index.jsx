@@ -8,7 +8,6 @@ import SidebarText from "../SidebarText";
 import SidebarEditLabelModal from "../SidebarEditLabelModal";
 import { LabelContext } from "../../contexts/LabelProvider";
 import { useContext, useState } from "react";
-import { NoteContext } from "../../contexts/NoteProvider";
 const Sidebar = () => {
   const labelProvider = useContext(LabelContext);
   const [isEditLabelModal, setIsEditLabelModal] = useState(false);
@@ -29,7 +28,7 @@ const Sidebar = () => {
               labelProvider.activeId === "sidebar_btn_note" ? "active" : ""
             }`}
             onClick={(e) => {
-              labelProvider.setactiveId(e);
+              labelProvider.setactiveId(e.target.id);
             }}
           >
             <SidebarIcon>
@@ -43,7 +42,7 @@ const Sidebar = () => {
               labelProvider.activeId === "sidebar_btn_reminder" ? "active" : ""
             }`}
             onClick={(e) => {
-              labelProvider.setactiveId(e);
+              labelProvider.setactiveId(e.target.id);
             }}
           >
             <SidebarIcon>
@@ -53,7 +52,7 @@ const Sidebar = () => {
           </div>
           <div id="labels" className="sidebar-labels flex-col"></div>
           <div
-            onClick={() => this.setShowHideEditLabelModal()}
+            onClick={() => setIsEditLabelModal(true)}
             className="flex-row sidebar-row align-center cursor active-menu"
           >
             <SidebarIcon>
@@ -68,7 +67,7 @@ const Sidebar = () => {
               labelProvider.activeId === "sidebar_btn_archive" ? "active" : ""
             }`}
             onClick={(e) => {
-              labelProvider.setactiveId(e);
+              labelProvider.setactiveId(e.target.id);
             }}
           >
             <SidebarIcon>
@@ -82,7 +81,7 @@ const Sidebar = () => {
               labelProvider.activeId === "sidebar_btn_trash" ? "active" : ""
             }`}
             onClick={(e) => {
-              labelProvider.setactiveId(e);
+              labelProvider.setactiveId(e.target.id);
             }}
           >
             <SidebarIcon>
@@ -131,7 +130,7 @@ export default Sidebar;
 //                         : ""
 //                     }`}
 //                     onClick={(e) => {
-//                       labelProvider.setactiveId(e);
+//                       labelProvider.setactiveId(e.target.id);
 //                     }}
 //                   >
 //                     <SidebarIcon>
@@ -147,7 +146,7 @@ export default Sidebar;
 //                         : ""
 //                     }`}
 //                     onClick={(e) => {
-//                       labelProvider.setactiveId(e);
+//                       labelProvider.setactiveId(e.target.id);
 //                     }}
 //                   >
 //                     <SidebarIcon>
@@ -174,7 +173,7 @@ export default Sidebar;
 //                         : ""
 //                     }`}
 //                     onClick={(e) => {
-//                       labelProvider.setactiveId(e);
+//                       labelProvider.setactiveId(e.target.id);
 //                     }}
 //                   >
 //                     <SidebarIcon>
@@ -190,7 +189,7 @@ export default Sidebar;
 //                         : ""
 //                     }`}
 //                     onClick={(e) => {
-//                       labelProvider.setactiveId(e);
+//                       labelProvider.setactiveId(e.target.id);
 //                     }}
 //                   >
 //                     <SidebarIcon>

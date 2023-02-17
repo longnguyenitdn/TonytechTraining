@@ -14,7 +14,7 @@ class Header extends React.Component {
       <div className="cover-header cover">
         <div className="header-content flex-row flex-bet align-center max-width99">
           <div className="flex-row header-left align-center">
-            <div className="flex-row flex-around align-center">
+            <div className="header-left flex-row flex-around align-center">
               <button
                 id="header_menu_icon"
                 className="header-icon cursor btn-bg"

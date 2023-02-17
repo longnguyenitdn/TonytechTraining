@@ -10,11 +10,11 @@ class LabelInNote extends React.Component {
       ...note,
       labelNoteId: parseInt(e.target.id),
     };
-    loadingProvider.setLoading(true);
+    loadingProvider.setStatusLoading(true);
 
     editNote(obj)
       .then((data) => {
-        let currentList = this.props.noteProvider.state.noteList;
+        let currentList = this.props.noteProvider.noteList;
         currentList = currentList.map((item) => {
           if (item.id === data.id) {
             item.title = data.title;
@@ -30,7 +30,7 @@ class LabelInNote extends React.Component {
         console.log(error);
       })
       .finally(() => {
-        loadingProvider.setLoading(false);
+        loadingProvider.setStatusLoading(false);
       });
   };
 

@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { useState, createContext, useContext } from "react";
 import { getLabel } from "../api/label";
 import { LoadingContext } from "./LoadingProvider";
-import NoteProvider from "./NoteProvider";
 export const LabelContext = createContext();
 const LabelProvider = (props) => {
   const loadingProvider = useContext(LoadingContext);
@@ -23,7 +22,7 @@ const LabelProvider = (props) => {
       .finally(() => {
         loadingProvider.setStatusLoading(false);
       });
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <LabelContext.Provider
@@ -55,7 +54,7 @@ export default LabelProvider;
 //   };
 //   componentDidMount() {
 //     let provider = this.context;
-//     provider.setLoading(true);
+//     provider.setStatusLoading(true);
 //     getLabel()
 //       .then((data) => {
 //         this.setState({
@@ -66,7 +65,7 @@ export default LabelProvider;
 //         console.log(error);
 //       })
 //       .finally(() => {
-//         provider.setLoading(false);
+//         provider.setStatusLoading(false);
 //       });
 //   }
 

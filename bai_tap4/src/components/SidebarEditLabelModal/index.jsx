@@ -42,11 +42,10 @@ class SidebarEditLabelModal extends React.Component {
   };
 
   checkBeforeAddNewLabel = () => {
-    let provider = this.props.labelProvider;
     let isExist = false;
     if (this.state.label.name !== "") {
-      if (provider.labelList.length !== 0) {
-        isExist = provider.labelList.some(
+      if (this.props.labelList.length !== 0) {
+        isExist = this.props.labelList.some(
           (node) => node.name === this.state.label.name
         );
       }
@@ -64,30 +63,27 @@ class SidebarEditLabelModal extends React.Component {
 
   handleAddNewLabel = (label) => {
     let loadingProvider = this.context;
-    loadingProvider.setLoading(true);
+    loadingProvider.setStatusLoading(true);
     addNewLabel(label)
       .then((data) => {
-        this.props.labelProvider.setLabelList([
-          data,
-          ...this.props.labelProvider.labelList,
-        ]);
+        this.props.setLabelList([data, ...this.props.labelList]);
       })
       .catch((error) => {
         console.log(error);
       })
       .finally(() => {
-        loadingProvider.setLoading(false);
+        loadingProvider.setStatusLoading(false);
       });
   };
 
   handleDeleteLabel = (id) => {
     let loadingProvider = this.context;
-    loadingProvider.setLoading(true);
+    loadingProvider.setStatusLoading(true);
     deleteLabel(id)
       .then(() => {
-        let currentList = this.props.labelProvider.labelList;
+        let currentList = this.props.labelList;
         currentList = currentList.filter((item) => item.id !== id);
-        this.props.labelProvider.setLabelList(currentList);
+        this.props.setLabelList(currentList);
         this.setState({
           deleteConfirm: false,
         });
@@ -96,14 +92,14 @@ class SidebarEditLabelModal extends React.Component {
         console.log(error);
       })
       .finally(() => {
-        loadingProvider.setLoading(false);
+        loadingProvider.setStatusLoading(false);
       });
   };
 
   handleEditLabel = (label) => {
     let loadingProvider = this.context;
     let isExist = false;
-    isExist = this.props.labelProvider.labelList.some((item) => {
+    isExist = this.props.labelList.some((item) => {
       if (label.name === item.name) {
         if (item.id !== label.id) {
           this.setState({
@@ -117,10 +113,10 @@ class SidebarEditLabelModal extends React.Component {
     });
 
     if (!isExist) {
-      loadingProvider.setLoading(true);
+      loadingProvider.setStatusLoading(true);
       editLabel(label)
         .then(() => {
-          let currentList = this.props.labelProvider.labelList;
+          let currentList = this.props.labelList;
           currentList = currentList.map((item) => {
             if (item.id === label.id) {
               item.name = label.name;
@@ -138,7 +134,7 @@ class SidebarEditLabelModal extends React.Component {
           console.log(error);
         })
         .finally(() => {
-          loadingProvider.setLoading(false);
+          loadingProvider.setStatusLoading(false);
         });
     }
   };
@@ -218,7 +214,7 @@ class SidebarEditLabelModal extends React.Component {
                 </p>
               )}
               <button
-                onClick={() => this.props.setShowHideEditLabelModal()}
+                onClick={() => this.props.setIsEditLabelModal(false)}
                 className="btn-close button-icon text-black cursor"
               >
                 Done

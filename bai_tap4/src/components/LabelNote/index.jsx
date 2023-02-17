@@ -46,7 +46,7 @@ class LabelNote extends React.Component {
               />
             </div>
             <div className="handle-label-list flex-col">
-              {labelProvider.state.labelList.map((item) => {
+              {labelProvider.labelList.map((item) => {
                 return (
                   <LabelInNote
                     noteProvider={this.props.noteProvider}

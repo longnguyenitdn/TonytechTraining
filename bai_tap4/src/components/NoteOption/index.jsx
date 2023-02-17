@@ -22,21 +22,24 @@ class NoteOption extends React.Component {
   handleDeleleNote = (id, e) => {
     let loadingProvider = this.context;
     e?.stopPropagation();
-    loadingProvider.setLoading(true);
+    loadingProvider.setStatusLoading(true);
 
     deleteNote(id)
       .then(() => {
-        let currentList = this.props.provider.state.noteList;
+        let currentList = this.props.provider.noteList;
         currentList = currentList.filter((item) => item.id !== id);
         this.props.provider.setNoteList(currentList);
-        this.props.provider.setNoteOption(null);
+        this.props.provider.setOptionId(null);
         this.props.toggleShowHideLabelNote(e);
+        this.props.setCheckboxListId(
+          this.props.checkboxListId.filter((item) => item !== id)
+        );
       })
       .catch((error) => {
         console.log(error);
       })
       .finally(() => {
-        loadingProvider.setLoading(false);
+        loadingProvider.setStatusLoading(false);
       });
   };
   render() {
@@ -45,7 +48,7 @@ class NoteOption extends React.Component {
         <div className="note-option  bg-white ">
           <p
             onClick={(e) =>
-              this.handleDeleleNote(this.props.provider.state.optionId, e)
+              this.handleDeleleNote(this.props.provider.optionId, e)
             }
           >
             Delete note

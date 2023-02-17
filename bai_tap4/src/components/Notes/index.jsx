@@ -27,13 +27,13 @@ class Notes extends React.Component {
                     <Note
                       key={item.id}
                       item={item}
+                      checkboxListId={this.props.checkboxListId}
+                      setCheckboxListId={this.props.setCheckboxListId}
                       noteProvider={{
                         noteList: noteProvider.noteList,
                         setNoteList: noteProvider.setNoteList,
                         setOptionId: noteProvider.setOptionId,
-                        checkboxListId: noteProvider.checkboxListId,
-                        setCheckboxAll: noteProvider.setCheckboxAll,
-                        setCheckboxListId: noteProvider.setCheckboxListId,
+                        setIsCheckboxAll: noteProvider.setIsCheckboxAll,
                       }}
                     />
                   );

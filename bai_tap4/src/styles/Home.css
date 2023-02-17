@@ -156,10 +156,7 @@
    background-color: red;
 }
 
-.labelAll {
-   position: absolute;
-   bottom: -55px;
-}
+
 .checked{
    border: 3px solid rgb(206, 206, 206) !important;
 }
@@ -253,6 +250,9 @@ body {
    width: 32vw;
    border: none;
    outline: none;
+}
+.header-left{
+width: 180px;
 }
 
 .header-tool {

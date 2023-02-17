@@ -16,12 +16,12 @@ class CheckboxAllLabel extends React.Component {
   handleAddLabelToCheckedNote = () => {
     let loadingProvider = this.context;
     Promise.all(
-      this.props.noteProvider.checkboxListId.map((note) => {
+      this.props.checkboxListId.map((note) => {
         let obj = this.props.noteProvider.noteList.find(
           (item) => item.id === note
         );
         obj.labelNoteId = this.state.labelId;
-        loadingProvider.setLoading(true);
+        loadingProvider.setStatusLoading(true);
 
         editNote(obj)
           .then((data) => {
@@ -41,11 +41,11 @@ class CheckboxAllLabel extends React.Component {
             console.log(error);
           })
           .finally(() => {
-            loadingProvider.setLoading(false);
+            loadingProvider.setStatusLoading(false);
           });
         return note;
       })
-    ).then(this.props.noteProvider.clearCheckboxListId());
+    ).then(this.props.setCheckboxListId([]));
   };
   render() {
     return (
