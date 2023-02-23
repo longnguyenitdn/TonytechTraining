@@ -26,10 +26,25 @@ align-items: center;
    height:100%;
    font-family: Arial, Helvetica, sans-serif;
 }
-
+.input-style{
+   
+      outline: none;
+      border: none;
+      border-radius: 5px;
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+   padding: 3px 5px;
+   
+}
+body{
+   margin: 0
+}
 @import "../component/header.scss";
 @import "../component/body.scss";
 @import "../component/house.scss";
 @import "../component/addNew.scss";
-@import "bootstrap/dist/css/bootstrap.min.css";
-@import "../component/editHouse.scss"
+@import "../component/editHouse.scss";
+@import "../component/loading.scss";
+@import "../component/invoice.scss";
+@import "../component/invoiceDetail.scss";
+@import "../component/newInvoice.scss";
+@import "../component/editInvoice.scss";

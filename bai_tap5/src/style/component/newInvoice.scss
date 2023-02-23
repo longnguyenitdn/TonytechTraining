@@ -1,0 +1,63 @@
+.new-invoice{
+   height: 100%;
+   position: relative;
+   padding: 10px 0;
+      background-color: #F7C0AA;
+       ul{
+         padding: 0 25px;
+         li{
+            padding: 10px 5px;
+            margin-left: 15px;
+            list-style-type: none;
+            color: #446B50;
+            font-weight: 600;
+            p{
+               margin: 5px 0;
+            }
+            div{
+               display: flex;
+            justify-content: space-between;
+            .input-style{
+               input{
+                  outline: none;
+                  border: none;
+                  border-radius: 5px;
+                  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+               
+               }
+            }
+            }
+         }
+       }
+       .btn-create-invoice{
+         button{
+            color: white;
+            background-color: #F17B77;
+            padding: 10px;
+            font-size: 15px;
+            border: none;
+            border-radius: 8px;
+         }
+       }
+       h4{
+         text-align: center;
+         color: red;
+       }
+}
+.new-invoice-logo{
+   background-color: #F7C0AA ;
+   margin-top: 20px;
+   h2{
+      margin: 0;
+      color: #F17B77;
+   }
+   h3{
+      margin: 0;
+      color: #F17B77;
+   }
+   .new-invoice-icon{
+      font-size: 25px;
+      margin-right: 10px;
+      fill: #64A587;
+   }
+}

@@ -1,17 +1,17 @@
 import React from "react";
 import { useState, createContext, useContext, useEffect } from "react";
-import { getHouse } from "../api/house";
+import { getInvoice } from "../api/invoice";
 import { LoadingContext } from "./LoadingProvider";
-export const HouseContext = createContext();
-const HouseProvider = (props) => {
+export const InvoiceContext = createContext();
+const InvoiceProvider = (props) => {
   const loadingProvider = useContext(LoadingContext);
-  const [houseList, setHouseList] = useState([]);
+  const [invoiceList, setInvoiceList] = useState([]);
 
   useEffect(() => {
     loadingProvider.setStatusLoading(true);
-    getHouse()
+    getInvoice()
       .then((data) => {
-        setHouseList(data);
+        setInvoiceList(data);
       })
       .catch((error) => {
         console.log(error);
@@ -22,14 +22,14 @@ const HouseProvider = (props) => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <HouseContext.Provider
+    <InvoiceContext.Provider
       value={{
-        houseList: houseList,
-        setHouseList: setHouseList,
+        invoiceList: invoiceList,
+        setInvoiceList: setInvoiceList,
       }}
     >
       {props.children}
-    </HouseContext.Provider>
+    </InvoiceContext.Provider>
   );
 };
-export default HouseProvider;
+export default InvoiceProvider;

@@ -1,4 +1,5 @@
 .header-logo-container{
+   position: relative;
 padding: 10px 0;
    background-color: #F7C0AA
 }
@@ -8,8 +9,21 @@ padding: 10px 0;
 width: 50px;
 padding-right: 20px;
    }
+   h2{
+      margin: 0;
+      color: #F17B77;
+   }
    h1{
       margin: 0;
       color: #F17B77;
    }
+}
+.back-house-icon{
+   position: absolute;
+   top: 12px;
+   left: 7px;
+   color: #446B50;
+   font-size: 25px;
+   background-color: transparent;
+   border: none;
 }

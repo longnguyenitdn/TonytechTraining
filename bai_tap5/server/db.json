@@ -1,16 +1,29 @@
 {
   "houses": [
     {
-      "name": "3",
+      "name": "long",
       "id": 1
     },
     {
-      "name": "2",
+      "name": "chuột",
       "id": 2
+    }
+  ],
+  "invoices": [
+    {
+      "typeOfInvoice": "Nước",
+      "expireDay": "1-2-2034",
+      "amount": 1000000,
+      "status": "false",
+      "houseId": 2,
+      "id": 1
     },
     {
-      "name": "1",
-      "id": 3
+      "id": 2,
+      "expireDay": "1-2-2034",
+      "typeOfInvoice": "Điện",
+      "amount": 1,
+      "status": "true"
     }
   ]
 }

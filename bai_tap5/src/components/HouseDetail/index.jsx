@@ -2,25 +2,28 @@ import React, { useContext, useState, useEffect } from "react";
 import { BsHouse, BsFillTrashFill } from "react-icons/bs";
 import { HouseContext } from "../../contexts/HouseProvider";
 import { FaPencilAlt } from "react-icons/fa";
+import { TiArrowBack } from "react-icons/ti";
 import { GiCheckMark } from "react-icons/gi";
 import { deleteHouse, editHouse } from "../../api/house";
 import { LoadingContext } from "../../contexts/LoadingProvider";
-import { Link } from "react-router-dom";
-
-const EditHouse = () => {
-  const houseProvider = useContext(HouseContext);
+import { Link, useNavigate, useParams } from "react-router-dom";
+import Loading from "../Loading";
+import { Outlet } from "react-router-dom";
+const HouseDetail = (props) => {
   const loadingProvider = useContext(LoadingContext);
   const [editHouseTemp, setEditHouseTemp] = useState({});
   const [houseStatus, setHouseStatus] = useState(false);
+  const { houseId } = useParams();
+  const goBack = useNavigate();
+  const houseProvider = useContext(HouseContext);
 
-  const currentHouse = houseProvider.houseList.find(
-    (item) => item.id === houseProvider.houseId
+  useEffect(
+    () =>
+      setEditHouseTemp(
+        houseProvider.houseList.find((item) => item.id === parseInt(houseId))
+      ),
+    [houseProvider.houseList, houseId]
   );
-
-  useEffect(() => {
-    setEditHouseTemp(currentHouse);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   const handleRemoveHouse = (id) => {
     loadingProvider.setStatusLoading(true);
     deleteHouse(id)
@@ -28,7 +31,6 @@ const EditHouse = () => {
         let currentList = houseProvider.houseList;
         currentList = currentList.filter((item) => item.id !== id);
         houseProvider.setHouseList(currentList);
-        houseProvider.setHouseId(null);
       })
       .catch((error) => {
         console.log(error);
@@ -68,14 +70,20 @@ const EditHouse = () => {
     <>
       <div className="container t-cen header-logo-container">
         <div className="header-logo f-row f-cen">
+          <button onClick={() => goBack(-1)} className="back-house-icon">
+            <TiArrowBack />
+          </button>
           <BsHouse className="edit-house-icon" />
-          <h1>House's Infomation</h1>
+          <h2>House's Infomation</h2>
         </div>
       </div>
-      <div className="container body-container">
+      <div className="edit-container body-container">
+        <div hidden={loadingProvider.statusLoading === false}>
+          <Loading />
+        </div>
         <div className="body-bar f-row f-cen f-around">
           <Link to={"/"}>
-            <button onClick={() => handleRemoveHouse(currentHouse.id)}>
+            <button onClick={() => handleRemoveHouse(editHouseTemp.id)}>
               <BsFillTrashFill />
             </button>
           </Link>
@@ -86,7 +94,7 @@ const EditHouse = () => {
               onChange={(e) => setHouseTempBeforeEdit(e)}
               id="houseName"
               type="text"
-              defaultValue={`${currentHouse.name}`}
+              value={`${editHouseTemp?.name}`}
               className="t-cen"
             />
           </div>
@@ -103,9 +111,10 @@ const EditHouse = () => {
             <div className="body-invoiceType t-cen">Nước</div>
             <div className="body-invoiceType t-cen">Internet</div>
           </div>
+          <Outlet />
         </div>
       </div>
     </>
   );
 };
-export default EditHouse;
+export default HouseDetail;

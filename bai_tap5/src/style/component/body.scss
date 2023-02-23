@@ -1,9 +1,9 @@
 .body-container{
-   height: calc(100vh - 53px);
+   height: calc(100vh - 70px);
    background-color: #64A587;
    h3{
       margin: 0;
-      padding:10px 0 0 0;
+      padding:5px 0 5px 0;
       color: #446B50;
    }
 }
@@ -11,7 +11,7 @@
    
    height: fit-content;
    flex-wrap: wrap;
-   margin: 10px 0;
+   margin: 10px 14px;
 }
 .body-content-cover{
    overflow: hidden;
