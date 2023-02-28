@@ -1,29 +1,82 @@
 {
   "houses": [
     {
-      "name": "long",
+      "name": "dfg",
       "id": 1
-    },
-    {
-      "name": "chuột",
-      "id": 2
     }
   ],
   "invoices": [
     {
-      "typeOfInvoice": "Nước",
+      "id": 1,
       "expireDay": "1-2-2034",
+      "typeOfInvoice": "Internet",
       "amount": 1000000,
-      "status": "false",
-      "houseId": 2,
-      "id": 1
+      "status": false,
+      "houseId": 1
     },
     {
       "id": 2,
       "expireDay": "1-2-2034",
+      "typeOfInvoice": "Internet",
+      "amount": 123,
+      "status": false,
+      "houseId": 1
+    },
+    {
+      "typeOfInvoice": "Internet",
+      "expireDay": "1-2-2034",
+      "amount": 2342,
+      "status": false,
+      "houseId": 1,
+      "id": 3
+    },
+    {
       "typeOfInvoice": "Điện",
+      "expireDay": "1-2-2034",
+      "amount": 143123,
+      "status": true,
+      "houseId": 1,
+      "id": 4
+    },
+    {
+      "typeOfInvoice": "Điện",
+      "expireDay": "1-2-2050",
+      "amount": 2000,
+      "status": true,
+      "houseId": 1,
+      "id": 5
+    },
+    {
+      "typeOfInvoice": "Nước",
+      "expireDay": "1-2-2050",
+      "amount": 1000000,
+      "status": false,
+      "houseId": 1,
+      "id": 6
+    },
+    {
+      "typeOfInvoice": "Nước",
+      "expireDay": "2-2-2024",
       "amount": 1,
-      "status": "true"
+      "status": false,
+      "houseId": 1,
+      "id": 7
+    },
+    {
+      "typeOfInvoice": "Điện",
+      "expireDay": "2-2-2024",
+      "amount": 3423,
+      "status": true,
+      "houseId": 1,
+      "id": 8
+    },
+    {
+      "typeOfInvoice": "Nước",
+      "expireDay": "234523",
+      "amount": 1,
+      "status": true,
+      "houseId": 1,
+      "id": 9
     }
   ]
 }

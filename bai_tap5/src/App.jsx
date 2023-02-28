@@ -6,11 +6,11 @@ import LoadingProvider from "./contexts/LoadingProvider";
 function App() {
   return (
     <LoadingProvider>
-      <HouseProvider>
-        <InvoiceProvider>
+      <InvoiceProvider>
+        <HouseProvider>
           <Outlet />
-        </InvoiceProvider>
-      </HouseProvider>
+        </HouseProvider>
+      </InvoiceProvider>
     </LoadingProvider>
   );
 }

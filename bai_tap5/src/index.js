@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./style/home/index.scss";
+import "./style/index.scss";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import {
@@ -9,27 +9,36 @@ import {
   Route,
   createRoutesFromElements,
 } from "react-router-dom";
-import AddNewForm from "./components/AddNewForm";
-import Houses from "./components/Houses";
-import HouseDetail from "./components/HouseDetail";
-import HouseLayout from "./components/HouseLayout";
-import Invoices from "./components/Invoices";
-import InvoiceDetail from "./components/InvoiceDetail";
-import EditInvoice from "./components/EditInvoice";
-import AddNewInvoice from "./components/AddNewInvoice";
+
+import AddNewForm from "./pages/houseNew";
+
+import HousesLayout from "./layouts/housesLayout";
+
+import Houses from "./pages/houses";
+import Invoices from "./pages/invoices";
+import InvoiceDetail from "./pages/invoiceDetail";
+import EditInvoice from "./pages/invoiceEdit";
+import AddNewInvoice from "./pages/invoiceNew";
+import InvoicesLayout from "./layouts/invoicesLayout";
+import InvoiceDetailLayout from "./layouts/invoiceDetailLayout";
+import HouseDetailLayout from "./layouts/houseDetailLayout";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />}>
-      <Route path="" element={<HouseLayout />}>
-        <Route path="add" element={<AddNewForm />} />
-        <Route path="" element={<Houses />} />
+    <Route element={<App />}>
+      <Route path="/" element={<HousesLayout />}>
+        <Route path="addHouse" element={<AddNewForm />} />
+        <Route index element={<Houses />} />
       </Route>
-      <Route path="house/:houseId" element={<HouseDetail />}>
-        <Route index element={<Invoices />} />
-        <Route path="addInvoice" element={<AddNewInvoice />} />
-        <Route path="invoice/:invoiceId" element={<InvoiceDetail />}></Route>
-        <Route path="editInvoice/:editInvoiceId" element={<EditInvoice />} />
+      <Route path="/houses/:houseId" element={<HouseDetailLayout />}>
+        <Route path="invoices" element={<InvoicesLayout />}>
+          <Route path=":invoiceId" element={<InvoiceDetailLayout />}>
+            <Route path="edit" element={<EditInvoice />} />
+            <Route index element={<InvoiceDetail />} />
+          </Route>
+          <Route path="add" element={<AddNewInvoice />} />
+          <Route index element={<Invoices />} />
+        </Route>
       </Route>
     </Route>
   )

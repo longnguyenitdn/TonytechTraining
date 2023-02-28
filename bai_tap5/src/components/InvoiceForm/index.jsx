@@ -3,27 +3,32 @@ import { useState, useContext } from "react";
 import { addNewInvoice } from "../../api/invoice";
 import { LoadingContext } from "../../contexts/LoadingProvider";
 import { InvoiceContext } from "../../contexts/InvoiceProvider";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { editInvoice } from "../../api/invoice";
+import { ROUTER, getRouter } from "../../config/routers";
 
-const InvoiceForm = () => {
+const InvoiceForm = (props) => {
   const [typeOfInvoice, setTypeOfInvoice] = useState("");
   const [expireDay, setExpireDay] = useState("");
   const [amount, setAmount] = useState("");
   const [status, setStatus] = useState("");
   const [notice, setNotice] = useState(false);
   const [id, setId] = useState(null);
+
   const loadingProvider = useContext(LoadingContext);
   const invoiceProvider = useContext(InvoiceContext);
-  let { houseId } = useParams();
-  const { editInvoiceId } = useParams();
+
+  const invoiceLink = getRouter(ROUTER.invoiceNew, {
+    houseId: props.houseId,
+  });
+
   const goBack = useNavigate();
 
   useEffect(() => {
-    if (editInvoiceId) {
+    if (props.type === "edit") {
       const editInvoice = invoiceProvider.invoiceList.find(
-        (item) => item.id === parseInt(editInvoiceId)
+        (item) => item.id === parseInt(props.invoiceId)
       );
       setId(editInvoice.id);
       setExpireDay(editInvoice.expireDay);
@@ -31,10 +36,12 @@ const InvoiceForm = () => {
       setAmount(editInvoice.amount);
       setStatus(editInvoice.status);
     }
-  }, [editInvoiceId, invoiceProvider.invoiceList]);
+  }, [props.invoiceId, invoiceProvider.invoiceList, props.type]);
 
   const handleEditInvoice = () => {
-    const invoice = { id, expireDay, typeOfInvoice, amount, status };
+    const houseId = parseInt(props.houseId);
+    const invoice = { id, expireDay, typeOfInvoice, amount, status, houseId };
+
     const isEmpty = checkEmptyField();
     if (!isEmpty) {
       loadingProvider.setStatusLoading(true);
@@ -47,6 +54,7 @@ const InvoiceForm = () => {
               item.typeOfInvoice = invoice.typeOfInvoice;
               item.amount = invoice.amount;
               item.status = invoice.status;
+              item.houseId = invoice.houseId;
             }
             return item;
           });
@@ -86,7 +94,7 @@ const InvoiceForm = () => {
   const handleAddNewInvoice = () => {
     const isEmpty = checkEmptyField();
     if (!isEmpty) {
-      houseId = parseInt(houseId);
+      const houseId = parseInt(props.houseId);
       const invoice = {
         typeOfInvoice,
         expireDay,
@@ -102,7 +110,6 @@ const InvoiceForm = () => {
             data,
             ...invoiceProvider.invoiceList,
           ]);
-
           goBack(-1);
         })
         .catch((error) => {
@@ -122,7 +129,7 @@ const InvoiceForm = () => {
             <div>
               <label htmlFor="expireDay">Ngày thanh toán:</label>
               <input
-                className="input-style"
+                className="input-style padding-input0-10"
                 value={expireDay}
                 type="text"
                 id="expireDay"
@@ -134,33 +141,39 @@ const InvoiceForm = () => {
           <li>
             <p>Loại hóa đơn:</p>
             <div>
-              <label htmlFor="electric">Điện</label>
-              <input
-                checked={typeOfInvoice === "Điện"}
-                type="radio"
-                id="electric"
-                value="Điện"
-                name="typeInvoice"
-                onChange={(e) => setTypeOfInvoice(e.target.value)}
-              />
-              <label htmlFor="water">Nước</label>
-              <input
-                checked={typeOfInvoice === "Nước"}
-                type="radio"
-                id="water"
-                value="Nước"
-                name="typeInvoice"
-                onChange={(e) => setTypeOfInvoice(e.target.value)}
-              />
-              <label htmlFor="internet">Internet</label>
-              <input
-                checked={typeOfInvoice === "Internet"}
-                type="radio"
-                id="internet"
-                value="Internet"
-                name="typeInvoice"
-                onChange={(e) => setTypeOfInvoice(e.target.value)}
-              />
+              <div>
+                <label htmlFor="electric">Điện</label>
+                <input
+                  checked={typeOfInvoice === "Điện"}
+                  type="radio"
+                  id="electric"
+                  value="Điện"
+                  name="typeInvoice"
+                  onChange={(e) => setTypeOfInvoice(e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="water">Nước</label>
+                <input
+                  checked={typeOfInvoice === "Nước"}
+                  type="radio"
+                  id="water"
+                  value="Nước"
+                  name="typeInvoice"
+                  onChange={(e) => setTypeOfInvoice(e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="internet">Internet</label>
+                <input
+                  checked={typeOfInvoice === "Internet"}
+                  type="radio"
+                  id="internet"
+                  value="Internet"
+                  name="typeInvoice"
+                  onChange={(e) => setTypeOfInvoice(e.target.value)}
+                />
+              </div>
             </div>
           </li>
 
@@ -168,7 +181,7 @@ const InvoiceForm = () => {
             <div>
               <label htmlFor="amount">Số tiền:</label>
               <input
-                className="input-style"
+                className="input-style padding-input5-10"
                 value={amount}
                 type="text"
                 id="amount"
@@ -179,48 +192,53 @@ const InvoiceForm = () => {
           </li>
           <li>
             <div>
-              <label htmlFor="true">Đã thanh toán</label>
-              <input
-                checked={status === "true"}
-                type="radio"
-                id="true"
-                value={true}
-                name="hasPay"
-                onChange={(e) => setStatus(e.target.value)}
-              />
-              <label htmlFor="false">Chưa thanh toán</label>
-              <input
-                checked={status === "false"}
-                type="radio"
-                id="false"
-                value={false}
-                name="hasPay"
-                onChange={(e) => setStatus(e.target.value)}
-              />
+              <div className="margin-r50">
+                <label htmlFor="true">Đã thanh toán</label>
+                <input
+                  checked={status === true}
+                  type="radio"
+                  id="true"
+                  value={true}
+                  name="hasPay"
+                  onChange={() => setStatus(true)}
+                />
+              </div>
+              <div>
+                <label htmlFor="false">Chưa thanh toán</label>
+                <input
+                  checked={status === false}
+                  type="radio"
+                  id="false"
+                  value={false}
+                  name="hasPay"
+                  onChange={() => setStatus(false)}
+                />
+              </div>
             </div>
           </li>
         </ul>
         <div className="btn-create-invoice f-row f-around">
-          <Link to={notice ? `/house/${houseId}` : null}>
+          <div>
             <button
-              hidden={editInvoiceId ? true : false}
+              hidden={props.invoiceId ? true : false}
               type="button"
               onClick={() => handleAddNewInvoice()}
             >
-              Tạo mới
+              <Link to={notice === true ? invoiceLink : null}>Tạo mới</Link>
             </button>
-          </Link>
-          <button
-            onClick={handleEditInvoice}
-            className="btn-edit-confirm"
-            type="button"
-            hidden={editInvoiceId ? false : true}
-          >
-            Xác nhận
-          </button>
-          <button onClick={clearInputInvoice} type="button">
-            Làm trống
-          </button>
+            <button
+              onClick={handleEditInvoice}
+              type="button"
+              hidden={props.invoiceId ? false : true}
+            >
+              Xác nhận
+            </button>
+          </div>
+          <div>
+            <button onClick={clearInputInvoice} type="button">
+              Làm trống
+            </button>
+          </div>
         </div>
         {notice === true && <h4>Chú ý: Vui lòng điền đầy đủ thông tin</h4>}
       </div>
