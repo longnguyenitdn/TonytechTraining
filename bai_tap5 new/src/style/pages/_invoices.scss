@@ -1,0 +1,18 @@
+.body-invoices-content{
+overflow: scroll;
+max-height: 96%;
+
+}
+.btn-add-new-invoice{
+   position: absolute;
+   bottom: 10px;
+   right: 10px;
+   font-size: 40px;
+   color: #446B50;
+   background-color: transparent;
+   border: none;
+   a{
+      text-decoration: none;
+
+   }
+}

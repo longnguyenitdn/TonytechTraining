@@ -1,0 +1,66 @@
+* {
+   
+   font-family: "Courier New", monospace;
+   box-sizing: border-box;
+   a{
+      text-decoration: none;
+      
+   }
+}
+body{
+   width: 100%;
+   height:100%;
+   margin: 0;
+}
+
+.f-row{
+   display: flex;
+}
+.f-col{
+   display: flex;
+   flex-direction: column;
+}
+.f-cen{
+justify-content: center;
+align-items: center;
+}
+.f-around{
+   justify-content: space-around;
+}
+.f-bet{
+   justify-content: space-between;
+}
+.t-cen{
+   text-align: center;
+}
+.container{
+   width: 100%;
+}
+.input-style{
+   outline: none;
+   border: none;
+   border-radius: 5px;
+   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+.shadow{
+   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+
+}
+.highlight-text{
+   color: #ff4842;
+}
+.margin-r50{
+   margin-right: 50px;
+}
+.padding-input5-10{
+   padding: 5px 10px;
+}
+.padding-input0-10{
+   padding: 0 10px;
+}
+.btn-green{
+   fill: #446B50;
+}
+.active{
+   font-weight: bold;
+}
