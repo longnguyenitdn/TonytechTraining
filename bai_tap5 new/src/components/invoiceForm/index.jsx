@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { addNewInvoice } from "../../api/invoice";
 import { FaFileInvoiceDollar } from "react-icons/fa";
+import { IoReturnDownBack } from "react-icons/io5";
 
 import { Link, useNavigate } from "react-router-dom";
 import { editInvoice } from "../../api/invoice";
@@ -243,6 +244,11 @@ const InvoiceForm = (props) => {
           </div>
         </div>
         {notice === true && <h4>Chú ý: Vui lòng điền đầy đủ thông tin</h4>}
+        <button className="btn-return">
+          <Link to={props.type === "Edit" ? invoiceEditLink : invoicesLink}>
+            <IoReturnDownBack />
+          </Link>
+        </button>
       </div>
     </form>
   );

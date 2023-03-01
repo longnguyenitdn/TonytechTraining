@@ -11,7 +11,7 @@ const AddNewInvoice = () => {
   const { houseId } = useParams();
 
   return (
-    <div className="new-invoice">
+    <div className="new-invoice-cover">
       <InvoiceForm
         houseId={houseId}
         type={"Add"}

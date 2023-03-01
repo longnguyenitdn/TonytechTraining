@@ -45,4 +45,16 @@
              
           }
        }
+       .btn-return{
+         background-color: transparent ;
+         font-size: 35px;
+         border: none;
+         color: #446B50;
+         position: absolute;
+         left: 10px;
+         bottom: 0;
+         a{
+            color: #446B50;
+         }
+       }
 }

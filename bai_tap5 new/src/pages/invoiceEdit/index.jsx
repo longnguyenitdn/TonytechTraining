@@ -12,7 +12,7 @@ const EditInvoice = () => {
   const loadingProvider = useContext(LoadingContext);
   const invoiceProvider = useContext(InvoiceContext);
   return (
-    <div className="new-invoice">
+    <div className="new-invoice-cover">
       <InvoiceForm
         houseId={houseId}
         invoiceId={invoiceId}

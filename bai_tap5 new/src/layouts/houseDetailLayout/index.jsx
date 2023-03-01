@@ -6,9 +6,8 @@ import { FaPencilAlt } from "react-icons/fa";
 import { TiArrowBack } from "react-icons/ti";
 import { GiCheckMark } from "react-icons/gi";
 import { deleteHouse, editHouse } from "../../api/house";
-
 import { LoadingContext } from "../../contexts/LoadingProvider";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Loading from "../../components/loading";
 import { Outlet } from "react-router-dom";
 import { ROUTER } from "../../config/routers";
@@ -18,7 +17,7 @@ const HouseDetailLayout = (props) => {
   const [editHouseTemp, setEditHouseTemp] = useState({ name: "" });
   const [houseStatus, setHouseStatus] = useState(false);
   const { houseId } = useParams();
-  const goBack = useNavigate();
+
   const houseProvider = useContext(HouseContext);
   const invoiceProvider = useContext(InvoiceContext);
 
@@ -89,9 +88,6 @@ const HouseDetailLayout = (props) => {
     <>
       <div className="container t-cen header-logo-container">
         <div className="header-logo f-row f-cen">
-          <button onClick={() => goBack(-1)} className="back-house-icon">
-            <TiArrowBack />
-          </button>
           <Link to={ROUTER.home}>
             <BsHouse className="edit-house-icon" />
           </Link>

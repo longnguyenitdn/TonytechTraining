@@ -1,6 +1,7 @@
 import React from "react";
 import { FaFileInvoiceDollar } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { IoReturnDownBack } from "react-icons/io5";
 
 import { ROUTER } from "../../config/routers";
 import { getRouter } from "../../config/routers";
@@ -57,6 +58,11 @@ const InvoiceDetailContent = (props) => {
             </button>
           </div>
         </div>
+        <button className="btn-return">
+          <Link to={houseLink}>
+            <IoReturnDownBack />
+          </Link>
+        </button>
       </div>
     </>
   );
