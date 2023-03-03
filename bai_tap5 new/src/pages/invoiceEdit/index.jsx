@@ -3,22 +3,26 @@ import { useParams } from "react-router-dom";
 
 import InvoiceForm from "../../components/invoiceForm";
 import { useContext } from "react";
-import { LoadingContext } from "../../contexts/LoadingProvider";
+
 import { InvoiceContext } from "../../contexts/InvoiceProvider";
 const EditInvoice = () => {
-  let { houseId } = useParams();
   const { invoiceId } = useParams();
 
-  const loadingProvider = useContext(LoadingContext);
   const invoiceProvider = useContext(InvoiceContext);
+  const invoiceEdit = invoiceProvider.invoiceList.find(
+    (item) => item.id === parseInt(invoiceId)
+  );
+
+  const handleSubmitEdit = (invoice) => {
+    invoiceProvider.handleEditInvoice(invoice);
+  };
+
   return (
     <div className="new-invoice-cover">
       <InvoiceForm
-        houseId={houseId}
-        invoiceId={invoiceId}
         type="Edit"
-        loadingProvider={loadingProvider}
-        invoiceProvider={invoiceProvider}
+        invoice={invoiceEdit}
+        handleSubmitEdit={handleSubmitEdit}
       />
     </div>
   );

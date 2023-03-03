@@ -1,81 +1,48 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { addNewInvoice } from "../../api/invoice";
+
 import { FaFileInvoiceDollar } from "react-icons/fa";
 import { IoReturnDownBack } from "react-icons/io5";
 
-import { Link, useNavigate } from "react-router-dom";
-import { editInvoice } from "../../api/invoice";
+import { Link } from "react-router-dom";
 import { ROUTER, getRouter } from "../../config/routers";
 
 const InvoiceForm = (props) => {
-  const [typeOfInvoice, setTypeOfInvoice] = useState("");
-  const [expireDay, setExpireDay] = useState("");
-  const [amount, setAmount] = useState("");
-  const [status, setStatus] = useState("");
   const [notice, setNotice] = useState(false);
-  const [id, setId] = useState(null);
-  const navigate = useNavigate();
-
-  const invoiceEditLink = getRouter(ROUTER.invoiceDetail, {
-    houseId: props.houseId,
-    invoiceId: props.invoiceId,
-  });
-  const invoicesLink = getRouter(ROUTER.invoices, {
-    houseId: props.houseId,
+  const [tempInvoice, setTempInvoice] = useState({
+    id: null,
+    houseId: parseInt(props.houseId),
+    typeOfInvoice: "",
+    expireDay: "",
+    amount: "",
+    status: "",
   });
 
   useEffect(() => {
     if (props.type === "Edit") {
-      const editInvoice = props.invoiceProvider.invoiceList.find(
-        (item) => item.id === parseInt(props.invoiceId)
-      );
-      setId(editInvoice.id);
-      setExpireDay(editInvoice.expireDay);
-      setTypeOfInvoice(editInvoice.typeOfInvoice);
-      setAmount(editInvoice.amount);
-      setStatus(editInvoice.status);
+      setTempInvoice(props.invoice);
     }
-  }, [props.invoiceId, props.invoiceProvider.invoiceList, props.type]);
+  }, [props.type, props.invoice]);
+  const invoiceEditLink = getRouter(ROUTER.invoiceDetail, {
+    houseId: props.invoice?.houseId,
+    invoiceId: props.invoice?.id,
+  });
 
-  const handleEditInvoice = () => {
-    const houseId = parseInt(props.houseId);
-    const invoice = { id, expireDay, typeOfInvoice, amount, status, houseId };
-
-    const isEmpty = checkEmptyField();
-    if (!isEmpty) {
-      props.loadingProvider.setStatusLoading(true);
-      editInvoice(invoice)
-        .then((invoice) => {
-          let currentList = props.invoiceProvider.invoiceList;
-          currentList = currentList.map((item) => {
-            if (item.id === invoice.id) {
-              item.expireDay = invoice.expireDay;
-              item.typeOfInvoice = invoice.typeOfInvoice;
-              item.amount = invoice.amount;
-              item.status = invoice.status;
-              item.houseId = invoice.houseId;
-            }
-            return item;
-          });
-          props.invoiceProvider.setInvoiceList(currentList);
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-        .finally(() => {
-          props.loadingProvider.setStatusLoading(false);
-        });
-    }
-  };
+  const invoicesLink = getRouter(ROUTER.invoices, {
+    houseId: props.houseId,
+  });
   const clearInputInvoice = () => {
-    setExpireDay("");
-    setTypeOfInvoice("");
-    setAmount("");
-    setStatus("");
+    setTempInvoice({
+      ...tempInvoice,
+      typeOfInvoice: "",
+      expireDay: "",
+      amount: "",
+      status: "",
+    });
   };
 
-  const checkEmptyField = () => {
+  const checkEmptyFieldBeforeSubmit = () => {
+    let { typeOfInvoice, expireDay, amount, status } = tempInvoice;
     if (
       typeOfInvoice === "" ||
       expireDay === "" ||
@@ -83,40 +50,15 @@ const InvoiceForm = (props) => {
       status === ""
     ) {
       setNotice(true);
-      return true;
+      return;
     } else {
+      if (props.type === "Edit") {
+        props.handleSubmitEdit(tempInvoice);
+      } else {
+        props.handleSubmitAdd(tempInvoice);
+      }
       setNotice(false);
-      return false;
-    }
-  };
-
-  const handleAddNewInvoice = () => {
-    const isEmpty = checkEmptyField();
-    if (!isEmpty) {
-      const houseId = parseInt(props.houseId);
-      const invoice = {
-        typeOfInvoice,
-        expireDay,
-        amount,
-        status,
-        houseId,
-      };
-      props.loadingProvider.setStatusLoading(true);
-
-      addNewInvoice(invoice)
-        .then((data) => {
-          props.invoiceProvider.setInvoiceList([
-            data,
-            ...props.invoiceProvider.invoiceList,
-          ]);
-          navigate(invoicesLink);
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-        .finally(() => {
-          props.loadingProvider.setStatusLoading(false);
-        });
+      return;
     }
   };
 
@@ -133,11 +75,13 @@ const InvoiceForm = (props) => {
               <label htmlFor="expireDay">Ngày thanh toán:</label>
               <input
                 className="input-style padding-input0-10"
-                value={expireDay}
+                value={tempInvoice.expireDay}
                 type="text"
                 id="expireDay"
                 placeholder="dd-mm-yyyy"
-                onChange={(e) => setExpireDay(e.target.value)}
+                onChange={(e) =>
+                  setTempInvoice({ ...tempInvoice, expireDay: e.target.value })
+                }
               />
             </div>
           </li>
@@ -147,34 +91,49 @@ const InvoiceForm = (props) => {
               <div>
                 <label htmlFor="electric">Điện</label>
                 <input
-                  checked={typeOfInvoice === "Điện"}
+                  checked={tempInvoice.typeOfInvoice === "Điện"}
                   type="radio"
                   id="electric"
                   value="Điện"
                   name="typeInvoice"
-                  onChange={(e) => setTypeOfInvoice(e.target.value)}
+                  onChange={(e) =>
+                    setTempInvoice({
+                      ...tempInvoice,
+                      typeOfInvoice: e.target.value,
+                    })
+                  }
                 />
               </div>
               <div>
                 <label htmlFor="water">Nước</label>
                 <input
-                  checked={typeOfInvoice === "Nước"}
+                  checked={tempInvoice.typeOfInvoice === "Nước"}
                   type="radio"
                   id="water"
                   value="Nước"
                   name="typeInvoice"
-                  onChange={(e) => setTypeOfInvoice(e.target.value)}
+                  onChange={(e) =>
+                    setTempInvoice({
+                      ...tempInvoice,
+                      typeOfInvoice: e.target.value,
+                    })
+                  }
                 />
               </div>
               <div>
                 <label htmlFor="internet">Internet</label>
                 <input
-                  checked={typeOfInvoice === "Internet"}
+                  checked={tempInvoice.typeOfInvoice === "Internet"}
                   type="radio"
                   id="internet"
                   value="Internet"
                   name="typeInvoice"
-                  onChange={(e) => setTypeOfInvoice(e.target.value)}
+                  onChange={(e) =>
+                    setTempInvoice({
+                      ...tempInvoice,
+                      typeOfInvoice: e.target.value,
+                    })
+                  }
                 />
               </div>
             </div>
@@ -185,11 +144,16 @@ const InvoiceForm = (props) => {
               <label htmlFor="amount">Số tiền:</label>
               <input
                 className="input-style padding-input5-10"
-                value={amount}
+                value={tempInvoice.amount}
                 type="text"
                 id="amount"
                 placeholder="vnd"
-                onChange={(e) => setAmount(parseInt(e.target.value) || 0)}
+                onChange={(e) =>
+                  setTempInvoice({
+                    ...tempInvoice,
+                    amount: e.target.value || 0,
+                  })
+                }
               />
             </div>
           </li>
@@ -198,23 +162,27 @@ const InvoiceForm = (props) => {
               <div className="margin-r50">
                 <label htmlFor="true">Đã thanh toán</label>
                 <input
-                  checked={status === true}
+                  checked={tempInvoice.status === true}
                   type="radio"
                   id="true"
                   value={true}
                   name="hasPay"
-                  onChange={() => setStatus(true)}
+                  onChange={() =>
+                    setTempInvoice({ ...tempInvoice, status: true })
+                  }
                 />
               </div>
               <div>
                 <label htmlFor="false">Chưa thanh toán</label>
                 <input
-                  checked={status === false}
+                  checked={tempInvoice.status === false}
                   type="radio"
                   id="false"
                   value={false}
                   name="hasPay"
-                  onChange={() => setStatus(false)}
+                  onChange={() =>
+                    setTempInvoice({ ...tempInvoice, status: false })
+                  }
                 />
               </div>
             </div>
@@ -223,16 +191,16 @@ const InvoiceForm = (props) => {
         <div className="btn-create-invoice f-row f-around">
           <div>
             <button
-              hidden={props.invoiceId ? true : false}
+              hidden={props.type === "Edit" ? true : false}
               type="button"
-              onClick={() => handleAddNewInvoice()}
+              onClick={() => checkEmptyFieldBeforeSubmit()}
             >
               <Link>Tạo mới</Link>
             </button>
             <button
-              onClick={handleEditInvoice}
+              onClick={checkEmptyFieldBeforeSubmit}
               type="button"
-              hidden={props.invoiceId ? false : true}
+              hidden={props.type === "Add" ? true : false}
             >
               <Link to={invoiceEditLink}>Xác nhận</Link>
             </button>

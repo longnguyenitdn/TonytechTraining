@@ -1,22 +1,28 @@
 import React from "react";
 
 import InvoiceForm from "../../components/invoiceForm";
-import { useParams } from "react-router-dom";
-import { LoadingContext } from "../../contexts/LoadingProvider";
+import { useParams, useNavigate } from "react-router-dom";
+
 import { InvoiceContext } from "../../contexts/InvoiceProvider";
 import { useContext } from "react";
+import { ROUTER, getRouter } from "../../config/routers";
 const AddNewInvoice = () => {
-  const loadingProvider = useContext(LoadingContext);
-  const invoiceProvider = useContext(InvoiceContext);
   const { houseId } = useParams();
-
+  const invoicesLink = getRouter(ROUTER.invoices, {
+    houseId: houseId,
+  });
+  const navigate = useNavigate();
+  const invoiceProvider = useContext(InvoiceContext);
+  const handleSubmitAdd = (invoice) => {
+    invoiceProvider.handleAddNewInvoice(invoice);
+    navigate(invoicesLink);
+  };
   return (
     <div className="new-invoice-cover">
       <InvoiceForm
         houseId={houseId}
         type={"Add"}
-        loadingProvider={loadingProvider}
-        invoiceProvider={invoiceProvider}
+        handleSubmitAdd={handleSubmitAdd}
       />
     </div>
   );

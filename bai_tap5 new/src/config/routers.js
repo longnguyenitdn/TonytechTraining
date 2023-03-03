@@ -1,6 +1,6 @@
 export const ROUTER = {
   home: "/",
-  houseNew: "/addHouse",
+  houseNew: "/add-house",
   houseDetail: "/houses/:houseId",
   invoices: "/houses/:houseId/invoices",
   invoiceNew: "/houses/:houseId/invoices/add",

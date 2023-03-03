@@ -7,18 +7,12 @@ import { ROUTER } from "../../config/routers";
 import { getRouter } from "../../config/routers";
 
 const InvoiceDetailContent = (props) => {
-  const house = props.houseProvider.houseList.find(
-    (item) => item.id === parseInt(props.houseId)
-  );
-  const invoice = props.invoiceProvider.invoiceList.find(
-    (item) => item.id === parseInt(props.invoiceId)
-  );
   const houseLink = getRouter(ROUTER.invoices, {
-    houseId: props.houseId,
+    houseId: props.invoice.houseId,
   });
   const invoiceEditLink = getRouter(ROUTER.invoiceEdit, {
-    houseId: props.houseId,
-    invoiceId: props.invoiceId,
+    houseId: props.invoice.houseId,
+    invoiceId: props.invoice.id,
   });
 
   return (
@@ -30,14 +24,19 @@ const InvoiceDetailContent = (props) => {
             <h3>Invoice's Infomation</h3>
           </div>
           <ul>
-            <li>Nhà: {house ? house.name : "..."}</li>
-            <li>Loại hóa đơn: {invoice ? invoice.typeOfInvoice : "..."}</li>
-            <li>Ngày thanh toán: {invoice ? invoice.expireDay : "..."}</li>
-            <li>Số tiền: {invoice ? invoice.amount : "..."} đ </li>
+            <li>Nhà: {props.houseName ? props.houseName : "..."}</li>
+            <li>
+              Loại hóa đơn:{" "}
+              {props.invoice ? props.invoice.typeOfInvoice : "..."}
+            </li>
+            <li>
+              Ngày thanh toán: {props.invoice ? props.invoice.expireDay : "..."}
+            </li>
+            <li>Số tiền: {props.invoice ? props.invoice.amount : "..."} đ </li>
             <li>
               Trạng thái thanh toán:
-              {invoice
-                ? invoice.status
+              {props.invoice
+                ? props.invoice.status
                   ? " Đã thanh toán"
                   : " Chưa thanh toán"
                 : "..."}
@@ -47,13 +46,7 @@ const InvoiceDetailContent = (props) => {
             <Link to={invoiceEditLink}>
               <button>Chỉnh sửa</button>
             </Link>
-            <button
-              onClick={() =>
-                props.houseProvider.handleRemoveInvoice(
-                  parseInt(props.invoiceId)
-                )
-              }
-            >
+            <button onClick={() => props.handleRemoveInvoice(props.invoice.id)}>
               <Link to={houseLink}>Xóa</Link>
             </button>
           </div>

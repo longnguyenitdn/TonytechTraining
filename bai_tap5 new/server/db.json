@@ -1,18 +1,18 @@
 {
   "houses": [
     {
-      "name": "5",
-      "id": 4
+      "name": "sdf",
+      "id": 1
     }
   ],
   "invoices": [
     {
+      "id": 1,
+      "houseId": 1,
       "typeOfInvoice": "Nước",
       "expireDay": "2-2-2024",
-      "amount": 2000,
-      "status": false,
-      "houseId": 4,
-      "id": 1
+      "amount": "2000",
+      "status": false
     }
   ]
 }

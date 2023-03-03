@@ -1,6 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import { addNewHouse } from "../../api/house";
 import { Link } from "react-router-dom";
 import { ROUTER } from "../../config/routers";
 
@@ -11,22 +10,9 @@ const HouseForm = (props) => {
   const setInputHouseName = (e) => {
     return setHouse({ ...house, name: e.target.value });
   };
-  const handleAddNewHouse = (house) => {
+  const checkHouseBeforeSubmit = (house) => {
     if (house.name !== "") {
-      props.loadingProvider.setStatusLoading(true);
-      addNewHouse(house)
-        .then((data) => {
-          props.houseProvider.setHouseList([
-            data,
-            ...props.houseProvider.houseList,
-          ]);
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-        .finally(() => {
-          props.loadingProvider.setStatusLoading(false);
-        });
+      props.handleHouseSubmit(house);
     }
   };
   return (
@@ -42,7 +28,7 @@ const HouseForm = (props) => {
       <p hidden={house.name !== ""}>Vui lòng không để trống tên</p>
       <div className="f-row f-around ">
         <button
-          onClick={() => handleAddNewHouse(house)}
+          onClick={() => checkHouseBeforeSubmit(house)}
           className="btn-add-new-house"
         >
           <Link to={house.name !== "" ? ROUTER.home : ROUTER.houseNew}>

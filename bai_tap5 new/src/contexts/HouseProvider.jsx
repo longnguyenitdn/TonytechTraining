@@ -1,14 +1,14 @@
 import React from "react";
 import { useState, createContext, useContext, useEffect } from "react";
 import { getHouse } from "../api/house";
-import { InvoiceContext } from "./InvoiceProvider";
 import { LoadingContext } from "./LoadingProvider";
-import { deleteInvoice } from "../api/invoice";
+import { addNewHouse } from "../api/house";
+import { deleteHouse, editHouse } from "../api/house";
 
 export const HouseContext = createContext();
 const HouseProvider = (props) => {
   const loadingProvider = useContext(LoadingContext);
-  const invoiceProvider = useContext(InvoiceContext);
+
   const [houseList, setHouseList] = useState([]);
 
   useEffect(() => {
@@ -25,13 +25,48 @@ const HouseProvider = (props) => {
       });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleRemoveInvoice = (id) => {
+  const handleAddNewHouse = (house) => {
+    if (house.name !== "") {
+      loadingProvider.setStatusLoading(true);
+      addNewHouse(house)
+        .then((data) => {
+          setHouseList([data, ...houseList]);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          loadingProvider.setStatusLoading(false);
+        });
+    }
+  };
+
+  const handleRemoveHouse = (id) => {
     loadingProvider.setStatusLoading(true);
-    deleteInvoice(id)
+    deleteHouse(id)
       .then(() => {
-        let currentList = invoiceProvider.invoiceList;
-        currentList = currentList.filter((item) => item.id !== id);
-        invoiceProvider.setInvoiceList(currentList);
+        setHouseList(houseList.filter((item) => item.id !== id));
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        loadingProvider.setStatusLoading(false);
+      });
+  };
+
+  const handleEditHouse = (house) => {
+    loadingProvider.setStatusLoading(true);
+    editHouse(house)
+      .then((house) => {
+        setHouseList(
+          houseList.map((item) => {
+            if (item.id === house.id) {
+              item.name = house.name;
+            }
+            return item;
+          })
+        );
       })
       .catch((error) => {
         console.log(error);
@@ -45,7 +80,9 @@ const HouseProvider = (props) => {
       value={{
         houseList: houseList,
         setHouseList: setHouseList,
-        handleRemoveInvoice: handleRemoveInvoice,
+        handleAddNewHouse: handleAddNewHouse,
+        handleRemoveHouse: handleRemoveHouse,
+        handleEditHouse: handleEditHouse,
       }}
     >
       {props.children}

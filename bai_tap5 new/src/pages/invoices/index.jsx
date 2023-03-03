@@ -4,23 +4,26 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { InvoiceContext } from "../../contexts/InvoiceProvider";
 import Invoice from "../../components/invoice";
-import InvoiceListWithField from "../invoiceListWithField";
 import { ROUTER, getRouter } from "../../config/routers";
 const Invoices = (props) => {
   const { houseId } = useParams();
-  const [fillterInvoiceList, setFilterInvoiceList] = useState([]);
+  const [invoicesHouseList, setInvoicesHouseList] = useState([]);
   const invoiceProvider = useContext(InvoiceContext);
   const invoiceAddLink = getRouter(ROUTER.invoiceNew, {
     houseId: houseId,
   });
+
   useEffect(() => {
-    setFilterInvoiceList(
+    setInvoicesHouseList(
       invoiceProvider.invoiceList.filter(
         (item) => item.houseId === parseInt(houseId)
       )
     );
-  }, [houseId, invoiceProvider.invoiceList, props.filterField]);
+  }, [invoiceProvider, houseId]);
 
+  // useEffect(() => {
+  //   invoiceProvider.setFilterField("");
+  // }, []); // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <>
       <div className="body-invoiceTypes-cover container f-row f-around ">
@@ -57,19 +60,20 @@ const Invoices = (props) => {
           Internet
         </div>
       </div>
-      {invoiceProvider.filterField === "" && (
-        <div className="body-invoices-content f-row f-col">
-          {fillterInvoiceList.map((item) => (
+
+      <div className="body-invoices-content f-row f-col">
+        {invoicesHouseList
+          .filter((item) => {
+            return (
+              invoiceProvider.filterField === "" ||
+              item.typeOfInvoice === invoiceProvider.filterField
+            );
+          })
+          .map((item) => (
             <Invoice invoice={item} key={item.id} />
           ))}
-        </div>
-      )}
-      {invoiceProvider.filterField !== "" && (
-        <InvoiceListWithField
-          fillterInvoiceList={fillterInvoiceList}
-          filterField={invoiceProvider.filterField}
-        />
-      )}
+      </div>
+
       <button className="btn-add-new-invoice">
         <Link to={invoiceAddLink}>
           <AiFillFileAdd className="btn-green" />
