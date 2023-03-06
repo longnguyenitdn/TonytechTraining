@@ -11,7 +11,6 @@ const InvoiceProvider = (props) => {
   const loadingProvider = useContext(LoadingContext);
   const [invoiceList, setInvoiceList] = useState([]);
   const [filterField, setFilterField] = useState("");
-  const [isField, setIsField] = useState(false);
 
   useEffect(() => {
     loadingProvider.setStatusLoading(true);
@@ -84,8 +83,7 @@ const InvoiceProvider = (props) => {
       value={{
         invoiceList: invoiceList,
         filterField: filterField,
-        isField: isField,
-        setIsField: setIsField,
+
         setInvoiceList: setInvoiceList,
         setFilterField: setFilterField,
         handleRemoveInvoice: handleRemoveInvoice,

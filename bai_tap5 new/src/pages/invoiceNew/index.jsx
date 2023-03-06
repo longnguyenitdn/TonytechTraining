@@ -20,6 +20,7 @@ const AddNewInvoice = () => {
   return (
     <div className="new-invoice-cover">
       <InvoiceForm
+        filterField={invoiceProvider.filterField}
         houseId={houseId}
         type={"Add"}
         handleSubmitAdd={handleSubmitAdd}

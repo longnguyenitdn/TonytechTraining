@@ -10,9 +10,9 @@ import { ROUTER, getRouter } from "../../config/routers";
 const InvoiceForm = (props) => {
   const [notice, setNotice] = useState(false);
   const [tempInvoice, setTempInvoice] = useState({
-    id: null,
+    id: "",
     houseId: parseInt(props.houseId),
-    typeOfInvoice: "",
+    typeOfInvoice: props.filterField || "",
     expireDay: "",
     amount: "",
     status: "",
@@ -23,6 +23,7 @@ const InvoiceForm = (props) => {
       setTempInvoice(props.invoice);
     }
   }, [props.type, props.invoice]);
+
   const invoiceEditLink = getRouter(ROUTER.invoiceDetail, {
     houseId: props.invoice?.houseId,
     invoiceId: props.invoice?.id,

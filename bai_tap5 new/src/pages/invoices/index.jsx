@@ -21,9 +21,6 @@ const Invoices = (props) => {
     );
   }, [invoiceProvider, houseId]);
 
-  // useEffect(() => {
-  //   invoiceProvider.setFilterField("");
-  // }, []); // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <>
       <div className="body-invoiceTypes-cover container f-row f-around ">

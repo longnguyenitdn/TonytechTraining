@@ -27,4 +27,5 @@ const Houses = (props) => {
     </>
   );
 };
+
 export default Houses;

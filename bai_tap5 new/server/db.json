@@ -1,17 +1,21 @@
 {
   "houses": [
     {
-      "name": "sdf",
+      "name": " long",
       "id": 1
+    },
+    {
+      "name": "ong2123",
+      "id": 2
     }
   ],
   "invoices": [
     {
       "id": 1,
-      "houseId": 1,
+      "houseId": 2,
       "typeOfInvoice": "Nước",
       "expireDay": "2-2-2024",
-      "amount": "2000",
+      "amount": "1000000",
       "status": false
     }
   ]
