@@ -42,17 +42,21 @@ const HouseProvider = (props) => {
   };
 
   const handleRemoveHouse = (id) => {
-    loadingProvider.setStatusLoading(true);
-    deleteHouse(id)
-      .then(() => {
-        setHouseList(houseList.filter((item) => item.id !== id));
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        loadingProvider.setStatusLoading(false);
-      });
+    return new Promise((rs, rj) => {
+      loadingProvider.setStatusLoading(true);
+      deleteHouse(id)
+        .then(() => {
+          setHouseList(houseList.filter((item) => item.id !== id));
+        })
+        .catch((error) => {
+          console.log(error);
+          rj(error);
+        })
+        .finally(() => {
+          loadingProvider.setStatusLoading(false);
+          rs(id);
+        });
+    });
   };
 
   const handleEditHouse = (house) => {
@@ -62,7 +66,10 @@ const HouseProvider = (props) => {
         setHouseList(
           houseList.map((item) => {
             if (item.id === house.id) {
-              item.name = house.name;
+              return {
+                ...item,
+                name: house.name,
+              };
             }
             return item;
           })

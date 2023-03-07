@@ -19,7 +19,7 @@ const Invoices = (props) => {
         (item) => item.houseId === parseInt(houseId)
       )
     );
-  }, [invoiceProvider, houseId]);
+  }, [invoiceProvider.invoiceList, houseId]);
 
   return (
     <>

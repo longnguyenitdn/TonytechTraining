@@ -46,12 +46,17 @@ const InvoiceProvider = (props) => {
       .then(() => {
         setInvoiceList(invoiceList.filter((item) => item.id !== id));
       })
+
       .catch((error) => {
         console.log(error);
       })
       .finally(() => {
         loadingProvider.setStatusLoading(false);
       });
+  };
+
+  const handleRemoveInvoiceListbyHouseId = (houseId) => {
+    setInvoiceList(invoiceList.filter((item) => item.houseId !== houseId));
   };
 
   const handleEditInvoice = (invoice) => {
@@ -61,11 +66,7 @@ const InvoiceProvider = (props) => {
         setInvoiceList(
           invoiceList.map((item) => {
             if (item.id === invoice.id) {
-              item.expireDay = invoice.expireDay;
-              item.typeOfInvoice = invoice.typeOfInvoice;
-              item.amount = invoice.amount;
-              item.status = invoice.status;
-              item.houseId = invoice.houseId;
+              return invoice;
             }
             return item;
           })
@@ -83,12 +84,12 @@ const InvoiceProvider = (props) => {
       value={{
         invoiceList: invoiceList,
         filterField: filterField,
-
         setInvoiceList: setInvoiceList,
         setFilterField: setFilterField,
         handleRemoveInvoice: handleRemoveInvoice,
         handleEditInvoice: handleEditInvoice,
         handleAddNewInvoice: handleAddNewInvoice,
+        handleRemoveInvoiceListbyHouseId: handleRemoveInvoiceListbyHouseId,
       }}
     >
       {props.children}

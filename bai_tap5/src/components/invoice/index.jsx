@@ -11,13 +11,16 @@ const Invoice = (props) => {
     houseId: invoice.houseId,
     invoiceId: invoice.id,
   });
+  const convertDate = (str) => {
+    return str.split("-").reverse().join("-");
+  };
   return (
     <div className="invoice-cover">
       <Link to={invoiceLink}>
         <div className="invoice">
           <div className="invoice-key f-row f-bet f-cen">
             <h4>{invoice.typeOfInvoice}</h4>
-            <p>{invoice.expireDay}</p>
+            <p>{convertDate(invoice.expireDay)}</p>
           </div>
           <div className="invoice-key f-row f-bet">
             <h4>{invoice.amount} đ</h4>

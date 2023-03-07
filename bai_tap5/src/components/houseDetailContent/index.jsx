@@ -9,26 +9,13 @@ import { ROUTER } from "../../config/routers";
 const HouseDetailContent = (props) => {
   const [houseStatus, setHouseStatus] = useState(false);
 
-  const handleRemoveInvoiceOfHouse = (houseId) => {
-    let invoicesTemp = [];
-    invoicesTemp = props.invoiceList.filter((item) => item.houseId === houseId);
-    Promise.all(
-      invoicesTemp.map((invoice) => props.handleRemoveInvoice(invoice.id))
-    ).then((invoicesTemp = []));
-  };
-  const handleRemoveHouseAndInvoices = (houseId) => {
-    handleRemoveInvoiceOfHouse(houseId);
-    props.handleRemoveHouse(houseId);
-  };
-  const handleUpdateHouse = (house) => {
+  const onUpdateHouse = (house) => {
     props.handleEditHouse(house);
     setHouseStatus(false);
   };
   return (
     <div className="body-bar f-row f-cen f-around">
-      <button
-        onClick={() => handleRemoveHouseAndInvoices(props.editHouseTemp.id)}
-      >
+      <button onClick={props.handleRemoveHouseSubmit}>
         <Link to={ROUTER.home}>
           <BsFillTrashFill fill="#446B50" />
         </Link>
@@ -42,7 +29,7 @@ const HouseDetailContent = (props) => {
             onChange={(e) => props.setHouseTempBeforeEdit(e)}
             id="houseName"
             type="text"
-            value={props.editHouseTemp ? props.editHouseTemp.name : "..."}
+            value={props.houseData ? props.houseData.name : "..."}
             className="t-cen"
           />
         </div>
@@ -50,7 +37,7 @@ const HouseDetailContent = (props) => {
       <button>
         {houseStatus === false && <FaPencilAlt />}
         {houseStatus === true && (
-          <GiCheckMark onClick={() => handleUpdateHouse(props.editHouseTemp)} />
+          <GiCheckMark onClick={() => onUpdateHouse(props.houseData)} />
         )}
       </button>
     </div>

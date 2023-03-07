@@ -8,12 +8,15 @@ import { getRouter } from "../../config/routers";
 
 const InvoiceDetailContent = (props) => {
   const houseLink = getRouter(ROUTER.invoices, {
-    houseId: props.invoice.houseId,
+    houseId: props.invoice?.houseId,
   });
   const invoiceEditLink = getRouter(ROUTER.invoiceEdit, {
-    houseId: props.invoice.houseId,
-    invoiceId: props.invoice.id,
+    houseId: props.invoice?.houseId,
+    invoiceId: props.invoice?.id,
   });
+  const convertDate = (str) => {
+    return str?.split("-").reverse().join("-");
+  };
 
   return (
     <>
@@ -30,7 +33,8 @@ const InvoiceDetailContent = (props) => {
               {props.invoice ? props.invoice.typeOfInvoice : "..."}
             </li>
             <li>
-              Ngày thanh toán: {props.invoice ? props.invoice.expireDay : "..."}
+              Ngày thanh toán:{" "}
+              {props.invoice ? convertDate(props.invoice.expireDay) : "..."}
             </li>
             <li>Số tiền: {props.invoice ? props.invoice.amount : "..."} đ </li>
             <li>

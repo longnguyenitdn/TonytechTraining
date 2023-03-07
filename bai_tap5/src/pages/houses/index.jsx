@@ -1,10 +1,10 @@
-import React from "react";
 import House from "../../components/house";
 import { HouseContext } from "../../contexts/HouseProvider";
 import { useContext } from "react";
 import { ROUTER } from "../../config/routers";
 
 import { Link } from "react-router-dom";
+
 const Houses = (props) => {
   const houseProvider = useContext(HouseContext);
 

@@ -12,7 +12,7 @@ import HouseDetailContent from "../../components/houseDetailContent";
 
 const HouseDetailLayout = (props) => {
   const loadingProvider = useContext(LoadingContext);
-  const [editHouseTemp, setEditHouseTemp] = useState({ name: "" });
+  const [houseData, setHouseData] = useState({ name: "" });
 
   const { houseId } = useParams();
 
@@ -21,17 +21,28 @@ const HouseDetailLayout = (props) => {
 
   useEffect(
     () =>
-      setEditHouseTemp(
+      setHouseData(
         houseProvider.houseList.find((item) => item.id === parseInt(houseId))
       ),
     [houseProvider.houseList, houseId]
   );
 
   const setHouseTempBeforeEdit = (e) => {
-    setEditHouseTemp({
-      ...editHouseTemp,
+    setHouseData({
+      ...houseData,
       name: e.target.value,
     });
+  };
+
+  const handleRemoveHouseSubmit = () => {
+    houseProvider
+      .handleRemoveHouse(parseInt(houseId))
+      .then((data) => {
+        invoiceProvider.handleRemoveInvoiceListbyHouseId(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -51,10 +62,9 @@ const HouseDetailLayout = (props) => {
         <HouseDetailContent
           setHouseTempBeforeEdit={setHouseTempBeforeEdit}
           invoiceList={invoiceProvider.invoiceList}
-          editHouseTemp={editHouseTemp}
+          houseData={houseData}
           handleEditHouse={houseProvider.handleEditHouse}
-          handleRemoveHouse={houseProvider.handleRemoveHouse}
-          handleRemoveInvoice={invoiceProvider.handleRemoveInvoice}
+          handleRemoveHouseSubmit={handleRemoveHouseSubmit}
         />
         <Outlet />
       </div>
