@@ -1,4 +1,9 @@
 {
-  "houses": [],
+  "houses": [
+    {
+      "name": "fghfg",
+      "id": 1
+    }
+  ],
   "invoices": []
 }

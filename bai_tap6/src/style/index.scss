@@ -1,0 +1,34 @@
+//color variable
+$primary-background: #fef6e4;
+$headline: #001858;
+$paragraph: #172c66;
+$button: #f582ae;
+$button-text: #001858;
+$stroke: #001858;
+$main: #f3d2c1;
+$hightline: #fef6e4;
+$secondary: #8bd3dd;
+$tertiary: #f582ae;
+
+
+
+
+//common
+@import './common';
+
+
+//layouts
+@import "./layouts/base-layout";
+@import "./layouts/user-layout";
+
+//pages
+@import "./pages/user-cards";
+@import "./pages/user-cards-page";
+@import "./pages/user-new-card-page";
+
+//components
+@import "./components/login-com";
+@import "./components/sign-in-com";
+@import "./components/user-card";
+@import "./components/user-controller";
+

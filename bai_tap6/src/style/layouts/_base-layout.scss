@@ -1,0 +1,27 @@
+.base-layout{
+   background-color:$primary-background ;
+   text-align: center;
+   img{
+      width: 50%;
+   }
+   .base-layout-cover{
+      background-color:$main ;
+      border: none;
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+      margin: 0 15px;
+      border-radius: 5px;
+   }
+   .base-layout-content-header{
+
+      .base-layout-content-header-left{
+   
+         border-right: 1px solid $stroke;
+      }
+      div{
+      
+         width: 50%;
+         text-align: center;
+         padding: 10px;
+      }
+   }
+}
