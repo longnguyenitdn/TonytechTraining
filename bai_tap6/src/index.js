@@ -11,27 +11,38 @@ import {
   Route,
   createRoutesFromElements,
 } from "react-router-dom";
-import BaseLayout from "./layouts/base-layout";
-import LogInCom from "./components/log-in-com";
-import SignInCom from "./components/sign-in-com";
-import LogInPage from "./pages/log-in-page";
+
+import LogInPage from "./pages/login-page";
 
 import UserLayout from "./layouts/user-layout";
-import UserCardsPage from "./pages/user-cards-page";
-import UserNewCardPage from "./pages/user-new-card-page";
+import PublicLayout from "./layouts/public-layout";
+import AuthLayout from "./layouts/auth-layout";
+
+import HomePage from "./pages/home-page";
+import UserNewPostPage from "./pages/user-new-post-page";
+
+import RegisterPage from "./pages/register-page";
+import UserHomePage from "./pages/user-home-page";
+import UserVisitedPage from "./pages/user-visit-page";
+import UserUpdatePage from "./pages/user-update-page";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<App />}>
-      <Route path="/" element={<BaseLayout />}>
-        <Route path="login" element={<LogInPage />}>
-          <Route index element={<LogInCom />} />
-        </Route>
-        <Route path="sign-in" element={<SignInCom />} />
+      <Route path="/auth" element={<AuthLayout />}>
+        <Route path="login" element={<LogInPage />} />
+        <Route path="register" element={<RegisterPage />} />
       </Route>
-      <Route path="/users" element={<UserLayout />}>
-        <Route path=":userId" element={<UserCardsPage />} />
-        <Route path=":userId/add" element={<UserNewCardPage />} />
+
+      <Route path="/my" element={<UserLayout />}>
+        <Route path="add" element={<UserNewPostPage />} />
+        <Route path=":postId/update" element={<UserUpdatePage />} />
+        <Route index element={<UserHomePage />} />
+      </Route>
+
+      <Route path="/" element={<PublicLayout />}>
+        <Route path="visit/:visitedUserId" element={<UserVisitedPage />} />
+        <Route index element={<HomePage />} />
       </Route>
     </Route>
   )

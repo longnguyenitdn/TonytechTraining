@@ -14,8 +14,8 @@
 
       }
       .user-new-card-content{
-         padding: 25px;
-         height: 300px;
+         padding: 10px 10px 30px;
+
          textarea{
 
             border-radius: 5px;
@@ -32,6 +32,26 @@
             padding: 10px 10px;
             width: 150px;
             font-size: 15px;
+         }
+         .container{
+            text-align: center;
+            .preview{
+               margin: 10px;
+               img{
+                  width: 150px;
+                  height: 150px;
+               }
+               .upload-photo-btn{
+                  margin: 10px 0;
+                  label{
+                     font-size: 15px;
+                     margin-right: 10px;
+                  }
+                  input{
+                     width: 90px;
+                  }
+               }
+            }
          }
       }
    }

@@ -1,0 +1,111 @@
+.sign-in-com{
+   padding:0 20px ;
+   .sign-in-com-content{
+      .sign-in-com-row{
+         margin: 10px 0;
+         border: 1px solid #001858;
+      overflow: auto;
+      border-radius: 10px;
+         div{
+            width: 40px;
+         }
+
+
+         input{
+            font-size: 15px;
+         padding: 5px 10px;
+         border: none;
+         border-left: 1px solid #001858;
+         outline:none;
+         width: 230px;
+
+         }
+      }
+      button{
+         border-radius: 8px;
+         padding: 10px;
+         width: 270px;
+         margin: 20px 10px 30px 10px;
+         font-size: 15px;
+      }
+      .sign-in-com-rule{
+         input{
+            margin: 10px 5px;
+         }
+         label{
+            font-size: 13px;
+         }
+         .sign-in-com-rule-btn{
+            border: none;
+            outline: none;
+            background-color: transparent;
+            margin: 0 5px;
+            padding: 0;
+            width: auto;
+            font-size: 16px;
+         }
+      }
+      .sign-in-com-rule-btn-modal{
+         position: relative;
+         div{
+            border-radius: 8px;
+         width: 93%;
+         height: 42%;
+         background-color: #898989;
+         position: absolute;
+         left: 50%;
+         transform: translate(-50%, -65%);
+         z-index: 5;
+         top: 50%;
+         opacity: 0.5;
+         }
+      }
+.sign-in-confirm-text{
+   color: red;
+}
+
+   }
+   .sign-in-modal{
+      position: relative;
+      width: 100%;
+      height: 100%;
+      z-index: 50;
+      .sign-in-modal-cover{
+         position: fixed;
+         width: 100%;
+         top: 0;
+         height: 100%;
+         background-color: rgba(0, 0, 0, 0.53);
+         left: 0;
+         z-index: 51;
+
+      }
+      .sign-in-modal-content{
+         border-radius: 10px;
+         width: 70%;
+         height: 40%;
+         background-color: #8bd3dd;
+         position: fixed;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         z-index: 52;
+         top: 50%;
+         h3{
+            margin: 30px 0;
+         }
+         ol{
+            list-style-type:decimal
+            
+         }
+         ol li{
+            margin: 15px 0;
+         }
+         button{
+            margin-top: 50px;
+            border-radius: 8px;
+            width: 200px;
+            padding: 10px;
+         }
+      }
+   }
+}

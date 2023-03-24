@@ -25,10 +25,13 @@ $tertiary: #f582ae;
 @import "./pages/user-cards";
 @import "./pages/user-cards-page";
 @import "./pages/user-new-card-page";
+@import "./pages/user-home-page";
 
 //components
-@import "./components/login-com";
-@import "./components/sign-in-com";
+@import "./components/login-form";
+@import "./components/register-form";
 @import "./components/user-card";
 @import "./components/user-controller";
+@import "./components/post";
+@import "./components/loading";
 

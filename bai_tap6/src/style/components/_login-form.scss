@@ -1,0 +1,35 @@
+.login-com{
+   padding: 10px;
+   
+   .login-com-row{
+      margin: 13px 8px;
+      border: 1px solid #001858;
+      border-radius: 10px;
+      overflow: auto;
+
+      input{
+         width: 200px;
+         font-size: 15px;
+         padding: 5px 10px;
+         border: none;
+         border-left: 1px solid #001858;
+         outline:none
+      }
+      div{
+         width: 40px;
+      }
+   }
+   .login-com-btn{
+      margin:10px 0;
+      width: 240px;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 15px;
+   }
+   .login-com-bot{
+      width: 90%;
+      p{
+         font-size: 14px;
+      }
+   }
+}

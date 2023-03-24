@@ -47,6 +47,7 @@ const HouseProvider = (props) => {
       deleteHouse(id)
         .then(() => {
           setHouseList(houseList.filter((item) => item.id !== id));
+          rs(id);
         })
         .catch((error) => {
           console.log(error);
@@ -54,7 +55,6 @@ const HouseProvider = (props) => {
         })
         .finally(() => {
           loadingProvider.setStatusLoading(false);
-          rs(id);
         });
     });
   };

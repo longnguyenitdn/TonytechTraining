@@ -1,12 +1,31 @@
-.ant-space{
-   div{
-      button{
-         background-color: $primary-background;
-         border: none;
-}
-.ant-dropdown-trigger{
-   background-color: $button;
-}
-   }
+.user-controller{
+   background-color: $primary-background;
+   border-radius: 8px;
+   overflow: hidden;
+
    
+   button{
+      padding: 5px 10px;
+      background-color: $button;
+      border: none;
+      outline: none;
+      font-size: 15px;
+   }
+   span{
+      padding: 5px 10px;
+   }
+   ul{
+      border-radius: 8px ;
+      list-style-type: none;
+      background-color: $button;
+      position: absolute;
+      top: 30px;
+      right: 10px;
+      width: 108px;
+      padding: 5px 10px;
+      font-size: 14px;
+      li{
+         padding: 5px 0;
+      }
+   }
 }

@@ -1,12 +1,15 @@
 export const ROUTER = {
   home: "/",
-  user: "/users/:userId",
-  userLogin: "/login",
-  userAdd: "/users/:userId/add",
+  userLogin: "/auth/login",
+  userHome: "/my",
+  userRegister: "/auth/register",
+  userAdd: "/my/add",
+  userUpdatePost: "/my/:postId/update",
+  userVisited: "/visit/:visitedUserId",
 };
 
 export const getRouter = (path, params) => {
-  path = path.replace(/userId/gi, function (matched) {
+  path = path.replace(/visitedUserId|postId/gi, function (matched) {
     return params[matched];
   });
   const newPath = path.replace(/:/gi, "");

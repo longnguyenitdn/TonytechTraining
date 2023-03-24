@@ -3,12 +3,13 @@ import React from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
 import { ROUTER } from "../../config/routers";
-
 import UserController from "../../components/user-controller";
+
 import { withUsers } from "../../HOCs/users.HOC";
 
-const UserLayout = (props) => {
+const PublicLayout = (props) => {
   const navigate = useNavigate();
+
   const transferToHome = () => {
     navigate(ROUTER.home);
   };
@@ -25,4 +26,4 @@ const UserLayout = (props) => {
     </div>
   );
 };
-export default withUsers(UserLayout);
+export default withUsers(PublicLayout);
