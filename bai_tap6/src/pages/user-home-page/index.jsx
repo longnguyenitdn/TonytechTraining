@@ -10,16 +10,18 @@ import {
   PlusSquareOutlined,
 } from "@ant-design/icons";
 
-import { deletePost } from "../../api/post";
-import { removePost } from "../../redux/actions/post.action";
+import { deletePost, getUserPost } from "../../api/post";
+import { fetchUserPost, removePost } from "../../redux/actions/post.action";
 import { usersSelector } from "../../redux/selectors/user.selector";
-import { withPosts } from "../../HOCs/posts.HOC";
+import { postsUserSelector } from "../../redux/selectors/post.selector";
+import { removePass } from "../../ultil";
 
 const UserHomePage = (props) => {
   const userId = window.localStorage.getItem("id");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector(usersSelector);
+  const posts = useSelector(postsUserSelector);
 
   const handleRemovePost = (id) => {
     deletePost(id)
@@ -28,12 +30,23 @@ const UserHomePage = (props) => {
       })
       .catch((error) => console.log(error));
   };
+
   useEffect(() => {
     if (userId) {
       navigate(ROUTER.userHome);
     } else {
       navigate(ROUTER.userLogin);
     }
+    getUserPost(userId).then((posts) => {
+      dispatch(
+        fetchUserPost(
+          posts.map((post) => ({
+            ...post,
+            user: removePass(post.user),
+          }))
+        )
+      );
+    });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
@@ -43,8 +56,8 @@ const UserHomePage = (props) => {
         <h5>Đây là những bài viết bạn đã đăng:</h5>
       </div>
       <div className="user-content flexc flex-cen">
-        {props.posts
-          .filter((post) => post.userId === parseInt(userId))
+        {posts
+          ?.filter((post) => post.userId === parseInt(userId))
           .map((post) => (
             <Post
               key={post.id}
@@ -73,4 +86,4 @@ const UserHomePage = (props) => {
     </div>
   );
 };
-export default withPosts(UserHomePage);
+export default UserHomePage;

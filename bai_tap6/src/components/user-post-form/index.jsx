@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
 
 const UserPostForm = (props) => {
-  useEffect(() => {
-    if (props.post) {
-      setPost(props.post);
-    }
-  }, [props.post]);
-
   const [post, setPost] = useState({
     id: "",
     decription: "",
@@ -44,6 +38,12 @@ const UserPostForm = (props) => {
     props.handleUpdatePost(newPost);
   };
 
+  useEffect(() => {
+    if (props.post) {
+      setPost(props.post);
+    }
+  }, [props.post]);
+
   return (
     <>
       <textarea
@@ -58,7 +58,6 @@ const UserPostForm = (props) => {
         <div className="container">
           <div className="preview flexc flex-cen">
             <img id="img-preview" src={post ? post.photo : ""} alt="..." />
-
             <div className="upload-photo-btn flexr">
               <label htmlFor="file-input">Upload Image</label>
               <input

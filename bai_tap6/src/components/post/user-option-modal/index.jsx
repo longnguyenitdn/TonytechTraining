@@ -22,7 +22,9 @@ const UserOptionModal = (props) => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-  const onSubmitHandleRemovePost = () => {
+  const onSubmitHandleRemovePost = (e) => {
+    e.stopPropagation();
+
     props.handleRemovePost(props.post.id);
     props.setIsOption(false);
   };

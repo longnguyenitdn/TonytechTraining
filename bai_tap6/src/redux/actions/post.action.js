@@ -10,6 +10,7 @@ export const removePost = (data) => {
     payload: data,
   };
 };
+
 export const updatePost = (data) => {
   return {
     type: "posts/updatePost",
@@ -20,6 +21,12 @@ export const updatePost = (data) => {
 export const fetchPost = (data) => {
   return {
     type: "posts/fetchPost",
+    payload: data,
+  };
+};
+export const fetchUserPost = (data) => {
+  return {
+    type: "posts/fetchUserPost",
     payload: data,
   };
 };

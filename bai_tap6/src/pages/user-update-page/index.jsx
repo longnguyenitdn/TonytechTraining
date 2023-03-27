@@ -10,18 +10,20 @@ import { useNavigate } from "react-router-dom";
 
 import UserPostForm from "../../components/user-post-form";
 import { useSelector } from "react-redux";
-import { postsSelector } from "../../redux/selectors/post.selector";
+import { postsUserSelector } from "../../redux/selectors/post.selector";
+import { updatePost } from "../../redux/actions/post.action";
 
 const UserUpdatePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const posts = useSelector(postsSelector);
-  const { userId } = useParams();
+  const posts = useSelector(postsUserSelector);
+  const userId = window.localStorage.getItem("id");
   const { postId } = useParams();
   const userLink = getRouter(ROUTER.userHome, {
     userId: userId,
   });
-  const updatePost = posts.find((post) => post.id === parseInt(postId));
+  const post = posts.find((post) => post.id === parseInt(postId));
+
   const handleUpdatePost = (post) => {
     editPost(post)
       .then((data) => {
@@ -39,7 +41,7 @@ const UserUpdatePage = () => {
         <h3>Chỉnh sửa bài viết</h3>
         <div className="user-new-card-content flexc flex-cen flex-bet">
           <UserPostForm
-            post={updatePost}
+            post={post}
             userId={userId}
             handleUpdatePost={handleUpdatePost}
           />

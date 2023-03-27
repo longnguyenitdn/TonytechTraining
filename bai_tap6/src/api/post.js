@@ -3,6 +3,10 @@ import { myFetch } from "./myFetch";
 const getPost = () => {
   return myFetch("/posts?_expand=user", "GET");
 };
+const getUserPost = (id) => {
+  return myFetch(`/posts?userId=${id}&_expand=user`, "GET");
+};
+
 const addPost = (post) => {
   const link = "/posts";
   const option = "POST";
@@ -18,4 +22,4 @@ const deletePost = (id) => {
   const option = "DELETE";
   return myFetch(link, option);
 };
-export { addPost, editPost, deletePost, getPost };
+export { addPost, editPost, deletePost, getPost, getUserPost };

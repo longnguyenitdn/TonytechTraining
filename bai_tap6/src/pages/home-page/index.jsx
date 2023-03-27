@@ -1,15 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getPost } from "../../api/post";
 import Post from "../../components/post";
-import { withPosts } from "../../HOCs/posts.HOC";
+import { fetchPost } from "../../redux/actions/post.action";
+import { postsSelector } from "../../redux/selectors/post.selector";
 
 const HomePage = (props) => {
+  const posts = useSelector(postsSelector);
+
+  const disPatch = useDispatch();
+  useEffect(() => {
+    getPost().then((posts) => {
+      disPatch(fetchPost(posts));
+    });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <>
       <div className="user-layout-cover-body">
         <div className="user-layout-body">
           <div className="user-layout-body-content">
             <div className="user-cards flexc">
-              {props.posts?.map((post) => {
+              {posts?.map((post) => {
                 return <Post key={post.id} post={post} />;
               })}
             </div>
@@ -19,4 +31,4 @@ const HomePage = (props) => {
     </>
   );
 };
-export default withPosts(HomePage);
+export default HomePage;
