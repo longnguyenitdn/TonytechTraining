@@ -1,16 +1,9 @@
 import React from "react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 
-import { useNavigate } from "react-router-dom";
-import { addUser } from "../../api/user";
 import { FaUserAlt, FaLock, FaKey } from "react-icons/fa";
-import { ROUTER } from "../../config/routers";
-import { addNewUser } from "../../redux/actions/user.action";
 
-const RegisterForm = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+const RegisterForm = (props) => {
   const [readRule, setReadRule] = useState(false);
   const [agree, setAgree] = useState(false);
   const [isSamePass, setIsSamePass] = useState(true);
@@ -20,38 +13,21 @@ const RegisterForm = () => {
     account: "",
     pass: "",
   });
+
   const toggleAgree = () => {
     setAgree(!agree);
   };
-  const checkPass = () => {
+
+  const onSubmitHandleAddUser = () => {
     if (user.pass === confirmPass) {
       setIsSamePass(true);
-      return true;
+      props.handleAddUser(user);
     } else {
       setIsSamePass(false);
-      return false;
-    }
-  };
-  const handleAddUser = () => {
-    const isSame = checkPass();
-    if (isSame) {
-      if (user.name === "" || user.account === "" || user.pass === "") {
-        alert("Chú ý: Các trường input không được để trống");
-        return;
-      } else {
-        addUser(user)
-          .then((user) => {
-            dispatch(addNewUser(user));
-            navigate(ROUTER.userLogin);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
-    } else {
       return;
     }
   };
+
   return (
     <div className="sign-in-com">
       <h3>Đăng ký tài khoản tại TonyBook</h3>
@@ -122,7 +98,7 @@ const RegisterForm = () => {
         </div>
         <div className="sign-in-com-rule-btn-modal">
           <div hidden={agree ? true : false}></div>
-          <button className="btn" onClick={handleAddUser}>
+          <button className="btn" onClick={onSubmitHandleAddUser}>
             Đăng ký
           </button>
         </div>

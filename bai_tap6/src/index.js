@@ -23,8 +23,9 @@ import UserNewPostPage from "./pages/user-new-post-page";
 
 import RegisterPage from "./pages/register-page";
 import UserHomePage from "./pages/user-home-page";
-import UserVisitedPage from "./pages/user-visit-page";
-import UserUpdatePage from "./pages/user-update-page";
+
+import VisitedPage from "./pages/visit-page";
+import UserUpdatePostPage from "./pages/user-update-post-page";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,12 +37,12 @@ const router = createBrowserRouter(
 
       <Route path="/my" element={<UserLayout />}>
         <Route path="add" element={<UserNewPostPage />} />
-        <Route path=":postId/update" element={<UserUpdatePage />} />
+        <Route path=":postId/update" element={<UserUpdatePostPage />} />
         <Route index element={<UserHomePage />} />
       </Route>
 
       <Route path="/" element={<PublicLayout />}>
-        <Route path="visit/:visitedUserId" element={<UserVisitedPage />} />
+        <Route path="visit/:visitedUserId" element={<VisitedPage />} />
         <Route index element={<HomePage />} />
       </Route>
     </Route>

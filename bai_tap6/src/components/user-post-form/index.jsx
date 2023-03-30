@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toBase64 } from "../../ultil";
 
 const UserPostForm = (props) => {
   const [post, setPost] = useState({
@@ -9,13 +10,6 @@ const UserPostForm = (props) => {
     createAt: "",
   });
 
-  const toBase64 = (file) =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
   const onChangeImage = async (e) => {
     if (e.target.files.length) {
       const photo = await toBase64(e.target.files[0]);
@@ -23,18 +17,16 @@ const UserPostForm = (props) => {
     }
   };
   const setDateCreate = () => {
-    return new Promise((rs, rj) => {
-      const date = new Date().toLocaleString();
-      setPost({ ...post, createAt: date });
-      rs({ ...post, createAt: date });
-    });
+    const date = new Date().toLocaleString();
+    setPost({ ...post, createAt: date });
+    return { ...post, createAt: date };
   };
-  const onSubmitHandleAddPost = async () => {
-    const newPost = await setDateCreate();
+  const onSubmitHandleAddPost = () => {
+    const newPost = setDateCreate();
     props.handleAddpost(newPost);
   };
-  const onSubmitHandleUpdatePost = async () => {
-    const newPost = await setDateCreate();
+  const onSubmitHandleUpdatePost = () => {
+    const newPost = setDateCreate();
     props.handleUpdatePost(newPost);
   };
 
@@ -57,7 +49,11 @@ const UserPostForm = (props) => {
       <div>
         <div className="container">
           <div className="preview flexc flex-cen">
-            <img id="img-preview" src={post ? post.photo : ""} alt="..." />
+            <img
+              id="img-preview"
+              src={post.photo === "" ? "/add-g19a0fb01f_1280.png" : post.photo}
+              alt=""
+            />
             <div className="upload-photo-btn flexr">
               <label htmlFor="file-input">Upload Image</label>
               <input

@@ -7,9 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { ROUTER } from "../../config/routers";
 import Loading from "../loading";
 
-import { getUser } from "../../api/user";
-
-const LogInForm = () => {
+const LogInForm = (props) => {
   const navigate = useNavigate();
 
   const [isSuccess, setIsSuccess] = useState(true);
@@ -18,20 +16,22 @@ const LogInForm = () => {
     account: "",
     pass: "",
   });
-  const setLoginId = (id) => {
+  const setLoginingUser = (id, name) => {
     window.localStorage.clear();
     window.localStorage.setItem("id", id);
+    window.localStorage.setItem("name", name);
   };
+
   const loginToUser = async (e) => {
     e.preventDefault();
     setLoadingStatus(true);
-    const users = await getUser();
+    const users = await props.onSubmitGetUser();
     const user = users.find(
       (user) =>
         user.account === loginUser.account && user.pass === loginUser.pass
     );
     if (user) {
-      setLoginId(user.id);
+      setLoginingUser(user.id, user.name);
       navigate(ROUTER.home);
     } else {
       setIsSuccess(false);
@@ -41,8 +41,8 @@ const LogInForm = () => {
 
   return (
     <form action="#" onSubmit={loginToUser}>
-      {loadingStatus === true && <Loading />}
       <div className="flexc flex-cen login-com">
+        {loadingStatus === true && <Loading />}
         <h3>Đăng nhập vào TonyBook</h3>
         <div className="flexr flex-cen login-com-row">
           <div>

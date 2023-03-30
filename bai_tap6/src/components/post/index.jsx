@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ROUTER, getRouter } from "../../config/routers";
-
 import { CiMenuKebab } from "react-icons/ci";
 import {
   HeartTwoTone,
@@ -9,8 +8,8 @@ import {
   BranchesOutlined,
 } from "@ant-design/icons";
 import UserOptionModal from "./user-option-modal";
+
 const Post = (props) => {
-  const userId = window.localStorage.getItem("id");
   const [isOption, setIsOption] = useState(false);
   const post = props.post;
 
@@ -29,10 +28,10 @@ const Post = (props) => {
             <p>{post?.decription}</p>
             <div className=" flexr flex-bet flex-cen">
               <h5 className="remove-link">
-                {parseInt(userId) !== post.userId && (
+                {parseInt(props.loginUser?.id) !== post.userId && (
                   <Link to={visitedUserLink}>Đăng bởi: {post.user?.name}</Link>
                 )}
-                {parseInt(userId) === post.userId &&
+                {parseInt(props.loginUser?.id) === post.userId &&
                   `Đăng bởi: ${post.user?.name}`}
               </h5>
               <button
@@ -43,11 +42,10 @@ const Post = (props) => {
                 }}
               >
                 <CiMenuKebab />
-                {isOption === true && (
+                {isOption && (
                   <UserOptionModal
                     isOption={isOption}
                     post={post}
-                    userId={userId}
                     setIsOption={setIsOption}
                     handleRemovePost={props.handleRemovePost}
                   />

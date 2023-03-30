@@ -1,13 +1,13 @@
 import React from "react";
-
 import { Outlet, useNavigate } from "react-router-dom";
-
 import { ROUTER } from "../../config/routers";
-
 import UserController from "../../components/user-controller";
-import { withUsers } from "../../HOCs/users.HOC";
+import { withUser } from "../../HOCs/user.Hocs";
+import { useSelector } from "react-redux";
+import { loginUserSelector } from "../../redux/selectors/loginUserSelector";
 
-const UserLayout = (props) => {
+const UserLayout = () => {
+  const loginUser = useSelector(loginUserSelector);
   const navigate = useNavigate();
   const transferToHome = () => {
     navigate(ROUTER.home);
@@ -18,11 +18,11 @@ const UserLayout = (props) => {
       <div className="user-layout-cover-header">
         <div className="user-layout-header flexr flex-bet flex-cen">
           <img src="/logo5.png" alt="Loading" onClick={transferToHome} />
-          <UserController user={props.user} />
+          <UserController userName={loginUser.name} />
         </div>
       </div>
       <Outlet />
     </div>
   );
 };
-export default withUsers(UserLayout);
+export default withUser(UserLayout);
