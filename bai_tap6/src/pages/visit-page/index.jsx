@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { getUserPost } from "../../api/post";
-import { getUser } from "../../api/user";
+import { getUserToCheck } from "../../api/user";
 import Post from "../../components/post";
 
 const VisitedPage = () => {
@@ -13,22 +13,16 @@ const VisitedPage = () => {
   const postVisited = visitPosts.find(
     (post) => post.userId === parseInt(visitedUserId)
   );
-  const validUser = async () => {
-    let isExist = false;
-    await getUser().then((data) => {
-      isExist = data.some((item) => item.id === parseInt(visitedUserId));
-    });
-    return isExist;
-  };
+
   useEffect(() => {
-    validUser().then((data) => {
-      if (data) {
-        setIsExistUser(true);
-        getUserPost(visitedUserId).then((posts) => {
-          setVisitPosts(posts.reverse());
-        });
-      } else {
+    getUserToCheck(visitedUserId).then((data) => {
+      if (Object.keys(data).length === 0) {
         setIsExistUser(false);
+      } else {
+        setIsExistUser(true);
+        getUserPost(visitedUserId).then((data) => {
+          setVisitPosts(data);
+        });
       }
     });
   }, [visitedUserId]); // eslint-disable-line react-hooks/exhaustive-deps

@@ -2,27 +2,27 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getRouter, ROUTER } from "../../config/routers";
 import { ArrowLeftOutlined } from "@ant-design/icons";
-import { editPost, getUserPost } from "../../api/post";
+import { editPost, getPostToUpdate } from "../../api/post";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import UserPostForm from "../../components/user-post-form";
 import { useSelector } from "react-redux";
-import { postsUserSelector } from "../../redux/selectors/post.selector";
-import { fetchUserPost, updatePost } from "../../redux/actions/post.action";
+import { updatePost } from "../../redux/actions/post.action";
 import { loginUserSelector } from "../../redux/selectors/loginUserSelector";
+import { useState } from "react";
 
 const UserUpdatePostPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const posts = useSelector(postsUserSelector);
+
   const loginUser = useSelector(loginUserSelector);
   const { postId } = useParams();
   const userLink = getRouter(ROUTER.userHome, {
     userId: loginUser.id,
   });
-  const post = posts.find((post) => post.id === parseInt(postId));
 
+  const [post, setPost] = useState({});
   const handleUpdatePost = (post) => {
     editPost(post)
       .then((data) => {
@@ -35,12 +35,12 @@ const UserUpdatePostPage = () => {
   };
 
   useEffect(() => {
-    if (loginUser.id) {
-      getUserPost(loginUser.id).then((posts) => {
-        dispatch(fetchUserPost(posts.reverse()));
+    if (postId) {
+      getPostToUpdate(postId).then((post) => {
+        setPost(post);
       });
     }
-  }, [loginUser.id]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [postId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="user-new-card">

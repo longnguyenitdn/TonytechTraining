@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { getUserToCheck } from "../api/user";s
 import Loading from "../components/loading";
 import { ROUTER } from "../config/routers";
 import { fetchLoginUser } from "../redux/actions/loginUser.action";
@@ -18,7 +19,14 @@ export const withUser = (WrappedComponent) => {
     useEffect(() => {
       setIsLoading(true);
       if (id) {
-        dispatch(fetchLoginUser(userLogin));
+        getUserToCheck(id).then((data) => {
+          if (Object.keys(data).length === 0) {
+            navigate(ROUTER.userLogin);
+            window.localStorage.clear();
+          } else {
+            dispatch(fetchLoginUser(userLogin));
+          }
+        });
       } else {
         navigate(ROUTER.userLogin);
       }

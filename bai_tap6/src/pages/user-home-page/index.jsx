@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Post from "../../components/post";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ROUTER } from "../../config/routers";
 import {
   HomeFilled,
@@ -12,14 +12,13 @@ import { deletePost, getUserPost } from "../../api/post";
 import { fetchUserPost, removePost } from "../../redux/actions/post.action";
 import { postsUserSelector } from "../../redux/selectors/post.selector";
 import { loginUserSelector } from "../../redux/selectors/loginUserSelector";
-import { getUser } from "../../api/user";
 
 const UserHomePage = (props) => {
   const dispatch = useDispatch();
   const loginUser = useSelector(loginUserSelector);
 
   const posts = useSelector(postsUserSelector);
-  const navigate = useNavigate();
+
   const handleRemovePost = (id) => {
     deletePost(id)
       .then(() => {
@@ -27,24 +26,11 @@ const UserHomePage = (props) => {
       })
       .catch((error) => console.log(error));
   };
-  const validUser = async () => {
-    let isExist = false;
-    await getUser().then((data) => {
-      isExist = data.some((item) => item.id === parseInt(loginUser.id));
-    });
-    return isExist;
-  };
+
   useEffect(() => {
     if (loginUser.id) {
-      validUser().then((data) => {
-        if (data) {
-          getUserPost(loginUser.id).then((posts) => {
-            dispatch(fetchUserPost(posts.reverse()));
-          });
-        } else {
-          window.localStorage.clear();
-          navigate(ROUTER.userLogin);
-        }
+      getUserPost(loginUser.id).then((posts) => {
+        dispatch(fetchUserPost(posts.reverse()));
       });
     }
   }, [loginUser.id]); // eslint-disable-line react-hooks/exhaustive-deps
