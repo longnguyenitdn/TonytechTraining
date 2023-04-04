@@ -13,7 +13,7 @@ const RegisterPage = () => {
       return;
     } else {
       addUser(user)
-        .then((user) => {
+        .then(() => {
           navigate(ROUTER.userLogin);
         })
         .catch((error) => {

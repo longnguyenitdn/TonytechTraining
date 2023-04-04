@@ -3,8 +3,8 @@ import React from "react";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { ROUTER } from "../../config/routers";
 import { useDispatch } from "react-redux";
-import { addPost } from "../../api/post";
-import { addNewPost } from "../../redux/actions/post.action";
+
+import { addNewByPost } from "../../redux/actions/post.action";
 import { useNavigate } from "react-router-dom";
 
 import { Link } from "react-router-dom";
@@ -18,14 +18,8 @@ const UserNewPostPage = () => {
   const dispatch = useDispatch();
 
   const handleAddpost = (post) => {
-    addPost(post)
-      .then((data) => {
-        dispatch(addNewPost(data));
-        navigate(ROUTER.userHome);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    dispatch(addNewByPost(post));
+    navigate(ROUTER.userHome);
   };
   return (
     <div className="user-new-card">
