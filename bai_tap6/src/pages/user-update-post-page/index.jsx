@@ -2,15 +2,15 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getRouter, ROUTER } from "../../config/routers";
 import { ArrowLeftOutlined } from "@ant-design/icons";
-import { editPost, getPostToUpdate } from "../../api/post";
+
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import UserPostForm from "../../components/user-post-form";
 import { useSelector } from "react-redux";
-import { updatePost } from "../../redux/actions/post.action";
+import { fetchPostUpdate, updateByPost } from "../../redux/actions/post.action";
 import { loginUserSelector } from "../../redux/selectors/loginUserSelector";
-import { useState } from "react";
+import { postSelector } from "../../redux/selectors/post.selector";
 
 const UserUpdatePostPage = () => {
   const dispatch = useDispatch();
@@ -22,23 +22,16 @@ const UserUpdatePostPage = () => {
     userId: loginUser.id,
   });
 
-  const [post, setPost] = useState({});
+  const post = useSelector(postSelector);
+
   const handleUpdatePost = (post) => {
-    editPost(post)
-      .then((data) => {
-        dispatch(updatePost(data));
-        navigate(ROUTER.userHome);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    dispatch(updateByPost(post));
+    navigate(ROUTER.userHome);
   };
 
   useEffect(() => {
     if (postId) {
-      getPostToUpdate(postId).then((post) => {
-        setPost(post);
-      });
+      dispatch(fetchPostUpdate(parseInt(postId)));
     }
   }, [postId]); // eslint-disable-line react-hooks/exhaustive-deps
 

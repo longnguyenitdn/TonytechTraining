@@ -8,8 +8,11 @@ import {
   SearchOutlined,
   PlusSquareOutlined,
 } from "@ant-design/icons";
-import { deletePost, getUserPost } from "../../api/post";
-import { fetchUserPost, removePost } from "../../redux/actions/post.action";
+
+import {
+  fetchUserPostByUser,
+  removePostById,
+} from "../../redux/actions/post.action";
 import { postsUserSelector } from "../../redux/selectors/post.selector";
 import { loginUserSelector } from "../../redux/selectors/loginUserSelector";
 
@@ -20,18 +23,12 @@ const UserHomePage = (props) => {
   const posts = useSelector(postsUserSelector);
 
   const handleRemovePost = (id) => {
-    deletePost(id)
-      .then(() => {
-        dispatch(removePost(id));
-      })
-      .catch((error) => console.log(error));
+    dispatch(removePostById(id));
   };
 
   useEffect(() => {
     if (loginUser.id) {
-      getUserPost(loginUser.id).then((posts) => {
-        dispatch(fetchUserPost(posts.reverse()));
-      });
+      dispatch(fetchUserPostByUser(loginUser.id));
     }
   }, [loginUser.id]); // eslint-disable-line react-hooks/exhaustive-deps
 

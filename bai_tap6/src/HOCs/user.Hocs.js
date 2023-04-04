@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getUserToCheck } from "../api/user";s
+import { getUserToCheck } from "../api/user";
 import Loading from "../components/loading";
 import { ROUTER } from "../config/routers";
 import { fetchLoginUser } from "../redux/actions/loginUser.action";

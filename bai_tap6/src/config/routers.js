@@ -4,7 +4,7 @@ export const ROUTER = {
   userHome: "/my",
   userRegister: "/auth/register",
   userAdd: "/my/add",
-  userUpdatePost: "/my/:postId/update",
+  userUpdatePost: "/my/posts/:postId/update",
   userVisited: "/visit/:visitedUserId",
 };
 

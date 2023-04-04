@@ -6,6 +6,9 @@ const getUser = () => {
 const getUserToCheck = (id) => {
   return myFetch(`/users/${id}`, "GET");
 };
+const getUserLogin = (acc, pass) => {
+  return myFetch(`/users?account=${acc}&pass=${pass}`, "GET");
+};
 const addUser = (user) => {
   const link = "/users";
   const option = "POST";
@@ -21,4 +24,4 @@ const deleteUser = (id) => {
   const option = "DELETE";
   return myFetch(link, option);
 };
-export { addUser, editUser, deleteUser, getUser, getUserToCheck };
+export { addUser, editUser, deleteUser, getUser, getUserToCheck, getUserLogin };

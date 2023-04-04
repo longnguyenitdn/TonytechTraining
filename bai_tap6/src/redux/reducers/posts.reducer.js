@@ -2,6 +2,7 @@ export default function posts(
   state = {
     userPosts: [],
     publicPosts: [],
+    post: {},
   },
   action
 ) {
@@ -31,6 +32,8 @@ export default function posts(
           }),
         ],
       };
+    case "posts/setPost":
+      return { ...state, post: action.payload };
 
     default:
       return state;

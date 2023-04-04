@@ -37,7 +37,7 @@ const router = createBrowserRouter(
 
       <Route path="/my" element={<UserLayout />}>
         <Route path="add" element={<UserNewPostPage />} />
-        <Route path=":postId/update" element={<UserUpdatePostPage />} />
+        <Route path="posts/:postId/update" element={<UserUpdatePostPage />} />
         <Route index element={<UserHomePage />} />
       </Route>
 

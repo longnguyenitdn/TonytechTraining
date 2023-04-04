@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getPost } from "../../api/post";
+
 import Post from "../../components/post";
-import { fetchPost } from "../../redux/actions/post.action";
+import { fetchPostPublic } from "../../redux/actions/post.action";
 import { loginUserSelector } from "../../redux/selectors/loginUserSelector";
 import { postsSelector } from "../../redux/selectors/post.selector";
 
@@ -11,9 +11,7 @@ const HomePage = (props) => {
   const loginUser = useSelector(loginUserSelector);
   const disPatch = useDispatch();
   useEffect(() => {
-    getPost().then((posts) => {
-      disPatch(fetchPost(posts.reverse()));
-    });
+    disPatch(fetchPostPublic());
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
