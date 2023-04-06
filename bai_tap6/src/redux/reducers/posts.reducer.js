@@ -1,3 +1,12 @@
+import {
+  POSTS_ADDPOST,
+  POSTS_FETCHPOST,
+  POSTS_FETCHUSERPOST,
+  POSTS_REMOVEPOST,
+  POSTS_SETPOST,
+  POSTS_UPDATEPOST,
+} from "../constant/posts.constant";
+
 export default function posts(
   state = {
     userPosts: [],
@@ -7,20 +16,20 @@ export default function posts(
   action
 ) {
   switch (action.type) {
-    case "posts/addPost":
+    case POSTS_ADDPOST:
       return { ...state, userPosts: [action.payload, ...state.userPosts] };
-    case "posts/fetchPost":
+    case POSTS_FETCHPOST:
       return { ...state, publicPosts: action.payload };
-    case "posts/fetchUserPost":
+    case POSTS_FETCHUSERPOST:
       return { ...state, userPosts: action.payload };
-    case "posts/removePost":
+    case POSTS_REMOVEPOST:
       return {
         ...state,
         userPosts: [
           ...state.userPosts.filter((post) => post.id !== action.payload),
         ],
       };
-    case "posts/updatePost":
+    case POSTS_UPDATEPOST:
       return {
         ...state,
         userPosts: [
@@ -32,7 +41,7 @@ export default function posts(
           }),
         ],
       };
-    case "posts/setPost":
+    case POSTS_SETPOST:
       return { ...state, post: action.payload };
 
     default:

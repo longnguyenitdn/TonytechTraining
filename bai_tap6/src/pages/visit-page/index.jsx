@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import Post from "../../components/post";
-import { fetchUserPostByUser } from "../../redux/actions/post.action";
 
 import { fetchVisitUserById } from "../../redux/actions/visitUser.action";
 import { postsUserSelector } from "../../redux/selectors/post.selector";
 
 const VisitedPage = () => {
   const visitPosts = useSelector(postsUserSelector);
+
   const [isExistUser, setIsExistUser] = useState(undefined);
   const loginUserName = window.localStorage.getItem("name");
   const { visitedUserId } = useParams();
@@ -18,17 +18,16 @@ const VisitedPage = () => {
   const postVisited = visitPosts.find(
     (post) => post.userId === parseInt(visitedUserId)
   );
-  const checkExistVisitUser = async () => {
+  const getPostVisitUser = async () => {
     const reponse = await dispatch(fetchVisitUserById(visitedUserId));
-    if (Object.keys(reponse).length === 0) {
+    if (reponse.error) {
       setIsExistUser(false);
     } else {
       setIsExistUser(true);
-      await dispatch(fetchUserPostByUser(visitedUserId));
     }
   };
   useEffect(() => {
-    checkExistVisitUser();
+    getPostVisitUser();
   }, [visitedUserId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return typeof isExistUser === "undefined" ? (

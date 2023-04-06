@@ -1,12 +1,14 @@
-import { getUserLogin } from "../../api/user";
+import { addUser, getUserLogin } from "../../api/user";
+import { FETCH_LOGIN_USER } from "../constant/authUser.constant";
 import { setLoading } from "./setting.action";
 
 export const fetchLoginUser = (data) => {
   return {
-    type: "loginUser/fetchLoginUser",
+    type: FETCH_LOGIN_USER,
     payload: data,
   };
 };
+
 export const fetchLoginUserByAuth = (acc, pass) => {
   return async (dispatch) => {
     let response = {};
@@ -32,11 +34,21 @@ export const fetchLoginUserByAuth = (acc, pass) => {
 };
 export const LogOutUser = () => {
   return async (dispatch) => {
+    window.localStorage.clear();
+    dispatch(fetchLoginUser({}));
+  };
+};
+
+export const registerUser = (user) => {
+  return async (dispatch) => {
     let response = {};
     try {
       dispatch(setLoading(true));
+      const userLogin = await addUser(user);
+      dispatch(fetchLoginUser(userLogin));
       window.localStorage.clear();
-      await dispatch(fetchLoginUser({}));
+      window.localStorage.setItem("id", userLogin.id);
+      window.localStorage.setItem("name", userLogin.name);
       response = {
         error: false,
       };

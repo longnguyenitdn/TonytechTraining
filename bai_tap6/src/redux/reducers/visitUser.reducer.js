@@ -1,6 +1,8 @@
+import { VISITUSER_FETCHVISITUSER } from "../constant/visitUser.constant";
+
 export default function visitUser(state = {}, action) {
   switch (action.type) {
-    case "visitUser/fetchVisitUser":
+    case VISITUSER_FETCHVISITUSER:
       return action.payload;
 
     default:

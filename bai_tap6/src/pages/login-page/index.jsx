@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import LogInForm from "../../components/log-in-form";
-import { fetchLoginUserByAuth } from "../../redux/actions/loginUser.action";
+import { fetchLoginUserByAuth } from "../../redux/actions/authUser.action";
 
 import { ROUTER } from "../../config/routers";
 

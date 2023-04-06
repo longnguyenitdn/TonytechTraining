@@ -142,6 +142,7 @@ export const fetchUserPostByUser = (userId) => {
     try {
       dispatch(setLoading(true));
       const res = await getUserPost(userId);
+
       dispatch(fetchUserPost(res.reverse()));
     } catch (err) {
       console.log(err);

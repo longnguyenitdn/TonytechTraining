@@ -1,37 +1,30 @@
 import { getUserToCheck } from "../../api/user";
-import { fetchUserPostByUser } from "./post.action";
+import { fetchLoginUser } from "./authUser.action";
 import { setLoading } from "./setting.action";
 
-export const fetchVisitUser = (data) => {
-  return {
-    type: "visitUser/fetchVisitUser",
-    payload: data,
-  };
-};
-export const fetchVisitUserById = (userId) => {
+export const getUserLoginLocal = (id) => {
   return async (dispatch) => {
-    let res = {};
+    let response = {};
     try {
       dispatch(setLoading(true));
-      const user = await getUserToCheck(userId);
-
+      const user = await getUserToCheck(id);
       if (user.id) {
-        dispatch(fetchUserPostByUser(user.id));
-        res = {
+        dispatch(fetchLoginUser(user));
+        response = {
           error: false,
         };
       } else {
-        res = {
+        response = {
           error: new Error("User not found"),
         };
       }
     } catch (err) {
       console.log(err);
-      res = {
+      response = {
         error: err,
       };
     }
     dispatch(setLoading(false));
-    return res;
+    return response;
   };
 };
