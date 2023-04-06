@@ -15,15 +15,43 @@ import {
 } from "../../redux/actions/post.action";
 import { postsUserSelector } from "../../redux/selectors/post.selector";
 import { loginUserSelector } from "../../redux/selectors/loginUserSelector";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 const UserHomePage = (props) => {
   const dispatch = useDispatch();
   const loginUser = useSelector(loginUserSelector);
 
   const posts = useSelector(postsUserSelector);
-
-  const handleRemovePost = (id) => {
-    dispatch(removePostById(id));
+  const setSuccessNotification = () =>
+    toast("Delete Successfull", {
+      position: "top-right",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  const setFailNotification = () =>
+    toast.error("Delete Fail, Opp!", {
+      position: "top-right",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  const handleRemovePost = async (id) => {
+    const reponse = await dispatch(removePostById(id));
+    if (reponse.error) {
+      setFailNotification();
+    } else {
+      setSuccessNotification();
+    }
   };
 
   useEffect(() => {
@@ -34,6 +62,19 @@ const UserHomePage = (props) => {
 
   return (
     <div className="user-home">
+      <ToastContainer
+        position="top-right"
+        autoClose={1500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+
       <div className="user-title">
         <h3>Xin chào {loginUser.name}</h3>
         <h5>Đây là những bài viết bạn đã đăng:</h5>

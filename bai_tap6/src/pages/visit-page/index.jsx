@@ -1,14 +1,16 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getUserPost } from "../../api/post";
-import { getUserToCheck } from "../../api/user";
+
 import Post from "../../components/post";
-import { setLoading } from "../../redux/actions/setting.action";
+import { fetchUserPostByUser } from "../../redux/actions/post.action";
+
+import { fetchVisitUserById } from "../../redux/actions/visitUser.action";
+import { postsUserSelector } from "../../redux/selectors/post.selector";
 
 const VisitedPage = () => {
-  const [visitPosts, setVisitPosts] = useState([]);
+  const visitPosts = useSelector(postsUserSelector);
   const [isExistUser, setIsExistUser] = useState(undefined);
   const loginUserName = window.localStorage.getItem("name");
   const { visitedUserId } = useParams();
@@ -16,22 +18,17 @@ const VisitedPage = () => {
   const postVisited = visitPosts.find(
     (post) => post.userId === parseInt(visitedUserId)
   );
-
-  useEffect(() => {
-    if (visitedUserId) {
-      dispatch(setLoading(true));
-      getUserToCheck(visitedUserId).then((data) => {
-        if (Object.keys(data).length === 0) {
-          setIsExistUser(false);
-        } else {
-          setIsExistUser(true);
-          getUserPost(visitedUserId).then((data) => {
-            setVisitPosts(data);
-          });
-        }
-        dispatch(setLoading(false));
-      });
+  const checkExistVisitUser = async () => {
+    const reponse = await dispatch(fetchVisitUserById(visitedUserId));
+    if (Object.keys(reponse).length === 0) {
+      setIsExistUser(false);
+    } else {
+      setIsExistUser(true);
+      await dispatch(fetchUserPostByUser(visitedUserId));
     }
+  };
+  useEffect(() => {
+    checkExistVisitUser();
   }, [visitedUserId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return typeof isExistUser === "undefined" ? (

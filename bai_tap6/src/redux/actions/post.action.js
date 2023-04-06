@@ -16,15 +16,22 @@ export const addNewPost = (data) => {
 };
 export const addNewByPost = (post) => {
   return async (dispatch) => {
+    let reponse = {};
     try {
       dispatch(setLoading(true));
       const res = await addPost(post);
-
       dispatch(addNewPost(res));
+      reponse = {
+        error: false,
+      };
     } catch (err) {
       console.log(err);
+      reponse = {
+        error: err,
+      };
     }
     dispatch(setLoading(false));
+    return reponse;
   };
 };
 
@@ -37,15 +44,22 @@ export const removePost = (data) => {
 
 export const removePostById = (postId) => {
   return async (dispatch) => {
+    let reponse = {};
     try {
       dispatch(setLoading(true));
       await deletePost(postId);
-
       dispatch(removePost(postId));
+      reponse = {
+        error: false,
+      };
     } catch (err) {
       console.log(err);
+      reponse = {
+        error: err,
+      };
     }
     dispatch(setLoading(false));
+    return reponse;
   };
 };
 
@@ -58,14 +72,22 @@ export const updatePost = (data) => {
 
 export const updateByPost = (post) => {
   return async (dispatch) => {
+    let response = {};
     try {
       dispatch(setLoading(true));
       const res = await editPost(post);
       dispatch(updatePost(res));
+      response = {
+        error: false,
+      };
     } catch (err) {
       console.log(err);
+      response = {
+        error: err,
+      };
     }
     dispatch(setLoading(false));
+    return response;
   };
 };
 

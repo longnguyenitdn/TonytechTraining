@@ -49,14 +49,18 @@ const UserPostForm = (props) => {
       <div>
         <div className="container">
           <div className="preview flexc flex-cen">
-            <img
-              id="img-preview"
-              src={post.photo === "" ? "/add-g19a0fb01f_1280.png" : post.photo}
-              alt=""
-            />
+            <label htmlFor="file-input">
+              <img
+                id="img-preview"
+                src={
+                  post.photo === "" ? "/add-g19a0fb01f_1280.png" : post.photo
+                }
+                alt=""
+              />
+            </label>
             <div className="upload-photo-btn flexr">
-              <label htmlFor="file-input">Upload Image</label>
               <input
+                hidden={true}
                 onChange={onChangeImage}
                 type="file"
                 id="file-input"
