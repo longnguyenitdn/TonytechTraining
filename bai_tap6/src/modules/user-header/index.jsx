@@ -1,11 +1,12 @@
 import UserController from "../../components/user-controller";
 import { useDispatch, useSelector } from "react-redux";
-import { LogOutUser } from "../../redux/actions/authUser.action";
+
 import { ROUTER } from "../../config/routers";
 import { useNavigate } from "react-router-dom";
 import { loginUserSelector } from "../../redux/selectors/loginUserSelector";
 import { useEffect } from "react";
-import { getUserLoginLocal } from "../../redux/actions/HOC.action";
+import { getUserLoginLocal } from "../../redux/actions/user.action";
+import { LogOutUser } from "../../redux/actions/authUser.action";
 
 export default function UserHeader() {
   const dispatch = useDispatch();
@@ -22,5 +23,5 @@ export default function UserHeader() {
       dispatch(getUserLoginLocal(id));
     }
   }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
-  return <UserController userName={userLogin.name} logOut={logOut} />;
+  return <UserController userName={userLogin?.name} logOut={logOut} />;
 }

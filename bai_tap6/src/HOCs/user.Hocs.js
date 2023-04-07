@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import Loading from "../components/loading";
 import { ROUTER } from "../config/routers";
-import { getUserLoginLocal } from "../redux/actions/HOC.action";
+import { getUserLoginLocal } from "../redux/actions/user.action";
 
 export const withUser = (WrappedComponent) => {
   const HigherComponent = (props) => {

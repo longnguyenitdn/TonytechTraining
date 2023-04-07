@@ -1,5 +1,5 @@
 import { getUserToCheck } from "../../api/user";
-import { fetchLoginUser } from "./authUser.action";
+import { setLoginUser } from "./authUser.action";
 import { setLoading } from "./setting.action";
 
 export const getUserLoginLocal = (id) => {
@@ -9,7 +9,7 @@ export const getUserLoginLocal = (id) => {
       dispatch(setLoading(true));
       const user = await getUserToCheck(id);
       if (user.id) {
-        dispatch(fetchLoginUser(user));
+        dispatch(setLoginUser(user));
         response = {
           error: false,
         };

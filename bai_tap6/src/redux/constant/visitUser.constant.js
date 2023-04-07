@@ -1,1 +1,1 @@
-export const VISITUSER_FETCHVISITUSER = "visitUser/fetchVisitUser";
+export const VISITUSER_SETVISITUSER = "visitUser/setVisitUser";

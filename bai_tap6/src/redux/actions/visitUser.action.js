@@ -1,10 +1,11 @@
 import { getUserToCheck } from "../../api/user";
+import { VISITUSER_SETVISITUSER } from "../constant/visitUser.constant";
 import { fetchUserPostByUser } from "./post.action";
 import { setLoading } from "./setting.action";
 
-export const fetchVisitUser = (data) => {
+export const setVisitUser = (data) => {
   return {
-    type: "visitUser/fetchVisitUser",
+    type: VISITUSER_SETVISITUSER,
     payload: data,
   };
 };
@@ -14,8 +15,8 @@ export const fetchVisitUserById = (userId) => {
     try {
       dispatch(setLoading(true));
       const user = await getUserToCheck(userId);
-
       if (user.id) {
+        dispatch(setVisitUser(user));
         dispatch(fetchUserPostByUser(user.id));
         res = {
           error: false,

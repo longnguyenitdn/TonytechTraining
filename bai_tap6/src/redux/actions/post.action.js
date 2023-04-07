@@ -6,11 +6,19 @@ import {
   getPostToUpdate,
   getUserPost,
 } from "../../api/post";
+import {
+  POSTS_ADDPOST,
+  POSTS_FETCHPOST,
+  POSTS_FETCHUSERPOST,
+  POSTS_REMOVEPOST,
+  POSTS_SETPOST,
+  POSTS_UPDATEPOST,
+} from "../constant/posts.constant";
 import { setLoading } from "./setting.action";
 
 export const addNewPost = (data) => {
   return {
-    type: "posts/addPost",
+    type: POSTS_ADDPOST,
     payload: data,
   };
 };
@@ -37,7 +45,7 @@ export const addNewByPost = (post) => {
 
 export const removePost = (data) => {
   return {
-    type: "posts/removePost",
+    type: POSTS_REMOVEPOST,
     payload: data,
   };
 };
@@ -65,7 +73,7 @@ export const removePostById = (postId) => {
 
 export const updatePost = (data) => {
   return {
-    type: "posts/updatePost",
+    type: POSTS_UPDATEPOST,
     payload: data,
   };
 };
@@ -107,7 +115,7 @@ export const fetchPostUpdate = (postId) => {
 
 export const fetchPost = (data) => {
   return {
-    type: "posts/fetchPost",
+    type: POSTS_FETCHPOST,
     payload: data,
   };
 };
@@ -127,13 +135,13 @@ export const fetchPostPublic = () => {
 
 export const setPostTemp = (data) => {
   return {
-    type: "posts/setPost",
+    type: POSTS_SETPOST,
     payload: data,
   };
 };
 export const fetchUserPost = (data) => {
   return {
-    type: "posts/fetchUserPost",
+    type: POSTS_FETCHUSERPOST,
     payload: data,
   };
 };
