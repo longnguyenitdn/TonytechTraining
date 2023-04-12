@@ -1,8 +1,5 @@
-export const ADD_POST = "posts/addPost";
 export const FETCH_POST = "posts/fetchPost";
 export const FETCH_USER_POST = "posts/fetchUserPost";
-export const REMOVE_POST = "posts/removePost";
-export const UPDATE_POST = "posts/updatePost";
 export const SET_POST = "posts/setPost";
 export const ADD_NEW_BY_POST = "posts/addNewByPost";
 export const REMOVE_POST_BY_ID = "posts/removePostById";

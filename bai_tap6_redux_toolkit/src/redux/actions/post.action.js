@@ -9,26 +9,19 @@ import {
 } from "../../api/post";
 import {
   ADD_NEW_BY_POST,
-  ADD_POST,
-  FETCH_POST,
   FETCH_POST_PUBLIC,
   FETCH_POST_UPDATE,
-  FETCH_USER_POST,
   FETCH_USER_POST_BY_USER,
-  REMOVE_POST,
   REMOVE_POST_BY_ID,
   UPDATE_BY_POST,
-  UPDATE_POST,
 } from "../constant/posts.constant";
 import { setLoading } from "../reducers/setting.slice";
-import { setPost } from "../reducers/posts.slice";
+import {
+  UserUpdatePost,
+  userAddPost,
+  userRemovePost,
+} from "../reducers/posts.slice";
 
-export const addNewPost = (data) => {
-  return {
-    type: ADD_POST,
-    payload: data,
-  };
-};
 export const addNewByPost = createAsyncThunk(
   ADD_NEW_BY_POST,
   async (post, { dispatch }) => {
@@ -36,7 +29,7 @@ export const addNewByPost = createAsyncThunk(
     try {
       dispatch(setLoading(true));
       const res = await addPost(post);
-      dispatch(addNewPost(res));
+      dispatch(userAddPost(res));
       reponse = {
         error: false,
       };
@@ -50,13 +43,6 @@ export const addNewByPost = createAsyncThunk(
     return reponse;
   }
 );
-
-export const removePost = (data) => {
-  return {
-    type: REMOVE_POST,
-    payload: data,
-  };
-};
 
 export const removePostById = createAsyncThunk(
   REMOVE_POST_BY_ID,
@@ -65,7 +51,7 @@ export const removePostById = createAsyncThunk(
     try {
       dispatch(setLoading(true));
       await deletePost(postId);
-      dispatch(removePost(postId));
+      dispatch(userRemovePost(postId));
       reponse = {
         error: false,
       };
@@ -80,13 +66,6 @@ export const removePostById = createAsyncThunk(
   }
 );
 
-export const updatePost = (data) => {
-  return {
-    type: UPDATE_POST,
-    payload: data,
-  };
-};
-
 export const updateByPost = createAsyncThunk(
   UPDATE_BY_POST,
   async (post, { dispatch }) => {
@@ -94,7 +73,7 @@ export const updateByPost = createAsyncThunk(
     try {
       dispatch(setLoading(true));
       const res = await editPost(post);
-      dispatch(updatePost(res));
+      dispatch(UserUpdatePost(res));
       response = {
         error: false,
       };
@@ -112,56 +91,65 @@ export const updateByPost = createAsyncThunk(
 export const fetchPostUpdate = createAsyncThunk(
   FETCH_POST_UPDATE,
   async (postId, { dispatch }) => {
+    let res = {};
     try {
       dispatch(setLoading(true));
-      const res = await getPostToUpdate(postId);
-
-      dispatch(setPost(res));
+      const post = await getPostToUpdate(postId);
+      res = {
+        error: false,
+        post: post,
+      };
     } catch (err) {
       console.log(err);
+      res = {
+        error: err,
+      };
     }
     dispatch(setLoading(false));
+    return res;
   }
 );
-export const fetchPost = (data) => {
-  return {
-    type: FETCH_POST,
-    payload: data,
-  };
-};
 
 export const fetchPostPublic = createAsyncThunk(
   FETCH_POST_PUBLIC,
   async (_, { dispatch }) => {
+    let res = {};
     try {
       dispatch(setLoading(true));
-      const res = await getPost();
-      dispatch(fetchPost(res.reverse()));
+      const posts = await getPost();
+      res = {
+        error: false,
+        posts: posts,
+      };
     } catch (err) {
       console.log(err);
+      res = {
+        error: err,
+      };
     }
     dispatch(setLoading(false));
+    return res;
   }
 );
-
-export const fetchUserPost = (data) => {
-  return {
-    type: FETCH_USER_POST,
-    payload: data,
-  };
-};
 
 export const fetchUserPostByUser = createAsyncThunk(
   FETCH_USER_POST_BY_USER,
   async (userId, { dispatch }) => {
+    let res = {};
     try {
       dispatch(setLoading(true));
-      const res = await getUserPost(userId);
-
-      dispatch(fetchUserPost(res.reverse()));
+      const posts = await getUserPost(userId);
+      res = {
+        posts: posts,
+        error: false,
+      };
     } catch (err) {
       console.log(err);
+      res = {
+        error: err,
+      };
     }
     dispatch(setLoading(false));
+    return res;
   }
 );

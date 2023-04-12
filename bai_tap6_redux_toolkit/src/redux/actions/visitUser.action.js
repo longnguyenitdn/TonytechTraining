@@ -1,7 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getUserToCheck } from "../../api/user";
 import { setLoading } from "../reducers/setting.slice";
-import { setVisitUser } from "../reducers/user.slice";
 
 import { fetchUserPostByUser } from "./post.action";
 import { FETCH_VISIT_USER_BY_ID } from "../constant/visitUser.constant";
@@ -14,10 +13,10 @@ export const fetchVisitUserById = createAsyncThunk(
       dispatch(setLoading(true));
       const user = await getUserToCheck(userId);
       if (user.id) {
-        dispatch(setVisitUser(user));
         dispatch(fetchUserPostByUser(user.id));
         res = {
           error: false,
+          user: user,
         };
       } else {
         res = {

@@ -20,7 +20,8 @@ const LogInPage = () => {
         pass,
       })
     );
-    if (res.error) {
+
+    if (res.payload.error) {
       setIsSuccess(false);
     } else {
       navigate(ROUTER.home);

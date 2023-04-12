@@ -19,7 +19,7 @@ const VisitedPage = () => {
 
   const getPostVisitUser = async () => {
     const reponse = await dispatch(fetchVisitUserById(visitedUserId));
-    if (reponse.error) {
+    if (reponse.payload.error) {
       setIsExistUser(false);
     } else {
       setIsExistUser(true);

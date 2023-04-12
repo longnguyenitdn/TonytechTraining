@@ -1,34 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  addNewByPost,
+  fetchPostPublic,
   fetchPostUpdate,
-  removePostById,
-  updateByPost,
+  fetchUserPostByUser,
 } from "../actions/post.action";
 export const postsSlice = createSlice({
   name: "posts",
   initialState: {
-    status: "",
     userPosts: [],
     publicPosts: [],
     post: {},
   },
   reducers: {
-    addPost: (state, action) => {
+    userAddPost: (state, action) => {
       state.userPosts.push(action.payload);
     },
-    fetchPost: (state, action) => {
-      state.publicPosts = action.payload;
-    },
-    fetchUserPost: (state, action) => {
-      state.userPosts = action.payload;
-    },
-    removePost: (state, action) => {
+
+    userRemovePost: (state, action) => {
       state.userPosts = state.userPosts.filter(
         (post) => post.id !== action.payload
       );
     },
-    updatePost: (state, action) => {
+    UserUpdatePost: (state, action) => {
       state.userPosts = state.userPosts.map((post) => {
         if (post.id === action.payload.id) {
           return action.payload;
@@ -36,44 +29,42 @@ export const postsSlice = createSlice({
         return post;
       });
     },
-    setPost: (state, action) => {
-      state.post = action.payload;
-    },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(addNewByPost.pending, (state, action) => {
-        state.status = "loading";
+      .addCase(fetchPostPublic.pending, (state, action) => {
+        state.publicPosts = [];
       })
-      .addCase(addNewByPost.fulfilled, (state, action) => {
-        state.status = "success";
+      .addCase(fetchPostPublic.fulfilled, (state, action) => {
+        if (action.payload.error) {
+          state.publicPosts = [];
+        } else {
+          state.publicPosts = action.payload.posts.reverse();
+        }
       })
-      .addCase(removePostById.pending, (state, action) => {
-        state.status = "loading";
-      })
-      .addCase(removePostById.fulfilled, (state, action) => {
-        state.status = "success";
-      })
-      .addCase(updateByPost.pending, (state, action) => {
-        state.status = "loading";
-      })
-      .addCase(updateByPost.fulfilled, (state, action) => {
-        state.status = "success";
-      })
+
       .addCase(fetchPostUpdate.pending, (state, action) => {
-        state.status = "loading";
+        state.post = {};
       })
       .addCase(fetchPostUpdate.fulfilled, (state, action) => {
-        state.status = "success";
+        if (action.payload.error) {
+          state.post = {};
+        } else {
+          state.post = action.payload.post;
+        }
+      })
+      .addCase(fetchUserPostByUser.pending, (state, action) => {
+        state.userPosts = [];
+      })
+      .addCase(fetchUserPostByUser.fulfilled, (state, action) => {
+        if (action.payload.error) {
+          state.userPosts = [];
+        } else {
+          state.userPosts = action.payload.posts.reverse();
+        }
       });
   },
 });
-export const {
-  addPost,
-  fetchPost,
-  fetchUserPost,
-  removePost,
-  updatePost,
-  setPost,
-} = postsSlice.actions;
+export const { userAddPost, userRemovePost, UserUpdatePost } =
+  postsSlice.actions;
 export default postsSlice.reducer;

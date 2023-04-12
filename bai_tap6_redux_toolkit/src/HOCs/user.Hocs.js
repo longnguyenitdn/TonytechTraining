@@ -17,7 +17,7 @@ export const withUser = (WrappedComponent) => {
     const checkUserLogin = async (id) => {
       setIsLoading(true);
       const res = await dispatch(getUserLoginLocal(id));
-      if (res.error) {
+      if (res.payload.error) {
         navigate(ROUTER.userLogin);
       }
       setIsLoading(false);

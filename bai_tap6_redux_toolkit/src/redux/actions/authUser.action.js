@@ -1,5 +1,5 @@
 import { addUser } from "../../api/user";
-import { setLoginUser } from "../reducers/user.slice";
+
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getUserLogin } from "../../api/user";
 import { setLoading } from "../reducers/setting.slice";
@@ -16,12 +16,13 @@ export const handleLoginUser = createAsyncThunk(
     try {
       dispatch(setLoading(true));
       const users = await getUserLogin(acc, pass);
-      dispatch(setLoginUser(users[0]));
+
       window.localStorage.clear();
       window.localStorage.setItem("id", users[0].id);
       window.localStorage.setItem("name", users[0].name);
       response = {
         error: false,
+        user: users[0],
       };
     } catch (err) {
       console.log(err);
@@ -35,7 +36,7 @@ export const handleLoginUser = createAsyncThunk(
 );
 export const logOutUser = createAsyncThunk(LOGOUT_USER, (_, { dispatch }) => {
   window.localStorage.clear();
-  dispatch(setLoginUser({}));
+  // dispatch(setLoginUser({}));
 });
 
 export const registerUser = createAsyncThunk(
@@ -45,7 +46,7 @@ export const registerUser = createAsyncThunk(
     try {
       dispatch(setLoading(true));
       const userLogin = await addUser(user);
-      dispatch(setLoginUser(userLogin));
+      // dispatch(setLoginUser(userLogin));
       window.localStorage.clear();
       window.localStorage.setItem("id", userLogin.id);
       window.localStorage.setItem("name", userLogin.name);
