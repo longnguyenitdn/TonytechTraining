@@ -1,0 +1,35 @@
+.user-layout{
+   background-color: $primary-background;
+
+ height: 100%;
+ min-height: 100vh;
+
+   .user-layout-cover-header{
+      position: sticky !important;
+      top: 0 !important;
+      background-color: $main;
+      width: 100%;
+      z-index: 5;
+      .user-layout-header{
+         max-width: 95%;
+         margin: 0 auto;
+         img{
+            height: 50px;
+         }
+         
+      }
+   }
+   .user-layout-cover-body{
+      height: 100%;
+      min-height: 100vh;
+      padding-bottom: 15px;
+
+      .user-layout-body{
+         max-width: 95%;
+         margin: 0 auto;
+         .user-layout-body-content{
+         }
+      }
+   }
+   
+}

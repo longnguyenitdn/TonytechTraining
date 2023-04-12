@@ -1,0 +1,17 @@
+.user-layout-cover-footer{
+   position: fixed !important;
+   bottom: 0 !important;
+   background-color: $main;
+   width: 100%;
+   .user-layout-footer{
+   
+      button{
+         background-color: $main;
+         border: none;
+         .user-layout-footer-icon{
+            font-size: 20px;
+            padding: 10px;
+         }
+      }
+   }
+}

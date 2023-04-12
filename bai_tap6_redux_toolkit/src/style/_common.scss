@@ -1,0 +1,70 @@
+*{
+   box-sizing: border-box;
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+   color: $paragraph;
+}
+body{
+   margin: 0;
+   padding: 0;
+}
+.full-view{
+   width: 100vw;
+   height: 100vh;
+}
+.text-align-cen{
+   text-align: center;
+}
+.flex-cen{
+   justify-content: center;
+   align-items: center;
+}
+.cover{
+  margin: 10px;
+}
+.flexr{
+   display: flex;
+}
+.flexc{
+   display: flex;
+   flex-direction: column;
+}
+.flex-around{
+justify-content: space-around;
+}
+.flex-bet{
+justify-content: space-between;
+}
+.btn{
+   background-color: $button;
+   color: $button-text;
+   border: none;
+   outline: none;
+}
+.text-color{
+   color:$button-text;
+}
+.box-shadow{
+   box-shadow: rgb(0 0 0 / 16%) 0px 3px 6px, rgb(0 0 0 / 23%) 0px 3px 6px;
+}
+.remove-link{
+   a{
+      text-decoration: none;
+   }
+}
+.alert-color{
+   color: red;
+}
+.ant-dropdown {
+   position: absolute;
+   top: 0;
+   left: 282px !important;
+   ul{
+      background: $button !important;
+   }
+   .ant-dropdown-menu{
+
+      .ant-dropdown-menu-item{
+         padding: 2px 2px;
+      }
+   }
+}
