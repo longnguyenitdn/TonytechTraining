@@ -36,7 +36,6 @@ export const handleLoginUser = createAsyncThunk(
 );
 export const logOutUser = createAsyncThunk(LOGOUT_USER, (_, { dispatch }) => {
   window.localStorage.clear();
-  // dispatch(setLoginUser({}));
 });
 
 export const registerUser = createAsyncThunk(
@@ -46,7 +45,7 @@ export const registerUser = createAsyncThunk(
     try {
       dispatch(setLoading(true));
       const userLogin = await addUser(user);
-      // dispatch(setLoginUser(userLogin));
+
       window.localStorage.clear();
       window.localStorage.setItem("id", userLogin.id);
       window.localStorage.setItem("name", userLogin.name);
