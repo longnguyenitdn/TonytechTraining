@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, getType } from "@reduxjs/toolkit";
 import { handleLoginUser, logOutUser } from "../actions/authUser.action";
 import { getUserLoginLocal } from "../actions/user.action";
 import { fetchVisitUserById } from "../actions/visitUser.action";
@@ -15,27 +15,11 @@ export const userSlice = createSlice({
       .addCase(handleLoginUser.pending, (state, action) => {
         state.loginUser = {};
       })
-      .addCase(handleLoginUser.fulfilled, (state, action) => {
-        if (action.payload.error) {
-          state.loginUser = {};
-        } else {
-          state.loginUser = action.payload.user;
-        }
-      })
-
       .addCase(logOutUser.fulfilled, (state, action) => {
         state.loginUser = {};
       })
-
       .addCase(getUserLoginLocal.pending, (state, action) => {
         state.loginUser = {};
-      })
-      .addCase(getUserLoginLocal.fulfilled, (state, action) => {
-        if (action.payload.error) {
-          state.loginUser = {};
-        } else {
-          state.loginUser = action.payload.user;
-        }
       })
       .addCase(fetchVisitUserById.pending, (state, action) => {
         state.visitUser = {};
@@ -46,7 +30,22 @@ export const userSlice = createSlice({
         } else {
           state.visitUser = action.payload.user;
         }
-      });
+      })
+      .addMatcher(
+        (action) => {
+          return [
+            getType(handleLoginUser.fulfilled),
+            getType(getUserLoginLocal.fulfilled),
+          ].includes(action.type);
+        },
+        (state, action) => {
+          if (action.payload.error) {
+            state.loginUser = {};
+          } else {
+            state.loginUser = action.payload.user;
+          }
+        }
+      );
   },
 });
 

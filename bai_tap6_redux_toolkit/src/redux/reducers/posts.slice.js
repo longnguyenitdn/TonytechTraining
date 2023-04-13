@@ -21,7 +21,7 @@ export const postsSlice = createSlice({
         (post) => post.id !== action.payload
       );
     },
-    UserUpdatePost: (state, action) => {
+    userUpdatePost: (state, action) => {
       state.userPosts = state.userPosts.map((post) => {
         if (post.id === action.payload.id) {
           return action.payload;
@@ -42,7 +42,6 @@ export const postsSlice = createSlice({
           state.publicPosts = action.payload.posts.reverse();
         }
       })
-
       .addCase(fetchPostUpdate.pending, (state, action) => {
         state.post = {};
       })
@@ -65,6 +64,6 @@ export const postsSlice = createSlice({
       });
   },
 });
-export const { userAddPost, userRemovePost, UserUpdatePost } =
+export const { userAddPost, userRemovePost, userUpdatePost } =
   postsSlice.actions;
 export default postsSlice.reducer;

@@ -27,10 +27,12 @@ const LogInPage = () => {
       navigate(ROUTER.home);
     }
   };
+
   return (
     <div className="flexc base-layout-cover">
       <LogInForm onSubmitGetUser={onSubmitGetUser} isSuccess={isSuccess} />
     </div>
   );
 };
+
 export default LogInPage;

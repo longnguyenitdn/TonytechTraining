@@ -17,7 +17,7 @@ import {
 } from "../constant/posts.constant";
 import { setLoading } from "../reducers/setting.slice";
 import {
-  UserUpdatePost,
+  userUpdatePost,
   userAddPost,
   userRemovePost,
 } from "../reducers/posts.slice";
@@ -73,7 +73,7 @@ export const updateByPost = createAsyncThunk(
     try {
       dispatch(setLoading(true));
       const res = await editPost(post);
-      dispatch(UserUpdatePost(res));
+      dispatch(userUpdatePost(res));
       response = {
         error: false,
       };
