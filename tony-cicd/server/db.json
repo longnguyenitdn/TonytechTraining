@@ -1,0 +1,23 @@
+{
+  "users": [
+    {
+      "name": "long",
+      "email": "long",
+      "pass": "long",
+      "id": 1
+    },
+    {
+      "name": "admin",
+      "email": "admin@gmail.com",
+      "pass": "admin",
+      "id": 2
+    },
+    {
+      "name": "long2",
+      "email": "long2@gmail.com",
+      "pass": "long2",
+      "id": 3
+    }
+  ],
+  "teams": []
+}

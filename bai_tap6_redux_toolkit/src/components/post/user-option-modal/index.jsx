@@ -8,7 +8,7 @@ const UserOptionModal = (props) => {
     postId: props.post.id,
   });
 
-  const wrapperRef = useRef(null);
+  const wrapperRef = useRef < HTMLDivElement > null;
   const handleClickOutside = (e) => {
     if (wrapperRef?.current.contains(e.target) === false) {
       props.setIsOption(false);
