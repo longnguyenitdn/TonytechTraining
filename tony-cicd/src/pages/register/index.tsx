@@ -42,7 +42,7 @@ const Register = () => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col items-center">
       <ToastContainer
         position="top-right"
         autoClose={1500}

@@ -34,7 +34,7 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col items-center">
       <LoginRegisterHeader />
       <LoginForm isSucess={isSucess} onSubmitGetUser={onSubmitGetUser} />
       <LoginRegisterFooter />

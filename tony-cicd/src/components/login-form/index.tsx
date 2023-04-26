@@ -14,14 +14,14 @@ const LoginForm = (props: {
     pass: "",
   });
   return (
-    <>
+    <div className="flex justify-center">
       <form
         action="#"
         onSubmit={(e) =>
           props.onSubmitGetUser(loginUser.email, loginUser.pass, e)
         }
       >
-        <div className="bg-white rounded-lg w-96 overflow-hidden">
+        <div className="bg-white rounded-lg w-96 overflow-hidden m-auto">
           <div className="flex flex-col justify-center items-center p-8 ">
             <p className="mb-6 text-purple-800 text-2xl">
               Login to your account
@@ -85,7 +85,7 @@ const LoginForm = (props: {
           </p>
         </div>
       </form>
-    </>
+    </div>
   );
 };
 

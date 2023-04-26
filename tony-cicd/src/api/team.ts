@@ -8,6 +8,10 @@ const getTeamToUpdate = (id: number) => {
   return myFetch(`/teams/${id}`, "GET");
 };
 
+const getTeambyUser = (userId: number) => {
+  return myFetch(`/posts?ownerId=${userId}&_expand=user`, "GET");
+};
+
 const addTeam = (team: ITeam) => {
   const link = "/teams";
   const option = "POST";
@@ -23,4 +27,11 @@ const deleteTeam = (id: number) => {
   const option = "DELETE";
   return myFetch(link, option);
 };
-export { addTeam, editTeam, deleteTeam, getTeam, getTeamToUpdate };
+export {
+  addTeam,
+  editTeam,
+  deleteTeam,
+  getTeam,
+  getTeamToUpdate,
+  getTeambyUser,
+};
