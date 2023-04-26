@@ -1,6 +1,7 @@
 export type ITeam = {
   name: string;
-  owner: string;
+  ownerId?: number;
+  id?: number;
 };
 export interface ITeamState {
   teams: ITeam[];

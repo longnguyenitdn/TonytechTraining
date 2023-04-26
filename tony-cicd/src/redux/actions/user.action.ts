@@ -2,12 +2,14 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   GET_USER_LOGIN_LOCAL,
   HANDLE_LOGIN_USER,
+  LOGOUT_USER,
   REGISTER_USER,
 } from "../constants/user.constant";
-import { addUser, getUserToCheck } from "@/api/user";
+import { addUser, getUserLogin, getUserToCheck } from "@/api/user";
 import { setLoading } from "@/redux/reducers/setting.slice";
-import { IUser } from "@/types/user.type";
-import { loginUser } from "../reducers/user.slice";
+import { IUser, IhandleLoginUserParams } from "@/types/user.type";
+import { setLoginUser } from "../reducers/user.slice";
+import { IResponse } from "@/types/response.type";
 
 export const registerUser = createAsyncThunk(
   REGISTER_USER,
@@ -22,7 +24,7 @@ export const registerUser = createAsyncThunk(
       window.localStorage.clear();
       window.localStorage.setItem("id", userLogin.id);
       window.localStorage.setItem("name", userLogin.name);
-      dispatch(loginUser(userLogin));
+      dispatch(setLoginUser(userLogin));
     } catch (err) {
       console.log(err);
       response.error = err;
@@ -31,13 +33,11 @@ export const registerUser = createAsyncThunk(
     return response;
   }
 );
+
 export const getUserLoginLocal = createAsyncThunk(
   GET_USER_LOGIN_LOCAL,
   async (id: number, { dispatch }) => {
-    let response: {
-      error?: boolean | unknown;
-      user?: IUser;
-    } = {};
+    let response: IResponse = {};
     try {
       dispatch(setLoading(true));
       const user = await getUserToCheck(id);
@@ -57,14 +57,14 @@ export const getUserLoginLocal = createAsyncThunk(
     return response;
   }
 );
+
 export const handleLoginUser = createAsyncThunk(
   HANDLE_LOGIN_USER,
-  async ({ acc: string, pass: string }, { dispatch }) => {
-    let response = {};
+  async ({ email, pass }: IhandleLoginUserParams, { dispatch }) => {
+    let response: IResponse = {};
     try {
       dispatch(setLoading(true));
-      const users = await getUserLogin(acc, pass);
-
+      const users = await getUserLogin(email, pass);
       window.localStorage.clear();
       window.localStorage.setItem("id", users[0].id);
       window.localStorage.setItem("name", users[0].name);
@@ -82,3 +82,6 @@ export const handleLoginUser = createAsyncThunk(
     return response;
   }
 );
+export const logOutUser = createAsyncThunk(LOGOUT_USER, (_, { dispatch }) => {
+  window.localStorage.clear();
+});

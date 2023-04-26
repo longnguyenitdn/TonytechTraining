@@ -19,5 +19,26 @@
       "id": 3
     }
   ],
-  "teams": []
+  "teams": [
+    {
+      "name": "haha",
+      "ownerId": 3,
+      "id": 1
+    },
+    {
+      "name": "tonyteam",
+      "ownerId": 3,
+      "id": 2
+    },
+    {
+      "name": "Long team",
+      "ownerId": 3,
+      "id": 3
+    },
+    {
+      "name": "test team",
+      "ownerId": 3,
+      "id": 4
+    }
+  ]
 }

@@ -1,17 +1,18 @@
+import { withUser } from "@/HOCs/team.HOC";
 import Loading from "@/components/loading";
 import { settingSelector } from "@/redux/selector/setting.selector";
 import React from "react";
 import { useSelector } from "react-redux";
+import HomeHeader from "../home-layout/home-header";
 type LoginRegisterLayoutProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 const Layout = ({ children }: LoginRegisterLayoutProps) => {
   const loadingStatus = useSelector(settingSelector);
 
   return (
     <>
-      {" "}
-      {loadingStatus === true && <Loading />}
+      <HomeHeader /> {loadingStatus === true && <Loading />}
       {children}
     </>
   );

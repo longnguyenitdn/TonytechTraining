@@ -3,8 +3,16 @@ import { ClickAwayListener } from "react-advanced-click-away";
 import { FaUserCircle } from "react-icons/fa";
 import { ROUTER } from "@/config/routers";
 import Link from "next/link";
-
-const NewTeamModal = (props: { setIsAdd: (isAdd: boolean) => void }) => {
+import { useAppSelector } from "@/redux/store";
+import { teamsSelector } from "@/redux/selector/team.selector";
+import Team from "../../../../../team";
+import { ITeam } from "@/types/team.type";
+type INewTeamModalProps = {
+  setIsAdd: (isAdd: boolean) => void;
+};
+const NewTeamModal = (props: INewTeamModalProps) => {
+  const teams = useAppSelector(teamsSelector);
+  console.log("teams", teams);
   return (
     <ClickAwayListener onClickAway={() => props.setIsAdd(false)}>
       <div className="border border-gray-300 bg-white absolute top-10 left-0 rounded-md overflow-hidden shadow-[0_3px_20px_0px_rgba(89,105,129,.3)] ">
@@ -23,8 +31,15 @@ const NewTeamModal = (props: { setIsAdd: (isAdd: boolean) => void }) => {
           </span>
         </div>
         <div className="p-5">
-          <div className="border w-[300px] text-center rounded text-[#79589f] font-semibold text-xs p-3">
-            Team List
+          <div className="border w-[300px] text-center rounded text-[#79589f]  text-sm">
+            <p className="px-3 py-2 font-normal text-[#79589f] border-b">
+              Team List
+            </p>
+            <div>
+              {teams.map((team: ITeam) => (
+                <Team key={team.id} team={team} />
+              ))}
+            </div>
           </div>
         </div>
       </div>

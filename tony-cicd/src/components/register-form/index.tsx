@@ -8,7 +8,11 @@ import Link from "next/link";
 
 import { IUser } from "@/types/user.type";
 
-const RegisterForm = (props: { handleAddUser: (user: IUser) => void }) => {
+type IRegisterFormProps = {
+  handleAddUser: (user: IUser) => void;
+};
+
+const RegisterForm = (props: IRegisterFormProps) => {
   const [isSame, setIsSame] = useState<boolean>(true);
   const [confirmPass, setConfirmPass] = useState<string>("");
   const [user, setUser] = useState<IUser>({
@@ -26,6 +30,7 @@ const RegisterForm = (props: { handleAddUser: (user: IUser) => void }) => {
       props.handleAddUser(user);
     }
   };
+
   return (
     <>
       <div className="bg-white rounded-lg w-96 overflow-hidden">

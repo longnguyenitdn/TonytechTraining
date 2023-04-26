@@ -9,10 +9,24 @@ import {
   REGISTER_USER,
 } from "../constant/authUser.constant";
 
-export const handleLoginUser = createAsyncThunk(
-  HANDLE_LOGIN_USER,
+type IReturndType = {
+  error?: boolean,
+  user?: {
+    name: string,
+  },
+};
+
+// type IParamsType = {
+//   acc: string;
+//   pass: string;
+// }
+
+export const handleLoginUser =
+  createAsyncThunk <
+  IReturndType >
+  (HANDLE_LOGIN_USER,
   async ({ acc, pass }, { dispatch }) => {
-    let response = {};
+    let response: IReturndType = {};
     try {
       dispatch(setLoading(true));
       const users = await getUserLogin(acc, pass);
@@ -32,8 +46,7 @@ export const handleLoginUser = createAsyncThunk(
     }
     dispatch(setLoading(false));
     return response;
-  }
-);
+  });
 export const logOutUser = createAsyncThunk(LOGOUT_USER, (_, { dispatch }) => {
   window.localStorage.clear();
 });

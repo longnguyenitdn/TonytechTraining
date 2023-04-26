@@ -13,10 +13,10 @@ const LogInPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const onSubmitGetUser = async (acc, pass) => {
+  const onSubmitGetUser = async (email, pass) => {
     const res = await dispatch(
       handleLoginUser({
-        acc,
+        email,
         pass,
       })
     );

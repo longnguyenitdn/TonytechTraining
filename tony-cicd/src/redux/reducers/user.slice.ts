@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { logOutUser } from "../actions/user.action";
 
 export const userSlice = createSlice({
   name: "user",
@@ -6,10 +7,15 @@ export const userSlice = createSlice({
     loginUser: {},
   },
   reducers: {
-    loginUser: (state, action) => {
+    setLoginUser: (state, action) => {
       state.loginUser = action.payload;
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(logOutUser.fulfilled, (state, action) => {
+      state.loginUser = {};
+    });
+  },
 });
-export const { loginUser } = userSlice.actions;
+export const { setLoginUser } = userSlice.actions;
 export default userSlice.reducer;
