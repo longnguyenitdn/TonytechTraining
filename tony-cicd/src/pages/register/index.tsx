@@ -42,7 +42,7 @@ const Register = () => {
   };
 
   return (
-    <LoginRegisterLayout>
+    <div>
       <ToastContainer
         position="top-right"
         autoClose={1500}
@@ -58,8 +58,12 @@ const Register = () => {
       <LoginRegisterHeader />
       <RegisterForm handleAddUser={handleAddUser} />
       <LoginRegisterFooter />
-    </LoginRegisterLayout>
+    </div>
   );
+};
+
+Register.getLayout = function getLayout() {
+  return LoginRegisterLayout;
 };
 
 export default Register;

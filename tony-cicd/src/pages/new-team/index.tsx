@@ -48,7 +48,6 @@ const NewTeam = () => {
         pauseOnHover
         theme="light"
       />
-
       <NewTeamForm userLogin={userLogin} handleAddTeam={handleAddTeam} />
     </>
   );

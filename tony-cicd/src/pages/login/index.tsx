@@ -2,7 +2,7 @@ import LoginForm from "@/components/login-form";
 import LoginRegisterFooter from "@/components/login-register-footer";
 import LoginRegisterHeader from "@/components/login-register-header";
 import LoginRegisterLayout from "@/components/layouts/login-register-layout";
-import React, { useState } from "react";
+import React, { ReactElement, useState } from "react";
 import { useAppDispatch } from "@/redux/store";
 import { handleLoginUser } from "@/redux/actions/user.action";
 import { ROUTER } from "@/config/routers";
@@ -34,15 +34,16 @@ const Login = () => {
   };
 
   return (
-    <LoginRegisterLayout>
+    <div>
       <LoginRegisterHeader />
       <LoginForm isSucess={isSucess} onSubmitGetUser={onSubmitGetUser} />
       <LoginRegisterFooter />
-    </LoginRegisterLayout>
+    </div>
   );
 };
 
-export default Login;
-Login.getLayout = function PageLayout(page: any) {
-  return page;
+Login.getLayout = function getLayout() {
+  return LoginRegisterLayout;
 };
+
+export default Login;

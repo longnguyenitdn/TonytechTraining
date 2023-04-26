@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { BsChevronExpand } from "react-icons/bs";
 import NewTeamModal from "@/components/layouts/home-layout/home-header/components/new-team-modal";
-import { withUser } from "@/HOCs/team.HOC";
 import { useAppSelector } from "@/redux/store";
 import { loginUserSelector } from "@/redux/selector/user.selector";
 
@@ -68,4 +67,4 @@ const HomeLayout = () => {
   );
 };
 
-export default withUser(HomeLayout);
+export default HomeLayout;
