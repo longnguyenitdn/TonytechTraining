@@ -4,9 +4,10 @@ import { FaUserCircle } from "react-icons/fa";
 import { ROUTER } from "@/config/routers";
 import Link from "next/link";
 import { useAppSelector } from "@/redux/store";
-import { teamsSelector } from "@/redux/selector/team.selector";
+
 import Team from "../../../../../team";
 import { ITeam } from "@/types/team.type";
+import { teamsSelector } from "@/redux/selector/team.selector";
 type INewTeamModalProps = {
   setIsAdd: (isAdd: boolean) => void;
 };
@@ -36,7 +37,7 @@ const NewTeamModal = (props: INewTeamModalProps) => {
               Team List
             </p>
             <div>
-              {teams.map((team: ITeam) => (
+              {teams?.map((team: ITeam) => (
                 <Team key={team.id} team={team} />
               ))}
             </div>

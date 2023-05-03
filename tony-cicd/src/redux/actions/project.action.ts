@@ -1,20 +1,23 @@
+import { IProject } from "@/types/project.type";
+import {
+  ADD_NEW_PROJECT,
+  FETCH_PROJECT_BY_USER,
+} from "../constants/project.constant";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { ADD_NEW_TEAM, FETCH_TEAM_BY_USER } from "../constants/team.constant";
 import { setLoading } from "../reducers/setting.slice";
-import { addTeam, getTeamByUser } from "@/api/team";
-import { ITeam } from "@/types/team.type";
-import { newTeam } from "../reducers/team.slice";
+import { addProject, getProjectByUser } from "@/api/project";
+import { newProject } from "../reducers/project.slice";
 
-export const addNewTeam = createAsyncThunk(
-  ADD_NEW_TEAM,
-  async (team: ITeam, { dispatch }) => {
+export const addNewProject = createAsyncThunk(
+  ADD_NEW_PROJECT,
+  async (project: IProject, { dispatch }) => {
     let reponse: {
       error?: boolean | unknown;
     } = {};
     try {
       dispatch(setLoading(true));
-      const res = await addTeam(team);
-      dispatch(newTeam(res));
+      const res = await addProject(project);
+      dispatch(newProject(res));
       reponse = {
         error: false,
       };
@@ -28,18 +31,19 @@ export const addNewTeam = createAsyncThunk(
     return reponse;
   }
 );
-export const fetchTeamByUser = createAsyncThunk(
-  FETCH_TEAM_BY_USER,
+
+export const fetchProjectByUser = createAsyncThunk(
+  FETCH_PROJECT_BY_USER,
   async (userId: number, { dispatch }) => {
     let res: {
-      teams?: ITeam[];
+      projects?: IProject[];
       error?: boolean | unknown;
     };
     try {
       dispatch(setLoading(true));
-      const teams = await getTeamByUser(userId);
+      const projects = await getProjectByUser(userId);
       res = {
-        teams: teams,
+        projects: projects,
         error: false,
       };
     } catch (err) {

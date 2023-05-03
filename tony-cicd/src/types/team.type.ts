@@ -4,5 +4,5 @@ export type ITeam = {
   id?: number;
 };
 export interface ITeamState {
-  teams: ITeam[];
+  teams?: ITeam[];
 }
