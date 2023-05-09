@@ -10,7 +10,6 @@ type INewTeamFormProps = {
 const NewTeamForm = (props: INewTeamFormProps) => {
   const [team, setTeam] = useState({
     name: "",
-    ownerId: props.userLogin.id,
   });
   return (
     <>

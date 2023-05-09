@@ -21,19 +21,25 @@ const RegisterForm = (props: IRegisterFormProps) => {
     pass: "",
   });
 
-  const onSubmitHandleAddNewUser = () => {
-    if (confirmPass !== user.pass) {
-      setIsSame(false);
+  const onSubmitHandleAddNewUser = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (user.name === "" || user.email === "" || user.pass === "") {
+      alert("Chú ý: Các trường input không được để trống");
       return;
     } else {
-      setIsSame(true);
-      props.handleAddUser(user);
+      if (confirmPass !== user.pass) {
+        setIsSame(false);
+        return;
+      } else {
+        setIsSame(true);
+        props.handleAddUser(user);
+      }
     }
   };
 
   return (
     <div className="flex flex-col items-center">
-      <form action="#">
+      <form action="#" onSubmit={(e) => onSubmitHandleAddNewUser(e)}>
         <div className="bg-white rounded-lg w-96 overflow-hidden">
           <div className="flex flex-col justify-center items-center p-8 ">
             <p className="mb-6 text-purple-800 text-2xl">
@@ -99,7 +105,7 @@ const RegisterForm = (props: IRegisterFormProps) => {
               Your password doesn't match.Please try again
             </p>
             <button
-              onClick={onSubmitHandleAddNewUser}
+              type="submit"
               className="bg-gradient-to-r from-fuchsia-800 to-purple-800 w-[95%] py-2 rounded-md mt-6 text-white text-lg"
             >
               Register

@@ -1,51 +1,43 @@
 {
   "users": [
     {
-      "name": "long",
-      "email": "long",
-      "pass": "long",
-      "id": 1
-    },
-    {
       "name": "admin",
-      "email": "admin@gmail.com",
+      "email": "admin",
       "pass": "admin",
-      "id": 2
-    },
-    {
-      "name": "long2",
-      "email": "long2@gmail.com",
-      "pass": "long2",
-      "id": 3
+      "id": 1
     }
   ],
   "teams": [
     {
-      "name": "haha",
-      "ownerId": 3,
+      "name": "long",
       "id": 1
-    },
-    {
-      "name": "tonyteam",
-      "ownerId": 3,
-      "id": 2
-    },
-    {
-      "name": "Long team",
-      "ownerId": 3,
-      "id": 3
-    },
-    {
-      "name": "test team",
-      "ownerId": 3,
-      "id": 4
     }
   ],
   "projects": [
     {
-      "name": "long project",
-      "ownerId": 3,
+      "name": "ádasd",
+      "ownerId": 1,
       "id": 1
+    }
+  ],
+  "users-teams": [
+    {
+      "userId": 1,
+      "teamId": 3,
+      "role": "admin",
+      "id": 2
+    },
+    {
+      "userId": 1,
+      "teamId": 4,
+      "role": "admin",
+      "id": 3
+    },
+    {
+      "userId": 1,
+      "teamId": 1,
+      "role": "admin",
+      "id": 4
     }
   ]
 }

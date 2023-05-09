@@ -12,7 +12,7 @@ type ITeamOptionModalProps = {
 const UserDetailModal = (props: ITeamOptionModalProps) => {
   return (
     <ClickAwayListener onClickAway={() => props.setIsOpenModal(false)}>
-      <div className="absolute top-[62px] right-3 border border-slate-300 bg-white rounded-md shadow-[0_3px_20px_0px_rgba(89,105,129,.3)]">
+      <div className="absolute w-[180px] top-[59px] right-3 border border-slate-300 bg-white rounded-md shadow-[0_3px_20px_0px_rgba(89,105,129,.3)]">
         <div className="flex flex-col justify-center items-center border-b py-5 px-16 hover:bg-gray-100 cursor-pointer">
           <button className=" rounded-[50%] bg-slate-300 w-12 h-12 flex items-center justify-center">
             <FaUserSecret className="text-3xl text-white" />

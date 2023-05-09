@@ -2,22 +2,17 @@ export const ROUTER = {
   home: "/",
   login: "/login",
   newTeam: "/new-team",
+  newProject: "/new-project",
   register: "/register",
-  userAdd: "/my/add",
-  userUpdatePost: "/my/posts/:postId/update",
-  userVisited: "/visit/:visitedUserId",
+  teamDetail: "/team/:teamId",
 };
-
-// export const getRouter = (
-//   path: string,
-//   params: {
-//     visitedUserId: number;
-//     postId: number;
-//   }
-// ) => {
-//   path = path.replace(/visitedUserId|postId/gi, function (matched) {
-//     return params[matched];
-//   });
-//   const newPath = path.replace(/:/gi, "");
-//   return newPath;
-// };
+type Iparams = {
+  teamId: string;
+};
+export const getRouter = (path: string, params: Iparams) => {
+  const paramKeys = Object.keys(params);
+  paramKeys.forEach((key) => {
+    path = path.replaceAll(`:${key}`, params[key as keyof Iparams]);
+  });
+  return path;
+};

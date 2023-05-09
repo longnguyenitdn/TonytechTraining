@@ -7,7 +7,10 @@ import { logOutUser } from "@/redux/actions/user.action";
 import { useRouter } from "next/router";
 import { ROUTER } from "@/config/routers";
 import UserDetailModal from "./components/user-detail-modal";
-
+import { ToastContainer } from "react-toastify";
+import { Flip } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Link from "next/link";
 const HomeHeader = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const dispatch = useAppDispatch();
@@ -21,7 +24,10 @@ const HomeHeader = () => {
     <>
       <div className="flex w-full justify-between px-3 py-2 relative">
         <div>
-          <img src="/tony-cicd-violet.png" alt="Not found" className="w-20" />
+          <Link href={ROUTER.home}>
+            {" "}
+            <img src="/tony-cicd-violet.png" alt="Not found" className="w-20" />
+          </Link>
         </div>
         <div>
           <input
@@ -50,6 +56,19 @@ const HomeHeader = () => {
         />
       )}
       <div className="h-[3px] bg-gradient-to-r from-violet-400 to-sky-400"></div>
+      <ToastContainer
+        transition={Flip}
+        position="top-right"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </>
   );
 };

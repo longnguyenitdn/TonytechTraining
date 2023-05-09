@@ -3,6 +3,7 @@ import { ITeamState } from "@/types/team.type";
 import { fetchTeamByUser } from "../actions/team.action";
 const initialState: ITeamState = {
   teams: [],
+  team: {},
 };
 export const teamSlice = createSlice({
   name: "team",
@@ -10,6 +11,9 @@ export const teamSlice = createSlice({
   reducers: {
     newTeam: (state, action) => {
       state.teams?.push(action.payload);
+    },
+    setTeam: (state, action) => {
+      state.team = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -21,10 +25,10 @@ export const teamSlice = createSlice({
         if (action.payload.error) {
           state.teams = [];
         } else {
-          state.teams = action.payload.teams?.reverse();
+          state.teams = action.payload.teams;
         }
       });
   },
 });
-export const { newTeam } = teamSlice.actions;
+export const { newTeam, setTeam } = teamSlice.actions;
 export default teamSlice.reducer;

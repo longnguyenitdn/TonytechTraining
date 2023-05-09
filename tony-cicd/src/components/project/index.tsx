@@ -8,10 +8,10 @@ type IProjectProps = {
 };
 const Project = (props: IProjectProps) => {
   return (
-    <div className="p-2 border-b text-xl flex justify-between items-center">
+    <div className="p-2 border-b text-xl flex justify-between items-center hover:bg-gray-200 cursor-pointer">
       <div className="flex items-center">
         <BsFillHexagonFill className="fill-[#79589f]" />
-        <p className="text-base px-2">{props.project.name}</p>
+        <p className="text-sm px-2">{props.project.name}</p>
       </div>
       <AiOutlineStar className="fill-gray-500 text-base" />
     </div>

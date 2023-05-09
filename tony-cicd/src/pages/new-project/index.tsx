@@ -1,5 +1,5 @@
 import React from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import NewProjectForm from "@/components/new-project-form";
 import { loginUserSelector } from "@/redux/selector/user.selector";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
@@ -16,36 +16,15 @@ const NewProject = () => {
   const handleAddProject = async (project: IProject) => {
     const repponse = await dispatch(addNewProject(project)).unwrap();
     if (repponse.error) {
-      setFailNotification();
+      toast.error("Add New Fail, Opp!");
     } else {
+      toast.success("Add New Success");
       router.push(ROUTER.home);
     }
   };
-  const setFailNotification = () =>
-    toast.error("Add New Fail, Opp!", {
-      position: "top-right",
-      autoClose: 1500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+
   return (
     <>
-      <ToastContainer
-        position="top-right"
-        autoClose={1500}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
       <NewProjectForm
         userLogin={userLogin}
         handleAddProject={handleAddProject}

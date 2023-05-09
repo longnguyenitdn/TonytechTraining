@@ -4,7 +4,7 @@ import { myFetch } from "./myFetch";
 const getTeam = () => {
   return myFetch("/teams", "GET");
 };
-const getTeamToUpdate = (id: number) => {
+const getATeam = (id: number) => {
   return myFetch(`/teams/${id}`, "GET");
 };
 
@@ -27,11 +27,4 @@ const deleteTeam = (id: number) => {
   const option = "DELETE";
   return myFetch(link, option);
 };
-export {
-  addTeam,
-  editTeam,
-  deleteTeam,
-  getTeam,
-  getTeamToUpdate,
-  getTeamByUser,
-};
+export { addTeam, editTeam, deleteTeam, getTeam, getATeam, getTeamByUser };
