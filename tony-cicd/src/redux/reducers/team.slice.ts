@@ -1,6 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ITeamState } from "@/types/team.type";
+import { ITeam, ITeamState } from "@/types/team.type";
 import { fetchTeamByUser } from "../actions/team.action";
+import { logOutUser } from "../actions/user.action";
+import { fetchUserTeamByUserId } from "../actions/userTeam.action";
+
 const initialState: ITeamState = {
   teams: [],
   team: {},
@@ -15,6 +18,9 @@ export const teamSlice = createSlice({
     setTeam: (state, action) => {
       state.team = action.payload;
     },
+    setTeams: (state, action) => {
+      state.teams = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -27,8 +33,25 @@ export const teamSlice = createSlice({
         } else {
           state.teams = action.payload.teams;
         }
+      })
+      .addCase(fetchUserTeamByUserId.pending, (state, action) => {
+        state.teams = [];
+      })
+      .addCase(fetchUserTeamByUserId.fulfilled, (state, action) => {
+        if (action.payload.error) {
+          state.teams = [];
+        } else {
+          action.payload.userTeams?.forEach((item) =>
+            state.teams?.push(item.team as ITeam)
+          );
+        }
+      })
+
+      .addCase(logOutUser.fulfilled, (state, action) => {
+        state.teams = [];
+        state.team = {};
       });
   },
 });
-export const { newTeam, setTeam } = teamSlice.actions;
+export const { newTeam, setTeam, setTeams } = teamSlice.actions;
 export default teamSlice.reducer;

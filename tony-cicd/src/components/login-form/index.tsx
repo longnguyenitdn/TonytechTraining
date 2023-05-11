@@ -78,7 +78,7 @@ const LoginForm = (props: {
             </p>
           </div>
         </div>
-        <div className="mt-24">
+        <div className="mt-12">
           <p className="flex items-center justify-center text-2xl text-white">
             Tony is a <img className="w-3/12 mx-2" src="/IT.png" alt="" />{" "}
             company

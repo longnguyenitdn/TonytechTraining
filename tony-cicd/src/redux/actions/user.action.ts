@@ -5,11 +5,12 @@ import {
   LOGOUT_USER,
   REGISTER_USER,
 } from "../constants/user.constant";
-import { addUser, getUserLogin, getUserToCheck } from "@/api/user";
+import { addUser, getUserLogin, getUserById } from "@/api/user";
 import { setLoading } from "@/redux/reducers/setting.slice";
 import { IUser, IhandleLoginUserParams } from "@/types/user.type";
 import { setLoginUser } from "../reducers/user.slice";
 import { IResponse } from "@/types/response.type";
+import { setTeam, setTeams } from "../reducers/team.slice";
 
 export const registerUser = createAsyncThunk(
   REGISTER_USER,
@@ -40,7 +41,7 @@ export const getUserLoginLocal = createAsyncThunk(
     let response: IResponse = {};
     try {
       dispatch(setLoading(true));
-      const user = await getUserToCheck(id);
+      const user = await getUserById(id);
       if (user.id) {
         response = {
           error: false,

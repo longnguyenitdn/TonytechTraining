@@ -5,39 +5,47 @@
       "email": "admin",
       "pass": "admin",
       "id": 1
+    },
+    {
+      "name": "long",
+      "email": "long",
+      "pass": "long",
+      "id": 2
     }
   ],
   "teams": [
     {
       "name": "long",
       "id": 1
-    }
-  ],
-  "projects": [
+    },
     {
-      "name": "ádasd",
-      "ownerId": 1,
-      "id": 1
-    }
-  ],
-  "users-teams": [
-    {
-      "userId": 1,
-      "teamId": 3,
-      "role": "admin",
+      "name": "admin",
       "id": 2
     },
     {
-      "userId": 1,
-      "teamId": 4,
-      "role": "admin",
+      "name": "admin",
       "id": 3
-    },
+    }
+  ],
+  "projects": [],
+  "users-teams": [
     {
       "userId": 1,
       "teamId": 1,
       "role": "admin",
-      "id": 4
+      "id": 1
+    },
+    {
+      "userId": 2,
+      "teamId": 1,
+      "role": "dev",
+      "id": 2
+    },
+    {
+      "userId": 1,
+      "teamId": 3,
+      "role": "admin",
+      "id": 3
     }
   ]
 }

@@ -121,11 +121,6 @@ const RegisterForm = (props: IRegisterFormProps) => {
           </div>
         </div>
       </form>
-      <div className="mt-16">
-        <p className="flex items-center justify-center text-2xl text-white">
-          Tony is a <img className="w-3/12 mx-2" src="/IT.png" alt="" /> company
-        </p>
-      </div>
     </div>
   );
 };

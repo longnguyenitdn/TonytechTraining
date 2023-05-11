@@ -6,4 +6,13 @@ const addUserTeam = (userTeam: IUserTeam) => {
   const option = "POST";
   return myFetch(link, option, userTeam);
 };
-export { addUserTeam };
+const getUserTeam = (userId: number, teamId: number) => {
+  return myFetch(`/users-teams?teamId=${teamId}&userId=${userId}`, "GET");
+};
+const getUserTeamByUserId = (userId: number) => {
+  return myFetch(`/users-teams?userId=${userId}&_expand=team`, "GET");
+};
+const getUserTeamByTeamId = (teamId: number) => {
+  return myFetch(`/users-teams?teamId=${teamId}&_expand=user`, "GET");
+};
+export { addUserTeam, getUserTeam, getUserTeamByUserId, getUserTeamByTeamId };

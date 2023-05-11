@@ -6,8 +6,9 @@ import { useRouter } from "next/router";
 import { useAppDispatch } from "@/redux/store";
 import Loading from "@/components/loading";
 import { setLoginUser } from "@/redux/reducers/user.slice";
-import { fetchTeamByUser } from "@/redux/actions/team.action";
+
 import { fetchProjectByUser } from "@/redux/actions/project.action";
+import { fetchUserTeamByUserId } from "@/redux/actions/userTeam.action";
 
 export function withUser(WrappedComponent: React.ComponentType) {
   const HigherComponent = (props: any) => {
@@ -24,8 +25,7 @@ export function withUser(WrappedComponent: React.ComponentType) {
         router.push(ROUTER.login);
       } else {
         dispatch(setLoginUser(payload.user));
-        dispatch(fetchTeamByUser(id));
-        dispatch(fetchProjectByUser(id));
+        await dispatch(fetchUserTeamByUserId(id)).unwrap();
       }
       setIsLoading(false);
     };

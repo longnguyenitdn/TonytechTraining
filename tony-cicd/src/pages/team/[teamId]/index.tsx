@@ -49,12 +49,12 @@ const TeamId = () => {
           <BsSearch className="text-gray-500" />
           <input
             type="text"
-            placeholder="Filter projects"
+            placeholder="Filter member"
             className="px-2 outline-none w-full"
           />
         </div>
       </div>
-      <TeamMember />
+      <TeamMember teamId={teamId} />
     </>
   );
 };
