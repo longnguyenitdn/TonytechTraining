@@ -8,8 +8,8 @@ const TeamMember = (props: ITeamMemberProps) => {
   const [isOpenForm, setIsOpenForm] = useState(false);
   return (
     <>
-      <div className="border-t border-b">
-        <div className="flex justify-between px-7 py-3 items-center">
+      <div className="border-b border-violet-300">
+        <div className="flex justify-between px-7 py-2 items-center">
           <span className=" text-sm font-medium w-[25%] text-left text-[#79589f]">
             Team Members
           </span>

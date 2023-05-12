@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InviteTeamMemberForm from "./team-invite-member-form";
 import { getUserByEmail } from "@/api/user";
 import { getUserTeam } from "@/api/user-team";
 import { IUserTeam } from "@/types/user-team.type";
 import { toast } from "react-toastify";
 import { useAppDispatch } from "@/redux/store";
-import { addNewUserTeam } from "@/redux/actions/userTeam.action";
+import {
+  addNewUserTeam,
+  fetchUserTeamByTeamId,
+} from "@/redux/actions/userTeam.action";
+import { useRouter } from "next/router";
 type ITeamInviteMemberModalProps = {
   setIsOpenForm: (isOpen: boolean) => void;
   teamId: number;
@@ -13,7 +17,8 @@ type ITeamInviteMemberModalProps = {
 
 const TeamInviteMemberModal = (props: ITeamInviteMemberModalProps) => {
   const dispatch = useAppDispatch();
-
+  const router = useRouter();
+  const teamId = router.query.teamId;
   const [isExistEmail, setIsExistEmail] = useState(true);
   const checkIsExistMember = async (userId: number, teamId: number) => {
     const [userTeam] = await getUserTeam(userId, teamId);
@@ -58,6 +63,11 @@ const TeamInviteMemberModal = (props: ITeamInviteMemberModalProps) => {
       toast.success("Add New Success");
     }
   };
+  useEffect(() => {
+    return () => {
+      dispatch(fetchUserTeamByTeamId(Number(teamId)));
+    };
+  }, []);
   return (
     <>
       <div className="fixed w-full h-full top-[0] left-[0] bg-gray-900 opacity-70 z-[51]"></div>

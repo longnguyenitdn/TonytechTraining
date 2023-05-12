@@ -15,11 +15,8 @@ const TeamMemberList = () => {
   const dispatch = useAppDispatch();
   const userTeams = useAppSelector(userTeamsSelector);
 
-  const getUserTeams = async () => {
-    await dispatch(fetchUserTeamByTeamId(Number(teamId))).unwrap();
-  };
   useEffect(() => {
-    getUserTeams();
+    dispatch(fetchUserTeamByTeamId(Number(teamId)));
   }, []);
 
   return (

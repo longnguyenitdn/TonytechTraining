@@ -1,15 +1,15 @@
 {
   "users": [
     {
-      "name": "admin",
-      "email": "admin",
-      "pass": "admin",
+      "name": "long",
+      "email": "long@tonytech.com",
+      "pass": "long",
       "id": 1
     },
     {
-      "name": "long",
-      "email": "long",
-      "pass": "long",
+      "name": "admin",
+      "email": "admin@tonytech.com",
+      "pass": "admin",
       "id": 2
     }
   ],
@@ -21,10 +21,6 @@
     {
       "name": "admin",
       "id": 2
-    },
-    {
-      "name": "admin",
-      "id": 3
     }
   ],
   "projects": [],
@@ -37,14 +33,14 @@
     },
     {
       "userId": 2,
-      "teamId": 1,
-      "role": "dev",
+      "teamId": 2,
+      "role": "admin",
       "id": 2
     },
     {
       "userId": 1,
-      "teamId": 3,
-      "role": "admin",
+      "teamId": 2,
+      "role": "dev",
       "id": 3
     }
   ]
